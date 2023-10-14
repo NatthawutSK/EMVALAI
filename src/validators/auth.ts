@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const registerSchema = z
   .object({
-    email: z.string().email(),
+    email: z.string().min(1, { message: "Email is required" }).email(),
     fname: z
       .string()
       .min(1, { message: "First name is required" })
@@ -35,3 +35,8 @@ export const registerSchema = z
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });
+
+export const loginSchema = z.object({
+  email: z.string().min(1, { message: "Email is required" }).email(),
+  password: z.string().min(1, { message: "Password is required" }).max(100),
+});

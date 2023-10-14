@@ -1,12 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -310,7 +304,7 @@ export default function Register() {
                       hidden: formStep == 0,
                     })}
                   >
-                    Submit
+                    Register
                   </Button>
 
                   <Button
@@ -329,6 +323,14 @@ export default function Register() {
             </Form>
           </CardContent>
         </Card>
+        <div>
+          <p className="text-center mt-4">
+            Already have an account?{"  "}
+            <a href="/login" className="hover:underline">
+              Login
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
