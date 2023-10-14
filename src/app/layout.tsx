@@ -1,4 +1,4 @@
-import SideNavbar from "@/components/SideNavbar";
+// import SideNavbar from "@/components/SideNavbar";
 import "../styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,10 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-screen relative gap-5">
-          <SideNavbar />
-          <main className="grow">{children}</main>
-        </div>
+        {/* <div className="flex h-screen relative gap-5"> */}
+        {/* <SideNavbar /> */}
+        <main>{children}</main>
+        {/* </div> */}
       </body>
     </html>
   );
