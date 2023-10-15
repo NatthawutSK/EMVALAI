@@ -1,4 +1,5 @@
 import SideNavbar from "@/components/SideNavbar";
+import TopBar from "@/components/TopBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export default function MainLayout({
 }) {
   return (
     <div className="flex h-screen relative gap-5">
+      <TopBar />
       <SideNavbar />
       <main className="grow">{children}</main>
     </div>
