@@ -39,7 +39,7 @@ function SideNavbar() {
         />
       </Disclosure.Button>
       <div className="relative p-0 w-1/2 h-screen z-20 top-0 -left-80 lg:left-0 lg:w-60  peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
-        <div className="w-64 h-full bg-gray-300 transition-all duration-[0.4s] ease-[cubic-bezier(0.175,0.885,0.32,1.1)] overflow-hidden p-4 flex flex-col justify-start item-center">
+        <div className="w-64 h-full bg-gray-300 transition-all  overflow-hidden p-4 flex flex-col justify-start item-center">
           <a href="/">
             <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 p-8 w-full">
               Virtual Dashboard
