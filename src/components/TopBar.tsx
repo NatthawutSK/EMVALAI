@@ -15,7 +15,7 @@ import { log } from "console";
 export default function TopBar() {
   return (
     <div
-      className={`fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms] `}
+      className={`fixed w-full h-16 flex justify-between items-center transition-all  `}
     >
       <div className="pl-4 md:pl-16">
         <Bars3CenterLeftIcon
@@ -41,9 +41,9 @@ export default function TopBar() {
               <div className="relative p-3">
                 <div className="flex justify-between items-center w-full">
                   <p className="text-gray-700 font-medium">Notifications</p>
-                  <a className="text-sm text-orange-500" href="#">
+                  <Link className="text-sm text-orange-500" href="#">
                     Mark all as read
-                  </a>
+                  </Link>
                 </div>
                 <div className="mt-4 grid gap-4 grid-cols-1 overflow-hidden">
                   <div className="flex">

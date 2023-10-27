@@ -14,6 +14,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaRegComments } from "react-icons/fa";
 import { BiMessageSquareDots } from "react-icons/bi";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 function SideNavbar() {
   const pathname = usePathname();
@@ -40,13 +41,13 @@ function SideNavbar() {
       </Disclosure.Button>
       <div className="relative p-0 w-1/2 h-screen z-20 top-0 -left-80 lg:left-0 lg:w-60  peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
         <div className="w-64 h-full bg-gray-300 transition-all  overflow-hidden p-4 flex flex-col justify-start item-center">
-          <a href="/">
+          <Link href="/">
             <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 p-8 w-full">
               Virtual Dashboard
             </h1>
-          </a>
+          </Link>
           {sidebarItems.map(({ name, href, icon: Icon }, index) => (
-            <a key={index} href={href}>
+            <Link key={index} href={href}>
               <div
                 className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-xl group cursor-pointer hover:shadow-lg m-auto ${
                   pathname == href ? "bg-slate-500" : ""
@@ -59,7 +60,7 @@ function SideNavbar() {
                   {name}
                 </h3>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
