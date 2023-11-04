@@ -5,6 +5,10 @@ import { TaskStateEnum, TypeTask } from "@/types";
 type TaskState = {
   tasks: TypeTask[];
   draggedTask: null | string;
+  // date: {
+  //   from: Date;
+  //   to: Date;
+  // };
 };
 
 type MoveTaskType = {
@@ -22,7 +26,9 @@ const TaskSlice = createSlice({
   initialState: initialValues,
   reducers: {
     addTask: (state: TaskState, action: PayloadAction<TypeTask>) => {
-      console.log("action", action.payload);
+      // console.log("action", action.payload);
+      // console.log("state date", state.date);
+
       state.tasks.push(action.payload);
     },
     setDraggedTask: (state: TaskState, action: PayloadAction<string>) => {
@@ -38,9 +44,13 @@ const TaskSlice = createSlice({
         return task;
       });
     },
+    deleteTask: (state: TaskState, action: PayloadAction<string>) => {
+      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+    },
   },
 });
 
-export const { addTask, setDraggedTask, moveTask } = TaskSlice.actions;
+export const { addTask, setDraggedTask, moveTask, deleteTask } =
+  TaskSlice.actions;
 export const TaskSelector = (store: RootState) => store.TaskReducer;
 export default TaskSlice.reducer;

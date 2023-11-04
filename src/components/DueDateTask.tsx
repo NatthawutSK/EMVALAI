@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { addDays, format } from "date-fns";
+import { addDays, format, set } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { DateRange } from "react-day-picker";
+import { DateRange, SelectRangeEventHandler } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -13,18 +13,28 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useAppDispatch } from "@/redux/store";
+import { TaskSelector } from "@/redux/slices/TaskSlice";
+import { useSelector } from "react-redux";
 
-export function DueDateTask({
-  className,
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
+type Props = {
+  className?: React.HTMLAttributes<HTMLDivElement>;
+  date: DateRange | undefined;
+  addDate: (date: DateRange) => void;
+};
+
+export function DueDateTask({ date, addDate, className }: Props) {
+  const dispatch = useAppDispatch();
+  // const taskReducer = useSelector(TaskSelector);
+  // const [date, setDate] = React.useState<DateRange | undefined>({
+  //   from: new Date(),
+  //   to: new Date(),
+  // });
 
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
+        {/* <h1>{JSON.stringify(date?.from?.toLocaleDateString())}</h1> */}
         <PopoverTrigger asChild>
           <Button
             id="date"
@@ -45,7 +55,7 @@ export function DueDateTask({
                 format(date.from, "LLL dd, y")
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Pick a date </span>
             )}
           </Button>
         </PopoverTrigger>
@@ -55,7 +65,7 @@ export function DueDateTask({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={addDate as SelectRangeEventHandler}
             numberOfMonths={2}
           />
         </PopoverContent>

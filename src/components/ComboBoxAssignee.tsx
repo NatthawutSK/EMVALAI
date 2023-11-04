@@ -35,10 +35,13 @@ const users = [
     value: "lertnarit kongkiatpaiboon",
   },
 ];
+type Props = {
+  assignee: string;
+  addAssignee: (value: string) => void;
+};
 
-export function ComboBoxAssignee() {
+export function ComboBoxAssignee({ assignee, addAssignee }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -49,8 +52,8 @@ export function ComboBoxAssignee() {
           aria-expanded={open}
           className="w-[300px] justify-between"
         >
-          {value
-            ? users.find((user) => user.value === value)?.value
+          {assignee
+            ? users.find((user) => user.value === assignee)?.value
             : "Select user..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -65,14 +68,14 @@ export function ComboBoxAssignee() {
                 key={user.value}
                 value={user.value}
                 onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue);
+                  addAssignee(currentValue === assignee ? "" : currentValue);
                   setOpen(false);
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === user.value ? "opacity-100" : "opacity-0"
+                    assignee === user.value ? "opacity-100" : "opacity-0"
                   )}
                 />
                 {user.value}

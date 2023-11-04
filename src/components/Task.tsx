@@ -4,8 +4,6 @@ import { useAppDispatch } from "@/redux/store";
 import { TypeTask } from "@/types";
 import React from "react";
 import { DropDownTask } from "./DropDownTask";
-import { useSelector } from "react-redux";
-import { TestSelector } from "@/redux/slices/TestSlice";
 
 type Props = {
   task: TypeTask;
@@ -13,7 +11,7 @@ type Props = {
 
 export default function Task({ task }: Props) {
   const dispatch = useAppDispatch();
-  const TestReducer = useSelector(TestSelector);
+
   return (
     <div
       className=" mt-5 bg-yellow-100 text-black p-2 rounded-md flex justify-between items-center"
@@ -26,10 +24,10 @@ export default function Task({ task }: Props) {
           //   onClick={handleTask}
           className="text-ellipsis overflow-hidden w-44 "
         >
-          {task.title} : {TestReducer.count}
+          {task.title}
         </p>
       </div>
-      <DropDownTask />
+      <DropDownTask taskId={task.id} />
     </div>
   );
 }

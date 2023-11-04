@@ -1,43 +1,20 @@
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Pencil,
-  Plus,
-  PlusCircle,
-  Settings,
-  Trash2,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { BsThreeDots } from "react-icons/bs";
-import { HTMLAttributes } from "react";
+import { useAppDispatch } from "@/redux/store";
+import { deleteTask } from "@/redux/slices/TaskSlice";
 
-interface DropdownTaskProps extends HTMLAttributes<HTMLDivElement> {}
-export function DropDownTask({ className, ...props }: DropdownTaskProps) {
+export function DropDownTask({ taskId }: { taskId: string }) {
+  const dispatch = useAppDispatch();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -54,7 +31,7 @@ export function DropDownTask({ className, ...props }: DropdownTaskProps) {
           <span>edit</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => dispatch(deleteTask(taskId))}>
           <Trash2 className="mr-2 h-4 w-4" />
           <span>delete</span>
         </DropdownMenuItem>
