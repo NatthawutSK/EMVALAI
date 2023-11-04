@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { type } from "os";
 import { TaskStateEnum, TypeTask } from "@/types";
 
 type TaskState = {

@@ -38,7 +38,7 @@ export default function ColumnTask({ state }: Props) {
   return (
     <div
       className={cn(
-        "min-h-[20rem]  text-white w-[33%] max-w-xs rounded mx-2 my-0 p-2  border-[4px] bg-slate-500 ",
+        "min-h-[35rem]  min-w-[23rem]  rounded  my-0 p-3  border-[4px]",
         { "border-black border-dashed": drop }
       )}
       onDragOver={(e) => {
@@ -60,9 +60,9 @@ export default function ColumnTask({ state }: Props) {
       }}
     >
       <div className="flex justify-between items-center pb-4">
-        <p>
-          {state} {tasks.length}
-        </p>
+        <h1 className="font-bold text-lg">
+          {state} : {tasks.length}
+        </h1>
         <DialogAddTask state={state} />
         {/* <button onClick={handleOpen}>Add</button> */}
       </div>
