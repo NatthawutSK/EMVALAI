@@ -48,11 +48,11 @@ export function DueDateTask({ date, addDate, className }: Props) {
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {format(date.from, "dd/MM/yy")} -{" "}
+                  {format(date.to, "dd/MM/yy")}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(date.from, "dd/MM/yy")
               )
             ) : (
               <span>Pick a date </span>

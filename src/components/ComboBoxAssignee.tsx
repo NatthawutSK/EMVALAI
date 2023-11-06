@@ -45,7 +45,7 @@ export function ComboBoxAssignee({ assignee, addAssignee }: Props) {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild onSelect={(e) => e.preventDefault()}>
         <Button
           variant="outline"
           role="combobox"

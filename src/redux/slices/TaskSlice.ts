@@ -5,6 +5,7 @@ import { TaskStateEnum, TypeTask } from "@/types";
 type TaskState = {
   tasks: TypeTask[];
   draggedTask: null | string;
+  // openEdit: boolean;
   // date: {
   //   from: Date;
   //   to: Date;
@@ -19,6 +20,7 @@ type MoveTaskType = {
 const initialValues: TaskState = {
   tasks: [],
   draggedTask: null,
+  // openEdit: false,
 };
 
 const TaskSlice = createSlice({
@@ -47,10 +49,21 @@ const TaskSlice = createSlice({
     deleteTask: (state: TaskState, action: PayloadAction<string>) => {
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
     },
+    // openEdit: (state: TaskState) => {
+    //   state.openEdit = !state.openEdit;
+    // },
+    editTask: (state: TaskState, action: PayloadAction<TypeTask>) => {
+      state.tasks = state.tasks.map((task) => {
+        if (task.id === action.payload.id) {
+          return action.payload;
+        }
+        return task;
+      });
+    },
   },
 });
 
-export const { addTask, setDraggedTask, moveTask, deleteTask } =
+export const { addTask, setDraggedTask, moveTask, deleteTask, editTask } =
   TaskSlice.actions;
 export const TaskSelector = (store: RootState) => store.TaskReducer;
 export default TaskSlice.reducer;

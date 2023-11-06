@@ -1,4 +1,4 @@
-import { Pencil, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,12 +9,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { BsThreeDots } from "react-icons/bs";
-import { useAppDispatch } from "@/redux/store";
 import { deleteTask } from "@/redux/slices/TaskSlice";
-
-export function DropDownTask({ taskId }: { taskId: string }) {
+import { useAppDispatch } from "@/redux/store";
+import { TypeTask } from "@/types";
+import { useState } from "react";
+import { BsThreeDots } from "react-icons/bs";
+import DialogEditTask from "./DialogEditTask";
+export function DropDownTask({ task }: { task: TypeTask }) {
   const dispatch = useAppDispatch();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,12 +29,15 @@ export function DropDownTask({ taskId }: { taskId: string }) {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-20">
-        <DropdownMenuItem>
-          <Pencil className="mr-2 h-4 w-4" />
-          <span>edit</span>
+        <DropdownMenuItem
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <DialogEditTask task={task} />
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => dispatch(deleteTask(taskId))}>
+        <DropdownMenuItem onClick={() => dispatch(deleteTask(task.id))}>
           <Trash2 className="mr-2 h-4 w-4" />
           <span>delete</span>
         </DropdownMenuItem>
