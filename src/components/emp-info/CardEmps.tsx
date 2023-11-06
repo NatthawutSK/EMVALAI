@@ -16,11 +16,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PhoneCall, Mail, MoreHorizontal } from "lucide-react";
 import { Button } from "../ui/button";
 
-export enum Status {
-	Active = "Active",
-	InActive = "InActive",
-	OnLeave = "OnLeave",
-}
 export type EmpinfoType = {
 	name: string;
 	position: string;
@@ -28,7 +23,7 @@ export type EmpinfoType = {
 	hireDate: string;
 	email: string;
 	phone: string;
-	status: Status;
+	status: "Active" | "InActive" | "OnLeave";
 };
 export type CardEmpProps = {
 	item: EmpinfoType;
@@ -36,7 +31,7 @@ export type CardEmpProps = {
 const CardEmps = ({ item }: CardEmpProps) => {
 	return (
 		<>
-			<Card className="m-5 border-red-950 border-2 ">
+			<Card className="m-1 border-[#B7B7B7] border-2 ">
 				<div className="p-3 flex justify-end items-center space-x-3">
 					<div className="bg-green-600 p-1 px-2 rounded-lg">
 						<p className="font-bold text-white">{item.status}</p>
@@ -63,18 +58,18 @@ const CardEmps = ({ item }: CardEmpProps) => {
 						/>
 					</picture>
 					<CardTitle>{item.name}</CardTitle>
-					<CardDescription>{item.position}</CardDescription>
+					{/* <CardDescription>{item.position}</CardDescription> */}
 				</CardHeader>
 				<CardContent className="space-y-3 p-4">
-					<div className="bg-[#64CCC5] p-2 space-y-2 rounded-xl">
+					<div className="bg-[#64ccc571] p-2 space-y-2 rounded-xl">
 						<div className=" flex rounded-md justify-between">
 							<div className="flex-row px-2  max-w-[120px]">
-								<p className="font-bold text-sm">Department</p>
-								<p className="truncate">Dev Team</p>
+								<p className="font-bold text-sm">Position</p>
+								<p className="truncate">{item.position}</p>
 							</div>
 							<div className="flex-row px-2">
 								<p className="font-bold text-sm">Hire Date</p>
-								<p className="text-base">32/10/2099</p>
+								<p className="text-base">{item.hireDate}</p>
 							</div>
 						</div>
 						<div className="flex justify-center">

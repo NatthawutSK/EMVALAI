@@ -1,4 +1,4 @@
-import CardEmps, { EmpinfoType, Status } from "@/components/emp-info/CardEmps";
+import CardEmps, { EmpinfoType } from "@/components/emp-info/CardEmps";
 import PaginationControls from "@/components/emp-info/PaginateEmp";
 import { Input } from "@/components/ui/input";
 import {
@@ -21,7 +21,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.OnLeave,
+		status: "OnLeave",
 	},
 	{
 		name: "hahahaXD2",
@@ -30,7 +30,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.InActive,
+		status: "InActive",
 	},
 	{
 		name: "hahahaXD3",
@@ -39,7 +39,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.Active,
+		status: "Active",
 	},
 	{
 		name: "hahahaXD4",
@@ -48,7 +48,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.Active,
+		status: "Active",
 	},
 	{
 		name: "hahahaXD5",
@@ -57,7 +57,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.Active,
+		status: "Active",
 	},
 	{
 		name: "hahahaXD6",
@@ -66,7 +66,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.Active,
+		status: "Active",
 	},
 	{
 		name: "hahahaXD7",
@@ -75,7 +75,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.Active,
+		status: "Active",
 	},
 	{
 		name: "hahahaXD8",
@@ -84,7 +84,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.Active,
+		status: "Active",
 	},
 	{
 		name: "hahahaXD9",
@@ -93,7 +93,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.InActive,
+		status: "InActive",
 	},
 	{
 		name: "hahahaXD10",
@@ -102,7 +102,7 @@ const Data: EmpinfoType[] = [
 		hireDate: "32/10/2099",
 		email: "ssdasf385835835",
 		phone: "ssdasf385835835",
-		status: Status.Active,
+		status: "Active",
 	},
 ];
 function Empinfo({
@@ -119,7 +119,7 @@ function Empinfo({
 
 	const entries = Data.slice(start, end);
 	return (
-		<div className="p-10  overflow-x-hidden h-screen justify-center items-center content-center flex-1">
+		<div className="p-5  overflow-x-hidden space-y-5 h-screen justify-center items-center content-center flex-1">
 			<div className="mb-5">
 				<p className="text-2xl font-bold text-left ">Employees</p>
 				<hr
@@ -145,7 +145,7 @@ function Empinfo({
 					</SelectContent>
 				</Select>
 			</div>
-			<div className="flex flex-wrap content-center item justify-center mb-3">
+			<div className="flex flex-wrap  content-center m-1 mb-3">
 				{entries.map((entry, index) => (
 					<CardEmps key={index} item={entry} />
 				))}
