@@ -21,20 +21,22 @@ import {
 } from "@/components/ui/select"
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
+import { LucideListFilter } from 'lucide-react';
+import {AiFillPlusCircle} from "react-icons/ai";
 type Props = {}
 
 export default function Page({ }: Props) {
   return (
-    <div className='justify-center min-h-screen'>
+    <div className='justify-center min-h-screen '>
       <h1 className="text-4xl font-bold p-5 ml-5">
         Project Management
       </h1>
-      <div className='className="min-h-[35rem] flex  justify-evenly'>
-        <div>
-          <Input placeholder="Search..." />
+      <div className='className="min-h-[35rem] w-4/5 mx-auto mt-10'>
+        <div className='flex '>
+          <LucideListFilter size={32} className='mr-5'/>
+          <Input placeholder="Search..." className="w-[200px] mr-5" />
           <Select>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[150px] mr-5">
               <SelectValue placeholder="STAGE" />
             </SelectTrigger>
             <SelectContent>
@@ -46,7 +48,7 @@ export default function Page({ }: Props) {
             </SelectContent>
           </Select>
           <Select>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[150px]">
               <SelectValue placeholder="DATE" />
             </SelectTrigger>
             <SelectContent>
@@ -55,22 +57,22 @@ export default function Page({ }: Props) {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <Button className='bg-green-500 text-white'>Create Project</Button>
+          <Button className='bg-teal-500 text-white right-0 ml-auto'>
+            <AiFillPlusCircle className='mr-3'/>
+            Create Project
+          </Button>
         </div>
 
-        <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+        <Table className='border-t-2 mt-10 '>
           <TableHeader>
-            <TableRow>
-              <TableHead >PROJECT</TableHead>
+              <TableHead className=''>PROJECT</TableHead>
               <TableHead>SUPERVISOR</TableHead>
               <TableHead>PROJECT TYPE</TableHead>
               <TableHead>STAGE</TableHead>
               <TableHead>DUE DATE</TableHead>
-            </TableRow>
           </TableHeader>
-          <TableBody>
-            <TableRow>
+          <TableBody className='border shadow-lg'>
+            <TableRow >
               <TableCell className="">Project title</TableCell>
               <TableCell>Sornkhiew</TableCell>
               <TableCell>Business</TableCell>
