@@ -1,7 +1,8 @@
 import React from "react";
+import { Card } from "@/components/ui/card";
 
 type Props = {};
 
 export default function Profile({}: Props) {
-  return <div>Profile</div>;
+  return (<div>Proflie</div>);
 }
