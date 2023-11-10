@@ -13,10 +13,12 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen relative gap-5">
-      <TopBar />
+    <div className="flex h-screen relative">
       <SideNavbar />
-      <main className="grow">{children}</main>
+      <div className="flex-1 overflow-auto">
+        <TopBar />
+        <main className="grow ">{children}</main>
+      </div>
     </div>
   );
 }

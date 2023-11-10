@@ -10,18 +10,17 @@ import {
 import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition, Popover } from "@headlessui/react";
 import Link from "next/link";
-import { log } from "console";
 
 export default function TopBar() {
   return (
     <div
-      className={`fixed w-full h-16 flex justify-between items-center transition-all  `}
+      className={`fixed top-0 right-0 w-full  py-5 flex justify-between items-center transition-all  `}
     >
       <div className="pl-4 md:pl-16">
-        <Bars3CenterLeftIcon
+        {/* <Bars3CenterLeftIcon
           className="h-8 w-8 text-gray-700 cursor-pointer"
           onClick={() => console.log("clicked")}
-        />
+        /> */}
       </div>
       <div className="flex items-center pr-4 md:pr-16">
         <Popover className="relative">
