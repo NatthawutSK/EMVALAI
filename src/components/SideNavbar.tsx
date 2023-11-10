@@ -29,6 +29,11 @@ function SideNavbar() {
       href: "/profile",
       icon: CgProfile,
     },
+    {
+      name: "Projects",
+      href: "/project-management",
+      icon: CgProfile,
+    },
   ];
   return (
     // <div>

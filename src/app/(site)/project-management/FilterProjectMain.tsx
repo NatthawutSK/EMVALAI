@@ -37,7 +37,6 @@ export default function FilterProjectMain() {
                 <AiFillPlusCircle className='mr-3' />
                 Create Project
             </Button>
-            <DialogAddTask state={null2}/>
         </div>
     )
 }
