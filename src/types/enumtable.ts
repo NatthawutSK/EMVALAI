@@ -1,3 +1,4 @@
+import { Label } from '@radix-ui/react-label';
 export const roleOption = [
 	{
 		value: "Manager",
@@ -35,4 +36,15 @@ export const posOption = [
 		label: "Tester",
 	},
 	
+];
+
+const stagePM = [
+	{
+		value: "Doing",
+		Label: "Doing"
+	},
+	{
+		value: "Done",
+		Label: "Done"
+	}
 ];
