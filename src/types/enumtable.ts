@@ -16,3 +16,23 @@ export const roleOption = [
 		label: "Supervisor",
 	},
 ];
+
+export const posOption = [
+	{
+		value: "UI/UX Designer",
+		label: "UI/UX Designer",
+	},
+	{
+		value: "Frontend Dev",
+		label: "Frontend Dev",
+	},
+	{
+		value: "Backend Dev",
+		label: "Backend Dev",
+	},
+	{
+		value: "Tester",
+		label: "Tester",
+	},
+	
+];

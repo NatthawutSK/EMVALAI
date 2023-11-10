@@ -14,13 +14,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 type Props = {};
 type EmpTableInfoType = {
-	empId: string;
+	empId: string | number;
 	name: string;
 	position: string;
 	hireDate: string;
 	email: string;
-	phone: string;
-	status: string;
+	role: string;
 };
 export const columns: ColumnDef<EmpTableInfoType>[] = [
 	{
@@ -49,6 +48,9 @@ export const columns: ColumnDef<EmpTableInfoType>[] = [
 	{
 		accessorKey: "position",
 		header: "Position",
+		filterFn: (row, id, value) => {
+			return value.includes(row.getValue(id));
+		},
 	},
 	{
 		accessorKey: "email",
@@ -56,9 +58,20 @@ export const columns: ColumnDef<EmpTableInfoType>[] = [
 	},
 	{
 		accessorKey: "hireDate",
-		header: "Join Date",
-	},
-	{
+		header: ({ column }) => {
+			return (
+				<Button
+					variant="ghost"
+					onClick={() =>
+						column.toggleSorting(column.getIsSorted() === "asc")
+					}
+				>
+					Join Date
+					<ArrowUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			);
+		},
+
 		id: "actions",
 		cell: ({ row }) => {
 			const employee = row.original;

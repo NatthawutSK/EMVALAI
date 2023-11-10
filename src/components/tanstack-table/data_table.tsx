@@ -21,28 +21,10 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import {
-	Command,
-	CommandDialog,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-	CommandSeparator,
-	CommandShortcut,
-} from "@/components/ui/command";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "./tablePagination";
 import { DataTableFacetedFilter } from "./dataFacetedFilter";
-import { roleOption } from "@/types/enumtable";
+import { posOption, roleOption } from "@/types/enumtable";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
@@ -71,7 +53,7 @@ function DataTable<TData, TValue>({
 		getFilteredRowModel: getFilteredRowModel(),
 		initialState: {
 			pagination: {
-				pageSize: Number(size),
+				pageSize: Number(size) | 5,
 			},
 		},
 		state: {
@@ -85,7 +67,7 @@ function DataTable<TData, TValue>({
 			<div className="flex flex-1 items-center space-x-2 mb-5">
 				<div>
 					<Input
-						placeholder="Filter emails..."
+						placeholder="Filter name..."
 						value={
 							(table
 								.getColumn("name")
@@ -105,6 +87,15 @@ function DataTable<TData, TValue>({
 							column={table.getColumn("role")}
 							title="role"
 							options={roleOption}
+						/>
+					)}
+				</div>
+				<div className="flex self-center">
+					{table.getColumn("position") && (
+						<DataTableFacetedFilter
+							column={table.getColumn("position")}
+							title="position"
+							options={posOption}
 						/>
 					)}
 				</div>
@@ -180,7 +171,7 @@ function DataTable<TData, TValue>({
 					Next
 				</Button>
 			</div> */}
-			{/* <DataTablePagination table={table} /> */}
+			<DataTablePagination table={table} />
 		</>
 	);
 }
