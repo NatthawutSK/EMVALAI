@@ -10,7 +10,7 @@ import {
   MdOutlineSettings,
   MdOutlineLogout,
 } from "react-icons/md";
-import { CgProfile } from "react-icons/cg";
+import { CgCalendar, CgProfile } from "react-icons/cg";
 import { FaRegComments } from "react-icons/fa";
 import { BiMessageSquareDots } from "react-icons/bi";
 import { usePathname } from "next/navigation";
@@ -28,6 +28,11 @@ function SideNavbar() {
       name: "Profile",
       href: "/profile",
       icon: CgProfile,
+    },
+    {
+      name: "Calendar",
+      href: "/calendar",
+      icon: CgCalendar,
     },
   ];
   return (
