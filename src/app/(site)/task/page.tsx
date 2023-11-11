@@ -1,12 +1,6 @@
 "use client";
 import ColumnTask from "@/components/ColumnTask";
 import WithAuth from "@/components/WithAuth";
-import { UserSelector } from "@/redux/slices/UserSlice";
-import { User } from "lucide-react";
-import { redirect } from "next/navigation";
-import router from "next/router";
-import { useEffect, useLayoutEffect } from "react";
-import { useSelector } from "react-redux";
 
 enum TaskStateEnum {
   TODO = "TODO",

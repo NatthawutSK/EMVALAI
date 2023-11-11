@@ -1,4 +1,5 @@
 "use client";
+import WithOutAuth from "@/components/WithOutAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -29,7 +30,7 @@ import { z } from "zod";
 
 type Input = z.infer<typeof registerSchema>;
 
-export default function Register() {
+const Register = () => {
   const [formStep, setFormStep] = useState(0);
   const [showPass, setShowPass] = useState<boolean>(false);
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
@@ -443,4 +444,6 @@ export default function Register() {
       </div>
     </div>
   );
-}
+};
+
+export default WithOutAuth(Register);

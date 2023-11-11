@@ -1,13 +1,7 @@
 "use client";
+import WithOutAuth from "@/components/WithOutAuth";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -17,31 +11,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { setUser } from "@/redux/slices/UserSlice";
 import { useAppDispatch } from "@/redux/store";
 import { loginSchema } from "@/validators/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "@radix-ui/react-label";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@radix-ui/react-select";
-import { set } from "date-fns";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { z } from "zod";
 
 type Props = {};
 
 type Input = z.infer<typeof loginSchema>;
 
-export default function Login({}: Props) {
+const Login = ({}: Props) => {
   const dispatch = useAppDispatch();
   const [showPass, setShowPass] = useState<boolean>(false);
   const form = useForm<Input>({
@@ -74,8 +57,9 @@ export default function Login({}: Props) {
       const data = await response.json();
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
-      console.log(data);
-      dispatch(setUser(data.user));
+      localStorage.setItem("user", JSON.stringify(data.user));
+      console.log(data.user);
+      // dispatch(setUser(data.user));
       router.push("/task");
     } catch (error) {
       console.error(error);
@@ -157,4 +141,6 @@ export default function Login({}: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default WithOutAuth(Login);
