@@ -10,21 +10,58 @@ import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import { EventSourceInput } from "@fullcalendar/core/index.js";
+import { type } from "os";
 
 interface Event {
   title: string;
   start: Date | string;
+  end: Date | string;
   allDay: boolean;
   id: number;
 }
 
+interface Creator {
+  email: string;
+  displayName: string;
+  self: boolean;
+}
+
+interface Organizer {
+  email: string;
+  displayName: string;
+  self: boolean;
+}
+
+interface StartEnd {
+  date: string;
+}
+
+interface CalendarEvent {
+  kind: string;
+  etag: string;
+  id: string;
+  status: string;
+  htmlLink: string;
+  created: string;
+  updated: string;
+  summary: string;
+  description: string;
+  creator: Creator;
+  organizer: Organizer;
+  start: StartEnd;
+  end: StartEnd;
+  transparency: string;
+  visibility: string;
+  iCalUID: string;
+  sequence: number;
+  eventType: string;
+}
+
 export default function Home() {
   const [events, setEvents] = useState([
-    { title: "event 1", id: "1" },
-    { title: "event 2", id: "2" },
-    { title: "event 3", id: "3" },
-    { title: "event 4", id: "4" },
-    { title: "event 5", id: "5" },
+    { title: "Important", id: 1 },
+    { title: "Chill Day's", id: 2 },
+    { title: "Free", id: 3 },
   ]);
   const [allEvents, setAllEvents] = useState<Event[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -33,9 +70,79 @@ export default function Home() {
   const [newEvent, setNewEvent] = useState<Event>({
     title: "",
     start: "",
+    end: "",
     allDay: false,
     id: 0,
   });
+
+  const [fetchDaysApi, setFetchDaysApi] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://www.googleapis.com/calendar/v3/calendars/th.TH%23holiday%40group.v.calendar.google.com/events?key=AIzaSyDrbYPWVYOYreGtGN2SkGfqTbG0_xk-GTE"
+        );
+        const data = await response.json();
+
+        // Update state with the complete dataset
+        // const dataArray = Array.isArray(data) ? data : [data];
+        
+        // console.log("DataArray",dataArray);
+        // console.log("type", typeof(data))
+
+        // const specificObjects = dataArray.map(
+          //   (item,index) => ({
+        //     end: item.items[index].end.date,
+        //     start: item.items[index].start.date,
+        //     title: item.items[index].summary,
+        //     allDay: true,
+        //     id: index
+        //   })
+        // );
+
+        const keys = Object.values(data.items);
+
+        type data = {
+          title: string;
+          start: Date | string;
+          end: Date | string;
+          allDay: boolean;
+          id: number; 
+        }
+
+          // Map over keys to create an array of objects
+          const daysData = keys.map((key:any, index) => ({ start: key.start.date, end: key.end.date, title: key.summary, id: index, allDay: true}));
+          
+
+
+
+        // const specificObjects = [{ index: 0, day: data.day }];
+
+        // console.log("DAY REAL",daysData);
+        setFetchDaysApi(daysData);
+        setAllEvents(daysData);
+        
+        // Set filtered data initially to the complete dataset
+        // setFilteredData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  // const [dayevents, setDayEvents] = useState(async () => {
+  //   const res = await fetch(
+  //     "https://www.googleapis.com/calendar/v3/calendars/th.TH%23holiday%40group.v.calendar.google.com/events?key=AIzaSyDrbYPWVYOYreGtGN2SkGfqTbG0_xk-GTE"
+  //   );
+  //   const data = await res.json();
+  //   console.log(data);
+  //   console.log("get Day", data.items[0].end.date);
+  //   return data;
+  // });
+
+  console.log("Event", allEvents);
 
   useEffect(() => {
     let draggableEl = document.getElementById("draggable-el");
@@ -70,6 +177,8 @@ export default function Home() {
       allDay: data.allDay,
       id: new Date().getTime(),
     };
+    console.log("All", allEvents);
+    console.log("Add", event);
     setAllEvents([...allEvents, event]);
   }
 
@@ -91,6 +200,7 @@ export default function Home() {
     setNewEvent({
       title: "",
       start: "",
+      end: "",
       allDay: false,
       id: 0,
     });
@@ -112,6 +222,7 @@ export default function Home() {
     setNewEvent({
       title: "",
       start: "",
+      end: "",
       allDay: false,
       id: 0,
     });
