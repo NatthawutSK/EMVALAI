@@ -1,8 +1,7 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import React from "react";
-import Image from "next/image";
-import camera from "../../../../public/Camera-Icon-2.png"
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -14,9 +13,109 @@ import {
 } from "@/components/ui/select";
 
 
+export interface Project {
+  name: string;
+  date: string;
+  participants: number;
+  position: string;
+  isActive: boolean;
+}
+
+interface ShowDataProps {
+  data: Project[];
+}
+
+const mockData: Project[] = [
+  {
+    name: "Project A",
+    date: "2022-01-01",
+    participants: 5,
+    position: "Developer",
+    isActive: true,
+  },
+  {
+    name: "Project B",
+    date: "2022-02-01",
+    participants: 8,
+    position: "Designer",
+    isActive: true,
+  },
+  {
+    name: "Project C",
+    date: "2022-02-01",
+    participants: 8,
+    position: "Designer",
+    isActive: false,
+  },
+  {
+    name: "Project D",
+    date: "2022-02-01",
+    participants: 8,
+    position: "Designer",
+    isActive: false,
+  },
+  {
+    name: "Project E",
+    date: "2022-02-01",
+    participants: 8,
+    position: "Designer",
+    isActive: true,
+  },
+];
+
 type Props = {};
 
-export default function Profile({}: Props) {
+export default function Profile({ data }: ShowDataProps) {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedDateOption, setSelectedDateOption] = useState<string | null>(null);
+  const [selectedAvailableOption, setSelectedAvailableOption] = useState<boolean | null>(null);
+  const [filteredData, setFilteredData] = useState<Project[]>(data || mockData);
+  
+  const handleDateChange = (value: string | null) => {
+    console.log("Selected Date:", value);
+    setSelectedDateOption(value);
+  };
+  
+  const handleAvilibleChange = (value: string | null) => {
+    console.log("Selected Date:", value);
+    if(value === 'Active'){
+      setSelectedAvailableOption(true);
+    }else{
+      setSelectedAvailableOption(false);
+    }
+  };
+
+  const handleRefresh = () => {
+    setSelectedDateOption(null);
+    setSelectedAvailableOption(null);
+    setSearchTerm("");
+  }
+
+  useEffect(() => {
+    let updatedData = data ? [...data] : [];
+
+     updatedData = (data || mockData).filter((project) =>
+      project.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (selectedDateOption === "Oldest") {
+      updatedData = updatedData.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+    } else if (selectedDateOption === "Latest") {
+      updatedData = updatedData.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    }
+
+    if (selectedAvailableOption !== null) {
+      updatedData = updatedData.filter((project) => project.isActive === selectedAvailableOption);
+      
+    }
+
+    setFilteredData(updatedData);
+  }, [searchTerm, selectedDateOption, selectedAvailableOption, data]);
+
   return (
     <div className="h-screen">
       <div className="p-10">
@@ -27,25 +126,18 @@ export default function Profile({}: Props) {
         <div className="flex justify-center max-lg:flex-col max-lg:items-center">
           <div className="w-[35%] pr-10 max-lg:w-3/4 max-lg:mb-5">
             <div className="flex flex-col justify-center border-2 border-gray-500 p-5 items-center h-[25em]">
-                {/* <Image
+              {/* <Image
                   alt="User Image"
                   width={40}
                   height={50}
                   src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                 /> */}
-                <img
-                  className="rounded-full w-40 h-40"
-                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                  alt="image description"
-                />
-                <Input id="file-input" className="w-3/4 mt-5" type="file"/>
-                {/* <label for="file-input"> */}
-                {/* <Image
-                  src={camera}
-                  alt="Picture of the author"
-                  className="rounded-full w-10 h-10 border-black border-1 opacity-70 absolute bottom-0 right-0 cursor-pointer	"
-                /> */}
-                {/* </label> */}
+              <img
+                className="rounded-full w-40 h-40"
+                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                alt="image description"
+              />
+              <Input id="file-input" className="w-3/4 mt-5" type="file" />
               <div className="text-center	mt-3">
                 <div className="text-2xl font-semibold	">Hello World</div>
                 <div className="text-gray-400 mt-1">Developer</div>
@@ -119,8 +211,10 @@ export default function Profile({}: Props) {
             <Input
               className="border-gray-400 border-2 w-50"
               placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <Select>
+            <Select onValueChange={handleDateChange}>
               <SelectTrigger className="w-[180px] border-gray-400 border-2 ml-5">
                 <SelectValue placeholder="DATE" />
               </SelectTrigger>
@@ -132,69 +226,48 @@ export default function Profile({}: Props) {
                 </SelectGroup>
               </SelectContent>
             </Select>
-            {/*  <Select>
+
+            <Select onValueChange={handleAvilibleChange}>
               <SelectTrigger className="w-[180px] border-gray-400 border-2 ml-5">
-                <SelectValue placeholder="DATE" />
+                <SelectValue placeholder="AVAILABLE" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Date</SelectLabel>
-                  <SelectItem value="Value_1">Value_1</SelectItem>
+                  <SelectLabel>Available</SelectLabel>
+                  <SelectItem value="Active">Active</SelectItem>
+                  <SelectItem value="InActive">InActive</SelectItem>
                 </SelectGroup>
               </SelectContent>
-            </Select> */}
+            </Select>
+
+            <Button className="bg-gray-400 ml-4" onClick={handleRefresh}>
+              Refresh
+            </Button>
           </div>
-          {/* <div className="w-[100%]"> */}
           <div className="flex flex-wrap p-5">
-            <div className="shadow-md rounded-sm bg-gray-100 w-[18em] h-[10em] m-5 p-5 relative ">
-              <div className="w-20 bg-green-500 text-white text-center absolute top-3 right-5 rounded-sm">
-                Active
+            {filteredData.map((project, index) => (
+              <div
+                key={index}
+                className={`shadow-md rounded-sm bg-gray-100 w-[18em] h-[10em] m-5 p-5 relative ${
+                  project.isActive ? "border-2 border-green-500" : ""
+                }`}
+              >
+                <div
+                  className={`w-20 text-white text-center absolute top-3 right-5 rounded-sm ${
+                    project.isActive ? "bg-green-500" : "bg-gray-500"
+                  }`}
+                >
+                  {project.isActive ? "Active" : "InActive"}
+                </div>
+                <div className="text-xl">{project.name}</div>
+                <div className="mt-3">
+                  <div>Date: {project.date}</div>
+                  <div>Participants: {project.participants}</div>
+                  <div>Position: {project.position}</div>
+                </div>
               </div>
-              <div className="text-xl ">Project Name</div>
-              <div className="mt-3">
-                <div>Date: 2003/11/09 </div>
-                <div>Participants: 102 </div>
-                <div>Position: UI Designer </div>
-              </div>
-            </div>
-
-            <div className="shadow-md rounded-sm bg-gray-100 w-[18em] h-[10em] m-5 p-5 relative">
-              <div className="w-20 bg-gray-500 text-white text-center absolute top-3 right-5 rounded-sm">
-                InActive
-              </div>
-              <div className="text-xl ">Project Name</div>
-              <div className="mt-3">
-                <div>Date: 2003/11/09 </div>
-                <div>Participants: 102 </div>
-                <div>Position: UI Designer </div>
-              </div>
-            </div>
-
-            <div className="shadow-md rounded-sm bg-gray-100 w-[18em] h-[10em] m-5 p-5 relative">
-              <div className="w-20 bg-green-500 text-white text-center absolute top-3 right-5 rounded-sm">
-                Active
-              </div>
-              <div className="text-xl ">Project Name</div>
-              <div className="mt-3">
-                <div>Date: 2003/11/09 </div>
-                <div>Participants: 102 </div>
-                <div>Position: UI Designer </div>
-              </div>
-            </div>
-
-            <div className="shadow-md rounded-sm bg-gray-100 w-[18em] h-[10em] m-5 p-5 relative">
-              <div className="w-20 bg-green-500 text-white text-center absolute top-3 right-5 rounded-sm">
-                Active
-              </div>
-              <div className="text-xl ">Project Name</div>
-              <div className="mt-3">
-                <div>Date: 2003/11/09 </div>
-                <div>Participants: 102 </div>
-                <div>Position: UI Designer </div>
-              </div>
-            </div>
+            ))}
           </div>
-          {/* </div> */}
         </div>
       </div>
     </div>
