@@ -17,6 +17,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { setUser } from "@/redux/slices/UserSlice";
+import { useAppDispatch } from "@/redux/store";
 import { loginSchema } from "@/validators/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
@@ -27,6 +29,9 @@ import {
   SelectContent,
   SelectItem,
 } from "@radix-ui/react-select";
+import { set } from "date-fns";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
@@ -37,8 +42,8 @@ type Props = {};
 type Input = z.infer<typeof loginSchema>;
 
 export default function Login({}: Props) {
+  const dispatch = useAppDispatch();
   const [showPass, setShowPass] = useState<boolean>(false);
-
   const form = useForm<Input>({
     mode: "onChange",
     resolver: zodResolver(loginSchema),
@@ -48,6 +53,7 @@ export default function Login({}: Props) {
     },
   });
 
+  const router = useRouter();
   const onSubmit = async (dataForm: Input) => {
     try {
       const response = await fetch("http://localhost:8082/auth-service/auth", {
@@ -69,6 +75,8 @@ export default function Login({}: Props) {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
       console.log(data);
+      dispatch(setUser(data.user));
+      router.push("/task");
     } catch (error) {
       console.error(error);
     }

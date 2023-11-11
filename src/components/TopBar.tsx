@@ -10,8 +10,11 @@ import {
 import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition, Popover } from "@headlessui/react";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { UserSelector } from "@/redux/slices/UserSlice";
 
 export default function TopBar() {
+  const UserReducer = useSelector(UserSelector);
   return (
     <div
       className={`fixed top-0 right-0 w-full  py-5 flex justify-between items-center transition-all  `}
@@ -113,7 +116,7 @@ export default function TopBar() {
                 />
               </picture>
               <span className="hidden md:block font-medium text-gray-700">
-                Rettson
+                {UserReducer.user?.fname} {UserReducer.user?.lname}
               </span>
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>
