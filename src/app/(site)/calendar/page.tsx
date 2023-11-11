@@ -18,6 +18,7 @@ interface Event {
   end: Date | string;
   allDay: boolean;
   id: number;
+  description: string;
 }
 
 interface Creator {
@@ -72,6 +73,7 @@ export default function Home() {
     start: "",
     end: "",
     allDay: false,
+    description:"",
     id: 0,
   });
 
@@ -87,12 +89,12 @@ export default function Home() {
 
         // Update state with the complete dataset
         // const dataArray = Array.isArray(data) ? data : [data];
-        
+
         // console.log("DataArray",dataArray);
         // console.log("type", typeof(data))
 
         // const specificObjects = dataArray.map(
-          //   (item,index) => ({
+        //   (item,index) => ({
         //     end: item.items[index].end.date,
         //     start: item.items[index].start.date,
         //     title: item.items[index].summary,
@@ -108,21 +110,25 @@ export default function Home() {
           start: Date | string;
           end: Date | string;
           allDay: boolean;
-          id: number; 
-        }
+          id: number;
+        };
 
-          // Map over keys to create an array of objects
-          const daysData = keys.map((key:any, index) => ({ start: key.start.date, end: key.end.date, title: key.summary, id: index, allDay: true}));
-          
-
-
+        // Map over keys to create an array of objects
+        const daysData = keys.map((key: any, index) => ({
+          start: key.start.date,
+          end: key.end.date,
+          title: key.summary,
+          description: key.description,
+          id: index,
+          allDay: true,
+        }));
 
         // const specificObjects = [{ index: 0, day: data.day }];
 
-        // console.log("DAY REAL",daysData);
+        console.log("DAY REAL",daysData);
         setFetchDaysApi(daysData);
         setAllEvents(daysData);
-        
+
         // Set filtered data initially to the complete dataset
         // setFilteredData(data);
       } catch (error) {
@@ -185,6 +191,7 @@ export default function Home() {
   function handleDeleteModal(data: { event: { id: string } }) {
     setShowDeleteModal(true);
     setIdToDelete(Number(data.event.id));
+    console.log("Delete", idToDelete)
   }
 
   function handleDelete() {
@@ -202,6 +209,7 @@ export default function Home() {
       start: "",
       end: "",
       allDay: false,
+      description:"",
       id: 0,
     });
     setShowDeleteModal(false);
@@ -214,6 +222,12 @@ export default function Home() {
       title: e.target.value,
     });
   };
+  const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setNewEvent({
+      ...newEvent,
+      description: e.target.value,
+    });
+  };
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -224,6 +238,7 @@ export default function Home() {
       start: "",
       end: "",
       allDay: false,
+      description:"",
       id: 0,
     });
   }
@@ -241,11 +256,11 @@ export default function Home() {
               headerToolbar={{
                 left: "prev,next today",
                 center: "title",
-                right: "resourceTimelineWook, dayGridMonth,timeGridWeek",
+                right: "dayGridMonth timeGridWeek",
               }}
               events={allEvents as EventSourceInput}
               nowIndicator={true}
-              editable={true}
+              // editable={true}
               droppable={true}
               selectable={true}
               selectMirror={true}
@@ -308,23 +323,24 @@ export default function Home() {
                       <div className="sm:flex sm:items-start">
                         <div
                           className="mx-auto flex h-12 w-12 flex-shrink-0 items-center 
-                      justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"
+                      justify-center rounded-full  sm:mx-0 sm:h-10 sm:w-10"
                         >
-                          <ExclamationTriangleIcon
+                          {/* <ExclamationTriangleIcon
                             className="h-6 w-6 text-red-600"
                             aria-hidden="true"
-                          />
+                          /> */}
                         </div>
                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                           <Dialog.Title
                             as="h3"
                             className="text-base font-semibold leading-6 text-gray-900"
                           >
-                            Delete Event
+                            {/* {idToDelete} */}
+                            {allEvents.map(event => (event.id == idToDelete)? event.title : null)}
                           </Dialog.Title>
                           <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                              Are you sure you want to delete this event?
+                            <p className="text-sm text-gray-800">
+                            {allEvents.map(event => (event.id == idToDelete)? event.description : null)}
                             </p>
                           </div>
                         </div>
@@ -403,10 +419,22 @@ export default function Home() {
                             shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                             focus:ring-2 
                             focus:ring-inset focus:ring-violet-600 
-                            sm:text-sm sm:leading-6"
+                            sm:text-sm sm:leading-6 mb-3"
                               value={newEvent.title}
                               onChange={(e) => handleChange(e)}
                               placeholder="Title"
+                            />
+                            <input
+                              type="text"
+                              name="description"
+                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 
+                            shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
+                            focus:ring-2 
+                            focus:ring-inset focus:ring-violet-600 
+                            sm:text-sm sm:leading-6"
+                              value={newEvent.description}
+                              onChange={(e) => handleChange2(e)}
+                              placeholder="Description"
                             />
                           </div>
                           <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
