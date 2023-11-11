@@ -1,13 +1,7 @@
 "use client";
+import WithOutAuth from "@/components/WithOutAuth";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -17,28 +11,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAppDispatch } from "@/redux/store";
 import { loginSchema } from "@/validators/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "@radix-ui/react-label";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@radix-ui/react-select";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { z } from "zod";
 
 type Props = {};
 
 type Input = z.infer<typeof loginSchema>;
 
-export default function Login({}: Props) {
+const Login = ({}: Props) => {
+  const dispatch = useAppDispatch();
   const [showPass, setShowPass] = useState<boolean>(false);
-
   const form = useForm<Input>({
     mode: "onChange",
     resolver: zodResolver(loginSchema),
@@ -48,8 +36,35 @@ export default function Login({}: Props) {
     },
   });
 
-  const onSubmit = (data: Input) => {
-    console.log(data);
+  const router = useRouter();
+  const onSubmit = async (dataForm: Input) => {
+    try {
+      const response = await fetch("http://localhost:8082/auth-service/auth", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: dataForm.email,
+          password: dataForm.password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      console.log(data.user);
+      // dispatch(setUser(data.user));
+      router.push("/task");
+    } catch (error) {
+      console.error(error);
+    }
+    console.log(dataForm);
   };
 
   return (
@@ -126,4 +141,6 @@ export default function Login({}: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default WithOutAuth(Login);
