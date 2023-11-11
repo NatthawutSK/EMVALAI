@@ -1,18 +1,15 @@
 import DataTable from "@/components/tanstack-table/data_table";
 import React from "react";
-import { columns } from "@/components/payroll/columnPM";
+import { columns } from "@/components/emp-info/columnsEmpInfoTable";
 import { User } from "lucide-react";
 import { MdFreeCancellation } from "react-icons/md";
 import PaginationControls from "../../../components/emp-info/PaginateEmp";
-// import { CircularProgressbar } from "react-circular-progressbar";
+import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import DashboardBoxes from "@/components/emp-info/DashboardBoxes";
 import MultiSelect from "@/components/payroll/MultiSelect";
 import { roleOption } from "@/types/enumtable";
 import Empinfo from "./../employees-card/page";
-import DataTablePM from "@/components/tanstack-table/data_dashboard";
-
-
 type Props = {};
 const EmpTableData = [
 	{
@@ -235,7 +232,19 @@ const EmpInfoData = {
 	],
 };
 
+async function getData(page: string, size: string) {
+	const res = await fetch(
+		`http://localhost:8080/employees/p?page=${page}&size=${size}`
+	);
+	// The return value is *not* serialized
+	// You can return Date, Map, Set, etc.
 
+	if (!res.ok) {
+		// This will activate the closest `error.js` Error Boundary
+		throw new Error("Failed to fetch data");
+	}
+	return res.json();
+}
 const page = async ({
 	searchParams,
 }: {
@@ -251,25 +260,109 @@ const page = async ({
 	return (
 		<div className="p-10 mt-5 space-y-5 h-screen">
 			<div className="mb-10">
-				<h1 className="text-4xl font-bold">Project Management</h1>
+				<h1 className="text-4xl font-bold">Human Resources</h1>
 				<hr
 					style={{
 						background: "black",
 						color: "lime",
 						borderColor: "black",
 						height: "3px",
-						width: "400px",
+						width: "350px",
 					}}
 				/>
 			</div>
-
-			{/* <div className="mb-10">
-				<DataTablePM
+			<DashboardBoxes boxdata={EmpInfoData} />
+			<div>
+				<MultiSelect title={"TEST"} options={roleOption} />
+			</div>
+			{/* <div className="flex flex-row m-2 mb-4	justify-evenly">
+				
+				<div className=" px-8 py-2 bg-[#00D770]  drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded-lg flex flex-row space-x-3 justify-around">
+					<User className="h-16 w-20 self-center" color="white" />
+					<div className="self-center">
+						<h1 className="text-2xl font-bold text-white">
+							3124 คน
+						</h1>
+						<p className="text-white text-sm font-semibold">
+							จำนวนพนักงาน
+						</p>
+					</div>
+				</div>
+				
+				<div className=" space-y-4">
+					<div className=" px-10 py-2 md:px-6 min-w-[200px] max-w-[250px] rounded-lg drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] bg-[#6359A3] flex flex-row space-x-3 justify-around">
+						<p className="text-2xl self-center text-white text-start">
+							2000
+						</p>
+						<div className="self-center">
+							<h1 className="text-lg font-bold text-white">
+								Supervisor
+							</h1>
+							<p className="text-white text-sm font-Inter font-semibold">
+								จำนวนพนักงาน
+							</p>
+						</div>
+					</div>
+					<div className=" px-10 py-2 md:px-6 min-w-[200px] max-w-[250px] rounded-lg bg-[#409DB1] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-row space-x-3 justify-around">
+						<p className="text-2xl self-center text-white">2</p>
+						<div className="self-center">
+							<h1 className="text-xl font-bold  text-white">
+								Supervisor
+							</h1>
+							<p className="text-white text-sm font-Inter font-semibold">
+								จำนวนพนักงาน
+							</p>
+						</div>
+					</div>
+				</div>
+				<div className=" space-y-4">
+					<div className=" px-10 py-2 md:px-6 min-w-[200px] max-w-[250px] rounded-lg bg-[#176B87] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-row space-x-3 justify-around">
+						<p className="text-2xl self-center text-white">3124</p>
+						<div className="self-center">
+							<h1 className="text-xl font-bold text-white">
+								Supervisor
+							</h1>
+							<p className="text-white text-sm font-Inter font-semibold">
+								จำนวนพนักงาน
+							</p>
+						</div>
+					</div>
+					<div className=" px-10	 py-2 rounded-lg min-w-[200px] max-w-[250px] bg-teal-600 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-row space-x-3 justify-around">
+						<p className="text-2xl self-center text-white">3124</p>
+						<div className="self-center">
+							<h1 className="text-xl font-bold text-white">
+								Supervisor
+							</h1>
+							<p className="text-white text-sm font-Inter font-semibold">
+								จำนวนพนักงาน
+							</p>
+						</div>
+					</div>
+				</div>
+			
+				<div className=" px-8 py-3 bg-[#FF8C8C] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] rounded-lg flex flex-row space-x-3 justify-around">
+					<CircularProgressbar value={66} text={`${66}%`} />
+				</div>
+			</div> */}
+			<div className="mb-5 mt-5">
+				<h1 className="text-2xl font-bold">Employees</h1>
+				<hr
+					style={{
+						background: "black",
+						color: "lime",
+						borderColor: "black",
+						height: "3px",
+						width: "160px",
+					}}
+				/>
+			</div>
+			<div className="mb-10">
+				<DataTable
 					columns={columns}
 					data={EmpInfoData.allEmp}
 					// size={per_page as string}
 				/>
-			</div> */}
+			</div>
 			{/* <div className="flex items-center justify-end">
 				<PaginationControls
 					hasNextPage={end < data.totalItems}
