@@ -38,7 +38,7 @@ export const posOption = [
 	
 ];
 
-const stagePM = [
+export const stagePM = [
 	{
 		value: "Doing",
 		Label: "Doing"

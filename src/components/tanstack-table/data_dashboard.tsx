@@ -80,7 +80,7 @@ function DataTablePM<TData, TValue>({
 						className="max-w-sm"
 					/>
 				</div>
-                <div className="flex self-center">
+                {/* <div className="flex self-center">
 					{table.getColumn("stage") && (
 						<DataTableFacetedFilter
 							column={table.getColumn("stage")}
@@ -88,7 +88,7 @@ function DataTablePM<TData, TValue>({
 							options={stagePM}
 						/>
 					)}
-				</div>
+				</div> */}
 				{/* <div className="flex self-center">
 					{table.getColumn("role") && (
 						<DataTableFacetedFilter
@@ -109,7 +109,7 @@ function DataTablePM<TData, TValue>({
 				</div> */}
 			</div>
 			<div className="rounded-md border ">
-				<Table>
+				{/* <Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
@@ -159,7 +159,7 @@ function DataTablePM<TData, TValue>({
 							</TableRow>
 						)}
 					</TableBody>
-				</Table>
+				</Table> */}
 			</div>
 			{/* <div className="flex items-center justify-end space-x-2 py-4">
 				<Button

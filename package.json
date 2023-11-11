@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fullcalendar/react": "^6.1.9",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
@@ -27,6 +28,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
+    "fullcalendar": "^6.1.9",
     "lucide-react": "^0.287.0",
     "next": "13.5.4",
     "react": "^18",

@@ -4,13 +4,13 @@ import { columns } from "@/components/payroll/columnPM";
 import { User } from "lucide-react";
 import { MdFreeCancellation } from "react-icons/md";
 import PaginationControls from "../../../components/emp-info/PaginateEmp";
-import { CircularProgressbar } from "react-circular-progressbar";
+// import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import DashboardBoxes from "@/components/emp-info/DashboardBoxes";
 import MultiSelect from "@/components/payroll/MultiSelect";
 import { roleOption } from "@/types/enumtable";
 import Empinfo from "./../employees-card/page";
-import DataTablePM from "@/components/tanstack-table/data_projectmanage";
+import DataTablePM from "@/components/tanstack-table/data_dashboard";
 
 
 type Props = {};
@@ -263,13 +263,13 @@ const page = async ({
 				/>
 			</div>
 
-			<div className="mb-10">
+			{/* <div className="mb-10">
 				<DataTablePM
 					columns={columns}
 					data={EmpInfoData.allEmp}
 					// size={per_page as string}
 				/>
-			</div>
+			</div> */}
 			{/* <div className="flex items-center justify-end">
 				<PaginationControls
 					hasNextPage={end < data.totalItems}
