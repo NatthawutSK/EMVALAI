@@ -70,14 +70,30 @@ export default function Profile({ data }: ShowDataProps) {
   const [selectedDateOption, setSelectedDateOption] = useState<string | null>(null);
   const [selectedAvailableOption, setSelectedAvailableOption] = useState<boolean | null>(null);
   const [filteredData, setFilteredData] = useState<Project[]>(data || mockData);
+  const [buttonText, setButtonText] = useState("Edit Profile");
+  const [isInputDisabled, setIsInputDisabled] = useState(true);
+
+  const [first_name, setFname] = useState<string>("");
+  const [last_name, setLname] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [date_of_birth, setDate] = useState<string>("");
   
+ const toggleInputState = () => {
+   setIsInputDisabled(!isInputDisabled);
+   setButtonText(isInputDisabled ? "Apply" : "Edit Profile");
+   if(isInputDisabled === true){
+     console.log("Edit -> Apply");
+    }else{
+     console.log("Apply -> Edit");
+   }
+ };
+
   const handleDateChange = (value: string | null) => {
-    console.log("Selected Date:", value);
     setSelectedDateOption(value);
   };
   
   const handleAvilibleChange = (value: string | null) => {
-    console.log("Selected Date:", value);
     if(value === 'Active'){
       setSelectedAvailableOption(true);
     }else{
@@ -154,8 +170,9 @@ export default function Profile({ data }: ShowDataProps) {
                 <Input
                   className="border-gray-400 border-2"
                   placeholder="First name"
-                  disabled
-                  value={"Hello"}
+                  disabled={isInputDisabled}
+                  value={first_name}
+                  onChange={(e) => setFname(e.target.value)}
                 />
               </div>
               <div className="pt-5">
@@ -163,8 +180,9 @@ export default function Profile({ data }: ShowDataProps) {
                 <Input
                   className="border-gray-400 border-2 text-black"
                   placeholder="Last name"
-                  disabled
-                  value={"World"}
+                  disabled={isInputDisabled}
+                  value={last_name}
+                  onChange={(e) => setLname(e.target.value)}
                 />
               </div>
 
@@ -173,8 +191,9 @@ export default function Profile({ data }: ShowDataProps) {
                 <Input
                   className="border-gray-400 border-2"
                   placeholder="Phone Number"
-                  disabled
-                  value={"Defualt"}
+                  disabled={isInputDisabled}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               <div className="pt-5">
@@ -182,8 +201,9 @@ export default function Profile({ data }: ShowDataProps) {
                 <Input
                   className="border-gray-400 border-2"
                   placeholder="Email"
-                  disabled
-                  value={"Defualt"}
+                  disabled={isInputDisabled}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="pt-5">
@@ -191,13 +211,17 @@ export default function Profile({ data }: ShowDataProps) {
                 <Input
                   className="border-gray-400 border-2"
                   placeholder="Role"
-                  disabled
-                  value={"Defualt"}
+                  type="date"
+                  disabled={isInputDisabled}
+                  value={date_of_birth}
+                  onChange={(e) => setDate(e.target.value)}
                 />
               </div>
             </div>
             <div className="mt-10">
-              <Button className="bg-[#64cbc5]">Edit Profile</Button>
+              <Button className="bg-[#64cbc5]" onClick={toggleInputState}>
+                {buttonText}
+              </Button>
             </div>
           </div>
         </div>
