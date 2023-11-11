@@ -2,9 +2,7 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -12,33 +10,47 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TaskSelector, addTask } from "@/redux/slices/TaskSlice";
+import { TaskSelector, editTask } from "@/redux/slices/TaskSlice";
 import { useAppDispatch } from "@/redux/store";
-import { TaskStateEnum } from "@/types";
+import { TypeTask } from "@/types";
+import { CalendarClock, Pencil } from "lucide-react";
 import { useState } from "react";
+import { DateRange } from "react-day-picker";
 import { BiTask } from "react-icons/bi";
 import { BsPeopleFill } from "react-icons/bs";
-import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
 import { ComboBoxAssignee } from "./ComboBoxAssignee";
-import { CalendarClock } from "lucide-react";
 import { DueDateTask } from "./DueDateTask";
 import { Textarea } from "./ui/textarea";
-import { DateRange } from "react-day-picker";
-import { useSelector } from "react-redux";
+
 type Props = {
-  state: TaskStateEnum;
+  task: TypeTask;
 };
 
-export default function DialogAddTask({ state }: Props) {
+export default function DialogEditTask({ task }: Props) {
   const dispatch = useAppDispatch();
   const taskReducer = useSelector(TaskSelector);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(task.title);
+  let partFrom = task.createDate.split("/");
+  const dateForm = new Date();
+  dateForm.setFullYear(
+    parseInt(partFrom[2], 10),
+    parseInt(partFrom[0], 10) - 1,
+    parseInt(partFrom[1], 10)
+  );
+  let partTo = task.dueDate.split("/");
+  const dateTo = new Date();
+  dateForm.setFullYear(
+    parseInt(partTo[2], 10),
+    parseInt(partTo[0], 10) - 1,
+    parseInt(partTo[1], 10)
+  );
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
+    from: dateTo,
+    to: dateForm,
   });
-  const [desc, setDesc] = useState("");
-  const [assignee, setAssignee] = useState("");
+  const [desc, setDesc] = useState(task.desc);
+  const [assignee, setAssignee] = useState(task.assignee);
   const addDate = (date: DateRange) => {
     setDate(date);
   };
@@ -47,14 +59,20 @@ export default function DialogAddTask({ state }: Props) {
   };
 
   return (
-    <Dialog>
+    <Dialog
+    //   open={taskReducer.openEdit}
+    //   onOpenChange={() => dispatch(openEdit())}
+    >
       <DialogTrigger asChild>
-        <Button variant="default">ADD</Button>
+        <Pencil
+          color="white"
+          className="mr-2 h-5 w-5 cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-100"
+        />
       </DialogTrigger>
       <DialogContent className=" max-w-[35rem] h-[30rem]">
         <div>
           <DialogHeader className="mb-6">
-            <DialogTitle>Add Task</DialogTitle>
+            <DialogTitle>Edit Task</DialogTitle>
           </DialogHeader>
           <div className=" flex justify-between items-center mb-3">
             <span className="flex gap-1 items-center">
@@ -96,26 +114,26 @@ export default function DialogAddTask({ state }: Props) {
           </div>
         </div>
         <DialogFooter>
-          <DialogClose asChild>
+          <DialogTrigger asChild>
             <Button
-              onClick={() =>
+              onClick={() => {
                 dispatch(
-                  addTask({
-                    id: uuidv4(),
-                    title: title,
-                    state: state,
-                    createDate: date?.from?.toLocaleDateString()!,
-                    dueDate: date?.to?.toLocaleDateString()!,
-                    desc: desc,
-                    assignee: assignee,
+                  editTask({
+                    id: task.id,
+                    title,
+                    desc,
+                    assignee,
+                    createDate: dateForm.toLocaleDateString(),
+                    dueDate: dateTo.toLocaleDateString(),
+                    state: task.state,
                   })
-                )
-              }
+                );
+              }}
               type="submit"
             >
               Save
             </Button>
-          </DialogClose>
+          </DialogTrigger>
         </DialogFooter>
       </DialogContent>
     </Dialog>

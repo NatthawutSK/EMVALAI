@@ -13,6 +13,7 @@ import { Input } from "./ui/input";
 import { TaskStateEnum } from "@/types";
 import DialogAddTask from "./DialogAddTask";
 import { ScrollArea } from "./ui/scroll-area";
+import DialogEditTask from "./DialogEditTask";
 
 const MockTask = [
   {
@@ -37,10 +38,9 @@ export default function ColumnTask({ state }: Props) {
 
   return (
     <div
-      className={cn(
-        "min-h-[35rem]  min-w-[23rem]  rounded  my-0 p-3  border-[4px]",
-        { "border-black border-dashed": drop }
-      )}
+      className={cn("min-h-[35rem]  min-w-[23rem]  my-0 p-3  border-[4px]", {
+        "border-black border-dashed": drop,
+      })}
       onDragOver={(e) => {
         setDrop(true);
         e.preventDefault();
@@ -64,6 +64,7 @@ export default function ColumnTask({ state }: Props) {
           {state} : {tasks.length}
         </h1>
         <DialogAddTask state={state} />
+        {/* <DialogEditTask /> */}
         {/* <button onClick={handleOpen}>Add</button> */}
       </div>
       <ScrollArea className="h-5/6 w-full" style={{ maxHeight: 500 }}>
