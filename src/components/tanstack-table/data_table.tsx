@@ -12,7 +12,7 @@ import {
 	getFilteredRowModel,
 	PaginationState,
 } from "@tanstack/react-table";
-
+import { useRouter } from "next/navigation";
 import {
 	Table,
 	TableBody,
@@ -39,7 +39,7 @@ function DataTable<TData, TValue>({
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] =
 		React.useState<ColumnFiltersState>([]);
-
+	const router = useRouter();
 	const table = useReactTable({
 		data,
 		columns,
@@ -131,7 +131,12 @@ function DataTable<TData, TValue>({
 									}
 								>
 									{row.getVisibleCells().map((cell) => (
-										<TableCell key={cell.id}>
+										<TableCell
+											onClick={() =>
+												router.push("/table/" + row.id)
+											}
+											key={cell.id}
+										>
 											{flexRender(
 												cell.column.columnDef.cell,
 												cell.getContext()
