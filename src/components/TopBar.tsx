@@ -1,27 +1,35 @@
 "use client";
 import { Fragment } from "react";
 import {
-  Bars3CenterLeftIcon,
-  PencilIcon,
-  ChevronDownIcon,
-  CreditCardIcon,
-  Cog8ToothIcon,
+	Bars3CenterLeftIcon,
+	PencilIcon,
+	ChevronDownIcon,
+	CreditCardIcon,
+	Cog8ToothIcon,
 } from "@heroicons/react/24/solid";
 import { BellIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { Menu, Transition, Popover } from "@headlessui/react";
 import Link from "next/link";
-import { log } from "console";
+import { useSelector } from "react-redux";
+import { UserSelector } from "@/redux/slices/UserSlice";
+import { UserType } from "@/types";
 
 export default function TopBar() {
+  // const UserReducer = useSelector(UserSelector);
+  const user: UserType = JSON.parse(localStorage.getItem("user") || "null");
+  // if (!user) {
+  //   return null;
+  // }
+  // const user1 = JSON.parse(user);
   return (
     <div
-      className={`fixed w-full h-16 flex justify-between items-center transition-all  `}
+      className={`fixed top-0 right-0 w-full  py-5 flex justify-between items-center transition-all  `}
     >
       <div className="pl-4 md:pl-16">
-        <Bars3CenterLeftIcon
+        {/* <Bars3CenterLeftIcon
           className="h-8 w-8 text-gray-700 cursor-pointer"
           onClick={() => console.log("clicked")}
-        />
+        /> */}
       </div>
       <div className="flex items-center pr-4 md:pr-16">
         <Popover className="relative">
@@ -114,7 +122,7 @@ export default function TopBar() {
                 />
               </picture>
               <span className="hidden md:block font-medium text-gray-700">
-                Rettson
+                {user.fname} {user.lname}
               </span>
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>
@@ -164,4 +172,5 @@ export default function TopBar() {
       </div>
     </div>
   );
+
 }
