@@ -25,7 +25,7 @@ const PositionCircular = (props: Props) => {
 					})}
 				/>
 			</div>
-			<h2 className="self-center">
+			<h2 className="self-center text-white font-bold">
 				{props.position} ({props.amount})
 			</h2>
 		</div>

@@ -58,20 +58,9 @@ export const columns: ColumnDef<EmpTableInfoType>[] = [
 	},
 	{
 		accessorKey: "hireDate",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() =>
-						column.toggleSorting(column.getIsSorted() === "asc")
-					}
-				>
-					Join Date
-					<ArrowUpDown className="ml-2 h-4 w-4" />
-				</Button>
-			);
-		},
-
+		header: "Join Date",
+	},
+	{
 		id: "actions",
 		cell: ({ row }) => {
 			const employee = row.original;
