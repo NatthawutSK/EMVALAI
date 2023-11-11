@@ -13,3 +13,18 @@ export type TypeTask = {
   createDate: string;
   assignee: string;
 };
+
+
+export type UserType = {
+  _id: string;
+  email: string;
+  phone: string;
+  dob: string;
+  gender: string;
+  role: string;
+  position: string;
+  image: string;
+  hireDate: string;
+  lname: string;
+  fname: string;
+};

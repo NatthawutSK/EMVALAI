@@ -2,16 +2,16 @@
 import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 
-export default function WithAuth(Component: any) {
-  return function WithAuth(props: any) {
+export default function WithoutAuth(Component: any) {
+  return function WithoutAuth(props: any) {
     const accessToken = !!localStorage.getItem("accessToken");
     useEffect(() => {
-      if (!accessToken) {
-        redirect("/register");
+      if (accessToken) {
+        redirect("/task");
       }
     }, []);
 
-    if (!accessToken) {
+    if (accessToken) {
       return null;
     }
 

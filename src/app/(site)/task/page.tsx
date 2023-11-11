@@ -1,9 +1,6 @@
 "use client";
 import ColumnTask from "@/components/ColumnTask";
 import WithAuth from "@/components/WithAuth";
-import { redirect } from "next/navigation";
-import router from "next/router";
-import { useEffect, useLayoutEffect } from "react";
 
 enum TaskStateEnum {
   TODO = "TODO",
