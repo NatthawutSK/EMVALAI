@@ -52,6 +52,7 @@ function SideNavbar() {
       href: "/project-management",
       icon: CgProfile,
     },
+
 	];
 	return (
 		// <div>
@@ -92,7 +93,6 @@ function SideNavbar() {
 		// </Disclosure>
 		// </div>
 	);
-
 
 
 }

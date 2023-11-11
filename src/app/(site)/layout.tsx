@@ -12,6 +12,7 @@ export default function MainLayout({
 }: {
 	children: React.ReactNode;
 }) {
+
 	return (
 		<div className="flex h-screen overflow-hidden relative">
 			<SideNavbar />
@@ -21,5 +22,4 @@ export default function MainLayout({
 			</div>
 		</div>
 	);
-
 }
