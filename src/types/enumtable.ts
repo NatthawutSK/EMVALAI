@@ -1,3 +1,4 @@
+
 export const roleOption = [
     {
         value: "Manager",
@@ -36,3 +37,17 @@ export const posOption = [
     },
     
 ];
+
+export const stageOption = [
+    {
+        value: 'Doing',
+        label: 'Doing'
+    },
+    {
+        value: 'Done',
+        label: 'Done'
+    }
+]
+
+
+

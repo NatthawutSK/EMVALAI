@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { addTask } from "@/redux/slices/TaskSlice";
+import { TaskSelector, addTask } from "@/redux/slices/TaskSlice";
 import { useAppDispatch } from "@/redux/store";
 import { TaskStateEnum } from "@/types";
 import { useState } from "react";
@@ -23,13 +23,29 @@ import { ComboBoxAssignee } from "./ComboBoxAssignee";
 import { CalendarClock } from "lucide-react";
 import { DueDateTask } from "./DueDateTask";
 import { Textarea } from "./ui/textarea";
+import { DateRange } from "react-day-picker";
+import { useSelector } from "react-redux";
 type Props = {
   state: TaskStateEnum;
 };
 
 export default function DialogAddTask({ state }: Props) {
   const dispatch = useAppDispatch();
+  const taskReducer = useSelector(TaskSelector);
   const [title, setTitle] = useState("");
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: new Date(),
+  });
+  const [desc, setDesc] = useState("");
+  const [assignee, setAssignee] = useState("");
+  const addDate = (date: DateRange) => {
+    setDate(date);
+  };
+  const addAssignee = (value: string) => {
+    setAssignee(value);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -58,18 +74,21 @@ export default function DialogAddTask({ state }: Props) {
               <BsPeopleFill size={30} />
               <Label htmlFor="title">assignee</Label>
             </span>
-            <ComboBoxAssignee />
+            <ComboBoxAssignee assignee={assignee} addAssignee={addAssignee} />
           </div>
           <div className=" flex justify-between items-center mb-6">
             <span className="flex gap-1 items-center">
               <CalendarClock size={30} />
               <Label htmlFor="title">due date</Label>
             </span>
-            <DueDateTask />
+            <DueDateTask date={date} addDate={addDate} />
           </div>
           <div className="grid w-full gap-1.5">
             <Label htmlFor="message">Task Description</Label>
             <Textarea
+              className="resize-none"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
               placeholder="Type your message here."
               id="message"
               rows={5}
@@ -85,6 +104,10 @@ export default function DialogAddTask({ state }: Props) {
                     id: uuidv4(),
                     title: title,
                     state: state,
+                    createDate: date?.from?.toLocaleDateString()!,
+                    dueDate: date?.to?.toLocaleDateString()!,
+                    desc: desc,
+                    assignee: assignee,
                   })
                 )
               }
