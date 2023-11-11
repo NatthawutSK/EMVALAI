@@ -1,6 +1,6 @@
 "use client";
 import ColumnTask from "@/components/ColumnTask";
-import WithAuth from "@/components/WithAuth";
+// import WithAuth from "@/components/WithAuth";
 
 enum TaskStateEnum {
   TODO = "TODO",
@@ -23,4 +23,4 @@ const Task = ({}: Props) => {
   );
 };
 
-export default WithAuth(Task);
+export default Task;

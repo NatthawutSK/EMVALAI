@@ -1,5 +1,5 @@
 "use client";
-import WithOutAuth from "@/components/WithOutAuth";
+// import WithOutAuth from "@/components/WithOutAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -446,4 +446,4 @@ const Register = () => {
   );
 };
 
-export default WithOutAuth(Register);
+export default Register;
