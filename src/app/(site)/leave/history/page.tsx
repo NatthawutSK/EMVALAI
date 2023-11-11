@@ -52,7 +52,7 @@ const History = (props: Props) => {
       ]
     return (
         <div className=''>
-            <div className="text-4xl font-bold p-5 ml-5">Leave</div>
+            <div className="text-4xl font-bold p-5 ml-5">Leave History</div>
             <div className='ml-auto  w-3/12'>
                 <Select defaultValue={'DEFAULT'}>
                     <SelectTrigger id="reason">

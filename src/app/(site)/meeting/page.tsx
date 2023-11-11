@@ -32,10 +32,16 @@ const Meeting = (props: Props) => {
            meet_title: "UI Meeting",
            meet_description: "คุยงานออกแบบ UI",
            meet_date: "11/11/2023",
-           time_hour: 20,
-           time_min: 20,
-           created_by: "PPPPPP",
+           meet_time: "13.30",
+           created_by: "Alex Lee",
         },
+       {
+        meet_title: "Daily Meeting",
+        meet_description: "คุยๆงานๆ",
+        meet_date: "13/11/2023",
+        meet_time: "08.30",
+        created_by: "Archan Palanuphat",
+     },
       ]
   return (
     <div>
@@ -108,8 +114,8 @@ const Meeting = (props: Props) => {
                 <Input id="title" className="col-span-3" />
               </div>
             </div>
-            <DialogFooter>
-              <Button type="submit">Save changes</Button>
+            <DialogFooter className="flex items-center justify-center">
+              <Button type="submit" className="bg-[#14b8a6]">Add</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
