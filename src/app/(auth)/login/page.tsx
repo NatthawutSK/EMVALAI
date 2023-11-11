@@ -48,8 +48,31 @@ export default function Login({}: Props) {
     },
   });
 
-  const onSubmit = (data: Input) => {
-    console.log(data);
+  const onSubmit = async (dataForm: Input) => {
+    try {
+      const response = await fetch("http://localhost:8082/auth-service/auth", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          email: dataForm.email,
+          password: dataForm.password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+    console.log(dataForm);
   };
 
   return (
