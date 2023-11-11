@@ -1,5 +1,6 @@
 import SideNavbar from "@/components/SideNavbar";
 import TopBar from "@/components/TopBar";
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
