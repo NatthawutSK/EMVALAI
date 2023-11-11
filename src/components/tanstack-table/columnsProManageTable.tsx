@@ -8,10 +8,11 @@ type ProjectInfo  ={
     project_id: number,
     project_name: string,
     emp_name: string,
-    project_status: boolean,
+    project_status: string,
     project_date_start: string,
     project_date_end: string
 }
+
 
 export const columns: ColumnDef<ProjectInfo>[] = [
     {

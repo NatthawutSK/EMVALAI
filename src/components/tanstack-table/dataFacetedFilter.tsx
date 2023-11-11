@@ -84,6 +84,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 											</Badge>
 										))
 								)}
+								
 							</div>
 						</>
 					)}

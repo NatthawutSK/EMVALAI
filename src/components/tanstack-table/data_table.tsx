@@ -24,7 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "./tablePagination";
 import { DataTableFacetedFilter } from "./dataFacetedFilter";
-import { posOption, roleOption } from "@/types/enumtable";
+import { posOption, roleOption, stageOption } from "@/types/enumtable";
 import { Button } from "../ui/button";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -88,6 +88,15 @@ function DataTable<TData, TValue>({
 							column={table.getColumn("role")}
 							title="role"
 							options={roleOption}
+						/>
+					)}
+				</div>
+				<div className="flex self-center">
+					{table.getColumn("project_status") && (
+						<DataTableFacetedFilter
+							column={table.getColumn("project_status")}
+							title="STAGE"
+							options={stageOption}
 						/>
 					)}
 				</div>

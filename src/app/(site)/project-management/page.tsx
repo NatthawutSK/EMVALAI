@@ -33,7 +33,7 @@ const data = [
     project_id: 1,
     project_name: "SOP ",
     emp_name: "captain",
-    project_status: true,
+    project_status: "Doing",
     project_date_start: '8 / 20 / 2024',
     project_date_end: '12 / 20 / 2043'
   },
@@ -41,7 +41,7 @@ const data = [
     project_id: 2,
     project_name: "SOP U",
     emp_name: "captain",
-    project_status: true,
+    project_status: "Done",
     project_date_start: '8 / 20 / 2024',
     project_date_end: '12 / 20 / 2043'
   },
@@ -49,7 +49,7 @@ const data = [
     project_id: 3,
     project_name: "SOP M",
     emp_name: "captain",
-    project_status: true,
+    project_status: "Doing",
     project_date_start: '8 / 20 / 2024',
     project_date_end: '12 / 20 / 2043'
   },
@@ -57,14 +57,20 @@ const data = [
     project_id: 4,
     project_name: "SOP K",
     emp_name: "captain",
-    project_status: true,
+    project_status: "Done",
     project_date_start: '8 / 20 / 2024',
     project_date_end: '12 / 20 / 2043',
   },
 ]
 export default function Page({ }: Props) {
   return (
+
     <div className=" h-screen relative gap-5 p-10">
+      <Button className='bg-teal-500 text-white right-0 ml-auto'>
+        <AiFillPlusCircle className='mr-3' />
+        Create Project
+      </Button>
+
       <DataTable
         columns={columns}
         data={data}
