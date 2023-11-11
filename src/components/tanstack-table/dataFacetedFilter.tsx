@@ -62,6 +62,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 								{selectedValues.size}
 							</Badge>
 							<div className="hidden space-x-1 lg:flex">
+
 								{selectedValues.size > 4 ? (
 									<Badge
 										variant="secondary"
@@ -84,6 +85,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 											</Badge>
 										))
 								)}
+
 							</div>
 						</>
 					)}

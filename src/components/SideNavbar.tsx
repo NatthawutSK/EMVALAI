@@ -19,6 +19,7 @@ import WithAuth from "./WithAuth";
 
 
 function SideNavbar() {
+
 	const pathname = usePathname();
 	const sidebarItems = [
 		{
@@ -46,6 +47,11 @@ function SideNavbar() {
 			href: "/payroll-dashboard",
 			icon: CgProfile,
 		},
+     {
+      name: "Projects",
+      href: "/project-management",
+      icon: CgProfile,
+    },
 	];
 	return (
 		// <div>
@@ -86,6 +92,7 @@ function SideNavbar() {
 		// </Disclosure>
 		// </div>
 	);
+
 
 
 }
