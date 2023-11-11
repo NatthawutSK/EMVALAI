@@ -1,4 +1,9 @@
+"use client";
 import ColumnTask from "@/components/ColumnTask";
+import WithAuth from "@/components/WithAuth";
+import { redirect } from "next/navigation";
+import router from "next/router";
+import { useEffect, useLayoutEffect } from "react";
 
 enum TaskStateEnum {
   TODO = "TODO",
@@ -8,7 +13,7 @@ enum TaskStateEnum {
 
 type Props = {};
 
-export default function Task({}: Props) {
+const Task = ({}: Props) => {
   return (
     <div className="justify-center min-h-screen ">
       <h1 className="text-4xl font-bold p-5 ml-5">Project Name</h1>
@@ -19,4 +24,6 @@ export default function Task({}: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default WithAuth(Task);

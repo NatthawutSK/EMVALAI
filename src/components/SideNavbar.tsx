@@ -15,6 +15,7 @@ import { FaRegComments } from "react-icons/fa";
 import { BiMessageSquareDots } from "react-icons/bi";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import WithAuth from "./WithAuth";
 
 function SideNavbar() {
   const pathname = usePathname();
@@ -71,4 +72,4 @@ function SideNavbar() {
   );
 }
 
-export default SideNavbar;
+export default WithAuth(SideNavbar);
