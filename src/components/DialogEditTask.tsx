@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { TaskSelector, editTask } from "@/redux/slices/TaskSlice";
 import { useAppDispatch } from "@/redux/store";
 import { TypeTask } from "@/types";
-import { CalendarClock, Pencil } from "lucide-react";
+import { CalendarClock, CalendarIcon, Pencil } from "lucide-react";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 import { BiTask } from "react-icons/bi";
@@ -22,6 +22,10 @@ import { useSelector } from "react-redux";
 import { ComboBoxAssignee } from "./ComboBoxAssignee";
 import { DueDateTask } from "./DueDateTask";
 import { Textarea } from "./ui/textarea";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "./ui/calendar";
 
 type Props = {
   task: TypeTask;
@@ -30,36 +34,33 @@ type Props = {
 export default function DialogEditTask({ task }: Props) {
   const dispatch = useAppDispatch();
   const taskReducer = useSelector(TaskSelector);
-  const [title, setTitle] = useState(task.title);
-  let partFrom = task.createDate.split("/");
-  const dateForm = new Date();
-  dateForm.setFullYear(
-    parseInt(partFrom[2], 10),
-    parseInt(partFrom[0], 10) - 1,
-    parseInt(partFrom[1], 10)
-  );
-  let partTo = task.dueDate.split("/");
-  const dateTo = new Date();
-  dateForm.setFullYear(
-    parseInt(partTo[2], 10),
-    parseInt(partTo[0], 10) - 1,
-    parseInt(partTo[1], 10)
-  );
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: dateTo,
-    to: dateForm,
-  });
-  const [desc, setDesc] = useState(task.desc);
-  const [assignee, setAssignee] = useState(task.assignee);
-  const addDate = (date: DateRange) => {
-    setDate(date);
-  };
+  const [title, setTitle] = useState(task.taskName);
+  // let datePart = task.dueDate.split("/");
+  // const dateForm = new Date();
+  // dateForm.setFullYear(
+  //   parseInt(datePart[2], 10),
+  //   parseInt(datePart[0], 10) - 1,
+  //   parseInt(datePart[1], 10)
+  // );
+  const [day, month, year] = task.dueDate.split("/").map(Number);
+
+  // Adjust the year if needed (e.g., assuming '21' refers to 2021)
+  const adjustedYear = year >= 0 && year <= 21 ? 2000 + year : 1900 + year;
+
+  // Create a new Date object
+  const formattedDate = new Date(adjustedYear, month - 1, day);
+
+  const [date, setDate] = useState<Date>(formattedDate);
+
+  const [desc, setDesc] = useState(task.taskDesc);
+  const [assignee, setAssignee] = useState(task.userId);
   const addAssignee = (value: string) => {
     setAssignee(value);
   };
 
   return (
     <Dialog
+
     //   open={taskReducer.openEdit}
     //   onOpenChange={() => dispatch(openEdit())}
     >
@@ -99,7 +100,33 @@ export default function DialogEditTask({ task }: Props) {
               <CalendarClock size={30} />
               <Label htmlFor="title">due date</Label>
             </span>
-            <DueDateTask date={date} addDate={addDate} />
+            {/* <DueDateTask date={date} addDate={addDate} /> */}
+            <div className="">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[300px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {/* <span>{format(date, "dd/MM/yy")}</span> */}
+                    {/* <span>{JSON.stringify(formattedDate)}</span> */}
+                    {date ? format(date, "dd/MM/yy") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(date) => setDate(date as Date)}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
           <div className="grid w-full gap-1.5">
             <Label htmlFor="message">Task Description</Label>
@@ -120,12 +147,15 @@ export default function DialogEditTask({ task }: Props) {
                 dispatch(
                   editTask({
                     id: task.id,
-                    title,
-                    desc,
-                    assignee,
-                    createDate: dateForm.toLocaleDateString(),
-                    dueDate: dateTo.toLocaleDateString(),
-                    state: task.state,
+                    taskName: title,
+                    taskDesc: desc,
+                    userName: assignee,
+                    createdDate: task.createdDate,
+                    dueDate: date ? format(date, "dd/MM/yy") : "",
+                    taskStatus: task.taskStatus,
+                    projectId: task.projectId,
+                    userId: task.userId,
+                    _id: task._id,
                   })
                 );
               }}

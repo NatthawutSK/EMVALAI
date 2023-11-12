@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { useAppDispatch } from "@/redux/store";
 import { loginSchema } from "@/validators/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,7 +36,7 @@ const Login = ({}: Props) => {
       password: "",
     },
   });
-
+  const { toast: showToast } = useToast();
   const router = useRouter();
   const onSubmit = async (dataForm: Input) => {
     try {
@@ -55,12 +56,20 @@ const Login = ({}: Props) => {
       }
 
       const data = await response.json();
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("user", JSON.stringify(data.user));
+
       console.log(data.user);
-      // dispatch(setUser(data.user));
-      router.push("/task");
+      if (data.accessToken === null || data.user === null) {
+        showToast({
+          title: "Login failed",
+          description: "Email or password is incorrect",
+          variant: "destructive",
+        });
+      } else {
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        router.push("/dashboard");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -70,7 +79,7 @@ const Login = ({}: Props) => {
   return (
     <div className="h-screen">
       <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        <Card className="w-[380px]">
+        <Card className="w-[420px]">
           <CardHeader>
             <CardTitle className="text-center">Login</CardTitle>
           </CardHeader>
