@@ -11,12 +11,18 @@ import {
 } from "@/components/ui/card";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
+
 
 import {
   Dialog,
@@ -60,15 +66,44 @@ export default function Profile({}: Props) {
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle className="mb-[10px]">Details</DialogTitle>
-                        <DialogDescription>
-                          When you press "Accept" ...
-                        </DialogDescription>
+
+                      <DialogTitle className="mb-[3px] text-[40px]">
+                        Details
+                      </DialogTitle>
                     </DialogHeader>
+                    <div className="text-[20px]">
+                      <p>
+                        <span className="font-bold">Date Start:</span> 3 may
+                      </p>
+                      <p className=" mt-[15px]">
+                        <span className="font-bold">Date End:</span> 3 may
+                      </p>
+                      <p className=" mt-[15px]">
+                        <span className="font-bold">Duration:</span> 1 Day
+                      </p>
+                      <p className=" mt-[15px] font-bold">Notes</p>
+                      <div className="w-[370px] h-[150px] bg-[grey] overflow-scroll rounded-md">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Accusamus dicta, unde, possimus deserunt corrupti
+                        maiores fugit, sit rerum laboriosam eligendi ipsum
+                        explicabo illum dolorum accusantium similique est
+                        ducimus animi. Animi. Lorem ipsum dolor sit amet
+                        consectetur adipisicing elit. Dolorum sint laboriosam
+                        corporis aspernatur, autem perspiciatis, perferendis ea
+                        nam tenetur unde assumenda. Ab doloribus, mollitia culpa
+                        laboriosam nemo ut ullam reiciendis.
+                      </div>
+                      {/* <h1 className="mt-[10px] font-bold">Evidence:</h1> */}
+                    </div>
                     <div className="flex justify-center">
                       <DialogFooter>
-                        <Button type="submit" className="bg-[#64CCC5]">Accept</Button>
-                        <Button type="submit" className="bg-[#8D8787]">Decline</Button>
+                        <Button type="submit" className="bg-[#64CCC5]">
+                          Accept
+                        </Button>
+                        <Button type="submit" className="bg-[#8D8787]">
+                          Decline
+                        </Button>
+
                       </DialogFooter>
                     </div>
                   </DialogContent>
@@ -84,14 +119,30 @@ export default function Profile({}: Props) {
                   <DialogHeader>
                     <div className="text-center">
                       <DialogTitle className="mb-[10px]">Caution</DialogTitle>
-                      <DialogDescription>
-                        When you press "Accept" ...
-                      </DialogDescription>
+
+                      <DialogDescription>Are you sure ?</DialogDescription>
+
                     </div>
                   </DialogHeader>
                   <div className="flex justify-center">
                     <DialogFooter>
-                      <Button type="submit">Accept</Button>
+
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button type="submit">Accept</Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <div className="text-center">
+                              <DialogTitle className="mb-[10px]">
+                                Execute Completed
+                              </DialogTitle>
+                            </div>
+                          </DialogHeader>
+                          <Button>OK</Button>
+                        </DialogContent>
+                      </Dialog>
+
                       <Button type="submit">Cancel</Button>
                     </DialogFooter>
                   </div>
