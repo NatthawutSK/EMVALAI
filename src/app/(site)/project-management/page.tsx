@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
 
+
 import DataTableProject from "@/components/project-management/DataTableProject";
 import { columns } from "@/components/project-management/columnsProManageTable"
+
 
 type Props = {};
 const data = [
@@ -39,11 +41,13 @@ const data = [
     project_date_end: "12 / 20 / 2043",
   },
 ];
+
 export default function Page({ }: Props) {
   return (
     <div className=" h-screen relative gap-5 p-10">
       <div className="text-4xl font-bold p-5 ml-5">Project Management</div>
       <DataTableProject columns={columns} data={data} />
+
     </div>
   );
 }

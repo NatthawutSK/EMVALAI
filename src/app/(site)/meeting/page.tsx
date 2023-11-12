@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 
+
 import DataTableMeeting from "@/components/meeting/dataTableMeeting";
 import { columns } from "@/components/tanstack-table/columnsMeeting";
+
 import { DialogMeeting } from "@/components/meeting/DialogMeeting";
 
 type Props = {};
@@ -13,8 +15,9 @@ const Meeting = (props: Props) => {
       meet_title: "UI Meeting",
       meet_description: "คุยงานออกแบบ UI",
       meet_date: "11/11/2023",
-      time_hour: 20,
-      time_min: 20,
+
+      meet_time: "13:30",
+
       created_by: "PPPPPP",
     },
   ]

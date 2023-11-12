@@ -10,7 +10,9 @@ type Leave_History = {
     role: string,
     leave_type: string,
     start_date: string,
+
     end_date: string
+
 }
 
 export const columns: ColumnDef<Leave_History>[] = [
