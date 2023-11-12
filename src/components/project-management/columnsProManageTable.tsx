@@ -33,7 +33,7 @@ export const columns: ColumnDef<ProjectInfo>[] = [
         
     },
     {
-        accessorKey:"emp_name",
+        accessorKey:"sup_name",
         header: "SUPERVISOR"
         
     },
@@ -46,13 +46,8 @@ export const columns: ColumnDef<ProjectInfo>[] = [
         
     },
     {
-        accessorKey:"project_date_start",
-        header: "START DATE"
-        
-    },
-    {
-        accessorKey:"project_date_end",
-        header: "END DATE"
+        accessorKey:"due_date_project",
+        header: "DUE DATE"
         
     },
 ]
