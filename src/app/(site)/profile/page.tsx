@@ -1,4 +1,3 @@
-
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,8 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-
-
+import { UploadButton } from "@/components/uploadthing";
 
 export interface Project {
   name: string;
@@ -70,8 +68,12 @@ type Props = {};
 
 export default function Profile({ data }: ShowDataProps) {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedDateOption, setSelectedDateOption] = useState<string | null>(null);
-  const [selectedAvailableOption, setSelectedAvailableOption] = useState<boolean | null>(null);
+  const [selectedDateOption, setSelectedDateOption] = useState<string | null>(
+    null
+  );
+  const [selectedAvailableOption, setSelectedAvailableOption] = useState<
+    boolean | null
+  >(null);
   const [filteredData, setFilteredData] = useState<Project[]>(data || mockData);
   const [buttonText, setButtonText] = useState("Edit Profile");
   const [isInputDisabled, setIsInputDisabled] = useState(true);
@@ -81,25 +83,27 @@ export default function Profile({ data }: ShowDataProps) {
   const [phone, setPhone] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [date_of_birth, setDate] = useState<string>("");
-  
- const toggleInputState = () => {
-   setIsInputDisabled(!isInputDisabled);
-   setButtonText(isInputDisabled ? "Apply" : "Edit Profile");
-   if(isInputDisabled === true){
-     console.log("Edit -> Apply");
-    }else{
-     console.log("Apply -> Edit");
-   }
- };
+  const [link, setLink] = useState<string>(
+    "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+  );
+  const toggleInputState = () => {
+    setIsInputDisabled(!isInputDisabled);
+    setButtonText(isInputDisabled ? "Apply" : "Edit Profile");
+    if (isInputDisabled === true) {
+      console.log("Edit -> Apply");
+    } else {
+      console.log("Apply -> Edit");
+    }
+  };
 
   const handleDateChange = (value: string | null) => {
     setSelectedDateOption(value);
   };
-  
+
   const handleAvilibleChange = (value: string | null) => {
-    if(value === 'Active'){
+    if (value === "Active") {
       setSelectedAvailableOption(true);
-    }else{
+    } else {
       setSelectedAvailableOption(false);
     }
   };
@@ -108,12 +112,12 @@ export default function Profile({ data }: ShowDataProps) {
     setSelectedDateOption(null);
     setSelectedAvailableOption(null);
     setSearchTerm("");
-  }
+  };
 
   useEffect(() => {
     let updatedData = data ? [...data] : [];
 
-     updatedData = (data || mockData).filter((project) =>
+    updatedData = (data || mockData).filter((project) =>
       project.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -128,10 +132,10 @@ export default function Profile({ data }: ShowDataProps) {
     }
 
     if (selectedAvailableOption !== null) {
-      updatedData = updatedData.filter((project) => project.isActive === selectedAvailableOption);
-      
+      updatedData = updatedData.filter(
+        (project) => project.isActive === selectedAvailableOption
+      );
     }
-
     setFilteredData(updatedData);
   }, [searchTerm, selectedDateOption, selectedAvailableOption, data]);
 
@@ -146,6 +150,7 @@ export default function Profile({ data }: ShowDataProps) {
           <div className="w-[35%] pr-10 max-lg:w-3/4 max-lg:mb-5">
             <div className="flex flex-col justify-center border-2 border-gray-500 p-5 items-center h-[25em]">
               {/* <Image
+
                   alt="User Image"
                   width={40}
                   height={50}
@@ -153,10 +158,24 @@ export default function Profile({ data }: ShowDataProps) {
                 /> */}
               <img
                 className="rounded-full w-40 h-40"
-                src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                src={link}
                 alt="image description"
               />
-              <Input id="file-input" className="w-3/4 mt-5" type="file" />
+              <UploadButton
+                className="bg-[#64cbc5] text-white rounded-xl mt-3 p-1"
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  // Do something with the response
+                  console.log("Files: ", res);
+                  setLink(res ? res[0].url : "");
+                  alert("Upload Completed");
+                }}
+                onUploadError={(error: Error) => {
+                  // Do something with the error.
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
+              {/* <p>{link}</p> */}
               <div className="text-center	mt-3">
                 <div className="text-2xl font-semibold	">Hello World</div>
                 <div className="text-gray-400 mt-1">Developer</div>
