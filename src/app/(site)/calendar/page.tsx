@@ -125,7 +125,7 @@ export default function Home() {
 
         // const specificObjects = [{ index: 0, day: data.day }];
 
-        console.log("DAY REAL",daysData);
+        // console.log("DAY REAL",daysData);
         setFetchDaysApi(daysData);
         setAllEvents(daysData);
 
@@ -179,12 +179,13 @@ export default function Home() {
     const event = {
       ...newEvent,
       start: data.date.toISOString(),
+      end: data.date.toISOString(),
       title: data.draggedEl.innerText,
       allDay: data.allDay,
       id: new Date().getTime(),
     };
-    console.log("All", allEvents);
-    console.log("Add", event);
+    // console.log("All", allEvents);
+    // console.log("Add", event);
     setAllEvents([...allEvents, event]);
   }
 
@@ -245,12 +246,12 @@ export default function Home() {
 
   return (
     <>
-      <nav className="flex justify-between mb-12 border-b border-violet-100 p-4">
+      <nav className="flex justify-between mb-6 border-b border-blue-100 p-8">
         <h1 className="font-bold text-2xl text-gray-700">Calendar</h1>
       </nav>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main className="min-h-screen flex-col items-center px-16">
         <div className="grid grid-cols-10">
-          <div className="col-span-8">
+          <div className="col-span-10">
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
               headerToolbar={{
@@ -264,14 +265,15 @@ export default function Home() {
               droppable={true}
               selectable={true}
               selectMirror={true}
-              dateClick={handleDateClick}
-              drop={(data) => addEvent(data)}
+              // dateClick={handleDateClick}
+              // drop={(data) => addEvent(data)}
               eventClick={(data) => handleDeleteModal(data)}
             />
           </div>
-          <div
+          
+          {/* <div
             id="draggable-el"
-            className="ml-8 w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-violet-50"
+            className="ml-8 w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-blue-50"
           >
             <h1 className="font-bold text-lg text-center">Drag Event</h1>
             {events.map((event) => (
@@ -283,7 +285,7 @@ export default function Home() {
                 {event.title}
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
 
         <Transition.Root show={showDeleteModal} as={Fragment}>
@@ -321,15 +323,15 @@ export default function Home() {
                   >
                     <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                       <div className="sm:flex sm:items-start">
-                        <div
+                        {/* <div
                           className="mx-auto flex h-12 w-12 flex-shrink-0 items-center 
                       justify-center rounded-full  sm:mx-0 sm:h-10 sm:w-10"
                         >
-                          {/* <ExclamationTriangleIcon
+                          <ExclamationTriangleIcon
                             className="h-6 w-6 text-red-600"
                             aria-hidden="true"
-                          /> */}
-                        </div>
+                          />
+                        </div> */}
                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                           <Dialog.Title
                             as="h3"
@@ -347,14 +349,14 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
+                      {/* <button
                         type="button"
                         className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm 
                       font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                         onClick={handleDelete}
                       >
                         Delete
-                      </button>
+                      </button> */}
                       <button
                         type="button"
                         className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 
@@ -418,7 +420,7 @@ export default function Home() {
                               className="block w-full rounded-md border-0 py-1.5 text-gray-900 
                             shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                             focus:ring-2 
-                            focus:ring-inset focus:ring-violet-600 
+                            focus:ring-inset focus:ring-blue-600 
                             sm:text-sm sm:leading-6 mb-3"
                               value={newEvent.title}
                               onChange={(e) => handleChange(e)}
@@ -430,7 +432,7 @@ export default function Home() {
                               className="block w-full rounded-md border-0 py-1.5 text-gray-900 
                             shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                             focus:ring-2 
-                            focus:ring-inset focus:ring-violet-600 
+                            focus:ring-inset focus:ring-blue-600 
                             sm:text-sm sm:leading-6"
                               value={newEvent.description}
                               onChange={(e) => handleChange2(e)}
@@ -440,7 +442,7 @@ export default function Home() {
                           <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                             <button
                               type="submit"
-                              className="inline-flex w-full justify-center rounded-md bg-violet-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 sm:col-start-2 disabled:opacity-25"
+                              className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:col-start-2 disabled:opacity-25"
                               disabled={newEvent.title === ""}
                             >
                               Create
