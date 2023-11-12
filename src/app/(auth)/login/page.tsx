@@ -68,7 +68,7 @@ const Login = ({}: Props) => {
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
         localStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/task");
+        router.push("/dashboard");
       }
     } catch (error) {
       console.error(error);
