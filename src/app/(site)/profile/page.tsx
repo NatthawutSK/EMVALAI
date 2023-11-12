@@ -140,7 +140,7 @@ export default function Profile({ data }: ShowDataProps) {
       <div className="p-10">
         <div className="text-4xl font-bold	">Profile</div>
         <hr className="w-30 h-[2px] bg-gray-300 border-0 rounded md:my-4 dark:bg-gray-700"></hr>
-      </div>
+      </div>  
       <div className="px-10 pb-0.5">
         <div className="flex justify-center max-lg:flex-col max-lg:items-center">
           <div className="w-[35%] pr-10 max-lg:w-3/4 max-lg:mb-5">
