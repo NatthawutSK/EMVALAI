@@ -24,7 +24,7 @@ type Boxes = {
 	empSupervisor: string;
 	empHR: string;
 	empEmployee: string;
-	empLeaveCount: string;
+	allposition: number;
 };
 const DashboardBoxes = ({ boxdata }: { boxdata: BoxesPropType }) => {
 	return (
@@ -53,10 +53,11 @@ const DashboardBoxes = ({ boxdata }: { boxdata: BoxesPropType }) => {
 									100
 							)}
 							text={
-								(Number(boxdata.positions.backend) /
-									Number(boxdata.boxes.allEmp)) *
-									100 +
-								"%"
+								Math.floor(
+									(Number(boxdata.positions.backend) /
+										Number(boxdata.boxes.allEmp)) *
+										100
+								) + "%"
 							}
 							position={"Backend Dev"}
 							amount={boxdata.positions.backend}
@@ -68,10 +69,11 @@ const DashboardBoxes = ({ boxdata }: { boxdata: BoxesPropType }) => {
 									100
 							)}
 							text={
-								(Number(boxdata.positions.frontend) /
-									Number(boxdata.boxes.allEmp)) *
-									100 +
-								"%"
+								Math.floor(
+									(Number(boxdata.positions.frontend) /
+										Number(boxdata.boxes.allEmp)) *
+										100
+								) + "%"
 							}
 							position={"Frontend Dev"}
 							amount={boxdata.positions.frontend}
@@ -83,10 +85,11 @@ const DashboardBoxes = ({ boxdata }: { boxdata: BoxesPropType }) => {
 									100
 							)}
 							text={
-								(Number(boxdata.positions.designer) /
-									Number(boxdata.boxes.allEmp)) *
-									100 +
-								"%"
+								Math.floor(
+									(Number(boxdata.positions.designer) /
+										Number(boxdata.boxes.allEmp)) *
+										100
+								) + "%"
 							}
 							position={"Designer"}
 							amount={boxdata.positions.designer}
@@ -98,10 +101,11 @@ const DashboardBoxes = ({ boxdata }: { boxdata: BoxesPropType }) => {
 									100
 							)}
 							text={
-								(Number(boxdata.positions.tester) /
-									Number(boxdata.boxes.allEmp)) *
-									100 +
-								"%"
+								Math.floor(
+									(Number(boxdata.positions.tester) /
+										Number(boxdata.boxes.allEmp)) *
+										100
+								) + "%"
 							}
 							position={"Tester"}
 							amount={boxdata.positions.tester}
@@ -113,10 +117,11 @@ const DashboardBoxes = ({ boxdata }: { boxdata: BoxesPropType }) => {
 									100
 							)}
 							text={
-								(Number(boxdata.positions.pm) /
-									Number(boxdata.boxes.allEmp)) *
-									100 +
-								"%"
+								Math.floor(
+									(Number(boxdata.positions.pm) /
+										Number(boxdata.boxes.allEmp)) *
+										100
+								) + "%"
 							}
 							position={"Project Manager"}
 							amount={boxdata.positions.pm}
@@ -154,10 +159,12 @@ const DashboardBoxes = ({ boxdata }: { boxdata: BoxesPropType }) => {
 				</div>
 				<div className=" space-y-4 self-center">
 					<div className=" px-10 py-2 md:px-6 min-w-[200px] max-w-[250px] rounded-lg bg-[#176B87] drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-row space-x-3 justify-around">
-						<p className="text-2xl self-center text-white">3124</p>
+						<p className="text-2xl self-center text-white">
+							{boxdata.boxes.empEmployee}
+						</p>
 						<div className="self-center">
 							<h1 className="text-xl font-bold text-white">
-								Supervisor
+								Employee
 							</h1>
 							<p className="text-white text-sm font-Inter font-semibold">
 								จำนวนพนักงาน
@@ -165,13 +172,15 @@ const DashboardBoxes = ({ boxdata }: { boxdata: BoxesPropType }) => {
 						</div>
 					</div>
 					<div className=" px-10	 py-2 rounded-lg min-w-[200px] max-w-[250px] bg-teal-600 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] flex flex-row space-x-3 justify-around">
-						<p className="text-2xl self-center text-white">3124</p>
+						<p className="text-2xl self-center text-white">
+							{boxdata.boxes.allposition}
+						</p>
 						<div className="self-center">
 							<h1 className="text-xl font-bold text-white">
-								Supervisor
+								Position
 							</h1>
 							<p className="text-white text-sm font-Inter font-semibold">
-								จำนวนพนักงาน
+								จำนวนตำแหน่งงาน
 							</p>
 						</div>
 					</div>
