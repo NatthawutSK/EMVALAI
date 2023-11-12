@@ -34,16 +34,17 @@ import { stageOption } from "@/types/enumtable";
 import { DialogProject } from "./DialogProjectManagement";
 
 
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   size?: string;
+  emp: any[];
 }
 
 function DataTableProject<TData, TValue>({
   columns,
   data,
+  emp,
   size,
 }: DataTableProps<TData, TValue>) {
   const [dateStart, setDateStart] = React.useState<Date>();
@@ -75,7 +76,6 @@ function DataTableProject<TData, TValue>({
     state: {
       sorting,
       columnFilters,
-      // pagination,
     },
   });
   return (
@@ -92,17 +92,19 @@ function DataTableProject<TData, TValue>({
           />
         </div>
 
-          <div className="flex self-center">
-            {table.getColumn("project_status") && (
-              <DataTableFacetedFilter
-                column={table.getColumn("project_status")}
-                title="STAGE"
-                options={stageOption}
-              />
-            )}
-          </div>
+        <div className="flex self-center">
+          {table.getColumn("project_status") && (
+            <DataTableFacetedFilter
+              column={table.getColumn("project_status")}
+              title="STAGE"
+              options={stageOption}
+            />
+          )}
+        </div>
 
-      <DialogProject/>
+        <DialogProject emp={emp}/>
+      
+      
       </div>
       <div className="rounded-md border ">
         <Table>
@@ -157,24 +159,7 @@ function DataTableProject<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {/* <div className="flex items-center justify-end space-x-2 py-4">
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={() => table.previousPage()}
-					disabled={!table.getCanPreviousPage()}
-				>
-					Previous
-				</Button>
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={() => table.nextPage()}
-					disabled={!table.getCanNextPage()}
-				>
-					Next
-				</Button>
-			</div> */}
+
       <DataTablePagination table={table} />
     </>
   );
