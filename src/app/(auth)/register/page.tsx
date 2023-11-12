@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { registerSchema } from "@/validators/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,9 +51,10 @@ const Register = () => {
       position: "",
     },
   });
-
+  const { toast: showToast } = useToast();
   const onSubmit = async (dataValue: Input) => {
     const hireDate = new Date();
+
     try {
       const response = await fetch(
         "http://localhost:8082/user-service/user/register",
@@ -81,11 +83,27 @@ const Register = () => {
       }
 
       const data = await response.json();
+
+      if (data.status) {
+        showToast({
+          description: data.result,
+          variant: "success",
+        });
+      } else {
+        showToast({
+          description: data.result,
+          variant: "destructive",
+        });
+      }
       console.log(data);
     } catch (error) {
       console.error(error);
+      showToast({
+        description: "An error occurred",
+        variant: "destructive",
+      });
     }
-    console.log(dataValue);
+    // console.log(dataValue);
   };
 
   const ValidateBeforeNext = async () => {
@@ -121,7 +139,7 @@ const Register = () => {
   return (
     <div className="min-h-screen">
       <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        <Card className="w-[380px] h-auto">
+        <Card className="w-[420px] h-auto">
           <CardHeader>
             <CardTitle className="text-center">Register</CardTitle>
           </CardHeader>
@@ -218,7 +236,7 @@ const Register = () => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select Position" />
                             </SelectTrigger>
                           </FormControl>
@@ -306,7 +324,7 @@ const Register = () => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="w-full">
                               <SelectValue placeholder="Select Role" />
                             </SelectTrigger>
                           </FormControl>

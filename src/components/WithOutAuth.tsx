@@ -4,8 +4,9 @@
 
 // export default function WithoutAuth(Component: any) {
 //   return function WithoutAuth(props: any) {
-//     const accessToken = !!localStorage.getItem("accessToken");
+//let accessToken :any = null
 //     useEffect(() => {
+//      accessToken = localStorage.getItem("accessToken");
 //       if (accessToken) {
 //         redirect("/task");
 //       }
