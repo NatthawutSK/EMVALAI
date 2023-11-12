@@ -125,7 +125,7 @@ export default function Home() {
 
         // const specificObjects = [{ index: 0, day: data.day }];
 
-        console.log("DAY REAL",daysData);
+        // console.log("DAY REAL",daysData);
         setFetchDaysApi(daysData);
         setAllEvents(daysData);
 
@@ -179,12 +179,13 @@ export default function Home() {
     const event = {
       ...newEvent,
       start: data.date.toISOString(),
+      end: data.date.toISOString(),
       title: data.draggedEl.innerText,
       allDay: data.allDay,
       id: new Date().getTime(),
     };
-    console.log("All", allEvents);
-    console.log("Add", event);
+    // console.log("All", allEvents);
+    // console.log("Add", event);
     setAllEvents([...allEvents, event]);
   }
 
@@ -264,8 +265,8 @@ export default function Home() {
               droppable={true}
               selectable={true}
               selectMirror={true}
-              dateClick={handleDateClick}
-              drop={(data) => addEvent(data)}
+              // dateClick={handleDateClick}
+              // drop={(data) => addEvent(data)}
               eventClick={(data) => handleDeleteModal(data)}
             />
           </div>
@@ -322,15 +323,15 @@ export default function Home() {
                   >
                     <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                       <div className="sm:flex sm:items-start">
-                        <div
+                        {/* <div
                           className="mx-auto flex h-12 w-12 flex-shrink-0 items-center 
                       justify-center rounded-full  sm:mx-0 sm:h-10 sm:w-10"
                         >
-                          {/* <ExclamationTriangleIcon
+                          <ExclamationTriangleIcon
                             className="h-6 w-6 text-red-600"
                             aria-hidden="true"
-                          /> */}
-                        </div>
+                          />
+                        </div> */}
                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                           <Dialog.Title
                             as="h3"
@@ -348,14 +349,14 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                      <button
+                      {/* <button
                         type="button"
                         className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm 
                       font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                         onClick={handleDelete}
                       >
                         Delete
-                      </button>
+                      </button> */}
                       <button
                         type="button"
                         className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 
