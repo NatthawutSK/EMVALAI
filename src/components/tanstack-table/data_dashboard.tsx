@@ -13,18 +13,9 @@ import {
 	PaginationState,
 } from "@tanstack/react-table";
 
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "./tablePagination";
-import { DataTableFacetedFilter } from "./dataFacetedFilter";
-import { posOption, roleOption, stagePM } from "@/types/enumtable";
+
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];

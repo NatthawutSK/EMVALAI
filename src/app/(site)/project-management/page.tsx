@@ -1,39 +1,10 @@
 "use client";
 import React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns"
-import { Calendar } from "@/components/ui/calendar";
-import { Calendar as CalendarIcon } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { LucideListFilter } from "lucide-react";
-import { AiFillPlusCircle } from "react-icons/ai";
-import DataTable from "@/components/tanstack-table/data_table";
-import { columns } from "@/components/tanstack-table/columnsProManageTable";
+
+
+import DataTableProject from "@/components/project-management/DataTableProject";
+import { columns } from "@/components/project-management/columnsProManageTable"
+
 
 type Props = {};
 const data = [
@@ -70,18 +41,13 @@ const data = [
     project_date_end: "12 / 20 / 2043",
   },
 ];
-export default function Page({}: Props) {
-  const [dateStart, setDateStart] = React.useState<Date>();
-  const [dateEnd, setDateEnd] = React.useState<Date>();
-  const [selectedTeam, setSelectedTeam] = React.useState<string[]>([]);
+
+export default function Page({ }: Props) {
   return (
-    <div>
+    <div className=" h-screen relative gap-5 p-10">
       <div className="text-4xl font-bold p-5 ml-5">Project Management</div>
-      <div className=" h-screen relative gap-5 p-10">
-        
-        
-        <DataTable columns={columns} data={data} />
-      </div>
+      <DataTableProject columns={columns} data={data} />
+
     </div>
   );
 }

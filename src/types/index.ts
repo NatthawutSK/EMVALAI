@@ -5,15 +5,17 @@ export enum TaskStateEnum {
 }
 
 export type TypeTask = {
+  _id?: string;
   id: string;
-  title: string;
-  state: TaskStateEnum;
-  desc: string;
+  taskName: string;
+  taskDesc: string;
+  projectId: string;
+  taskStatus: TaskStateEnum;
+  userId: string;
   dueDate: string;
-  createDate: string;
-  assignee: string;
+  createdDate: string;
+  userName: string;
 };
-
 
 export type UserType = {
   _id: string;

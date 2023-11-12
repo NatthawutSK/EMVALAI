@@ -1,5 +1,5 @@
 "use client";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import {
   Bars3CenterLeftIcon,
   PencilIcon,
@@ -14,6 +14,8 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { UserSelector } from "@/redux/slices/UserSlice";
 import { UserType } from "@/types";
+import { LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function TopBar() {
   // const UserReducer = useSelector(UserSelector);
@@ -22,6 +24,11 @@ export default function TopBar() {
     return null;
   }
   const user1 = JSON.parse(user);
+  // let user1 = null;
+  const router = useRouter();
+  // useEffect(() => {
+  //   user1 = JSON.parse(localStorage.getItem("user") ?? "null") ?? null;
+  // }, []);
   return (
     <div
       className={`fixed top-0 right-0 w-full  py-5 flex justify-between items-center transition-all  `}
@@ -122,9 +129,11 @@ export default function TopBar() {
                   alt="profile picture"
                 />
               </picture>
-              <span className="hidden md:block font-medium text-gray-700">
-                {user1.fname} {user1.lname}
-              </span>
+              {user1 && (
+                <span className="hidden md:block font-medium text-gray-700">
+                  {user1.fname} {user1.lname}
+                </span>
+              )}
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>
           </div>
@@ -158,13 +167,19 @@ export default function TopBar() {
                   </Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <Link
-                    href="#"
+                  <div
+                    onClick={() => {
+                      localStorage.removeItem("user");
+                      localStorage.removeItem("accessToken");
+                      localStorage.removeItem("refreshToken");
+                      router.push("/login");
+                      // window.location.href = "/login";
+                    }}
                     className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
                   >
-                    <Cog8ToothIcon className="h-4 w-4 mr-2" />
-                    Settings
-                  </Link>
+                    <LogOutIcon className="h-4 w-4 mr-2" />
+                    LogOut
+                  </div>
                 </Menu.Item>
               </div>
             </Menu.Items>
