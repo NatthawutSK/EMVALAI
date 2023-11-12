@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns"
 import { Button } from "@/components/ui/button";
@@ -33,9 +34,11 @@ type Props = {};
 
 export default function Leave({}: Props) {
 
+  const router = useRouter()
   const [dateStart, setDateStart] = React.useState<Date>();
   const [dateEnd, setDateEnd] = React.useState<Date>();
   const [selectedReason, setSelectedReason] = React.useState("");
+  const [note, setNote] = React.useState("");
 
   return (
     <div>
@@ -79,6 +82,7 @@ export default function Leave({}: Props) {
                           "w-[280px] justify-start text-left font-normal",
                           !dateStart && "text-muted-foreground"
                         )}
+  
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {dateStart ? format(dateStart, "PPP") : <span>Pick a Date Start</span>}
@@ -125,7 +129,7 @@ export default function Leave({}: Props) {
                 </div>
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="note">Note</Label>
-                  <Textarea placeholder="Type your note here." />
+                  <Textarea placeholder="Type your note here." value={note}/>
                 </div>
               </div>
             </form>
