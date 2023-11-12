@@ -1,5 +1,5 @@
 "use client";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import {
   Bars3CenterLeftIcon,
   PencilIcon,
@@ -22,6 +22,10 @@ export default function TopBar() {
     return null;
   }
   const user1 = JSON.parse(user);
+  // let user1 = null;
+  // useEffect(() => {
+  //   user1 = JSON.parse(localStorage.getItem("user") ?? "null") ?? null;
+  // }, []);
   return (
     <div
       className={`fixed top-0 right-0 w-full  py-5 flex justify-between items-center transition-all  `}
@@ -122,9 +126,11 @@ export default function TopBar() {
                   alt="profile picture"
                 />
               </picture>
-              <span className="hidden md:block font-medium text-gray-700">
-                {user1.fname} {user1.lname}
-              </span>
+              {user1 && (
+                <span className="hidden md:block font-medium text-gray-700">
+                  {user1.fname} {user1.lname}
+                </span>
+              )}
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>
           </div>

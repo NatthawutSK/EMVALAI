@@ -29,7 +29,7 @@ export default function DialogDetailTask({ task }: Props) {
           //   onClick={handleTask}
           className="text-ellipsis overflow-hidden w-44 text-white hover:underline "
         >
-          {task.title}
+          {task.taskName}
         </p>
         {/* <Button variant="default" size={}>ADD</Button> */}
       </DialogTrigger>
@@ -46,7 +46,9 @@ export default function DialogDetailTask({ task }: Props) {
               </Label>
             </span>
             <div className="w-[250px]">
-              <p className="text-left  break-words w-[15rem]">{task.title}</p>
+              <p className="text-left  break-words w-[15rem]">
+                {task.taskName}
+              </p>
             </div>
           </div>
           <div className=" flex justify-between items-center mb-6 gap-8">
@@ -58,7 +60,7 @@ export default function DialogDetailTask({ task }: Props) {
             </span>
             <div className="w-[250px]">
               <p className="text-left  break-words w-[20rem]">
-                {task.assignee}
+                {task.userName}
               </p>
             </div>
           </div>
@@ -71,7 +73,7 @@ export default function DialogDetailTask({ task }: Props) {
             </span>
             <div className="w-[250px]">
               <p className="text-left  break-words w-[20rem]">
-                {task.createDate} - {task.dueDate}
+                {task.createdDate} - {task.dueDate}
               </p>
             </div>
           </div>
@@ -80,7 +82,9 @@ export default function DialogDetailTask({ task }: Props) {
               Task Description
             </Label>
             <div>
-              <p className="text-gray-900 break-words w-[25rem]">{task.desc}</p>
+              <p className="text-gray-900 break-words w-[25rem]">
+                {task.taskDesc}
+              </p>
             </div>
           </div>
         </div>

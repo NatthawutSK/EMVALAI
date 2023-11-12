@@ -4,8 +4,9 @@
 
 // export default function WithAuth(Component: any) {
 //   return function WithAuth(props: any) {
-//     const accessToken = !!localStorage.getItem("accessToken");
+// let accessToken :any = null;
 //     useEffect(() => {
+//      accessToken = localStorage.getItem("accessToken");
 //       if (!accessToken) {
 //         redirect("/register");
 //       }
