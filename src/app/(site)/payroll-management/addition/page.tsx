@@ -60,12 +60,11 @@ const mockData: Addition[] = [
 
 type Props = {};
 
-export default function Additions({ data }: AdditionProps) {
+    export default function Additions({ data = mockData }: AdditionProps) {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>();
   const [percent, setPercent] = useState<number>();
   const [employee, setEmployee] = useState<string | null>(null);
-  
 
   const handleApplyBtn = () => {
     console.log("Apply");
@@ -76,11 +75,11 @@ export default function Additions({ data }: AdditionProps) {
   };
 
   return (
-    <div className="p-10">
+    <div className="py-10 pl-2 pr-4">
       <div className="flex">
         <div className="w-[35%] border-2 border-gray-500 rounded-md relative">
           <div className="flex items-center flex-col mt-5 mb-5 font-bold">
-            Deductions Form
+            Addition Form
           </div>
           <div className="grid grid-cols-2 grid-row-4 pb-5 gap-y-4 pr-20 pt-5">
             <div className="flex justify-self-end items-center font-medium pr-6">
@@ -146,17 +145,46 @@ export default function Additions({ data }: AdditionProps) {
         <div className="w-[65%] border-2 border-gray-500 p-2 ml-5">
           <div>
             <Table className="font-sm">
-              {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[200px]">TITLE</TableHead>
                   <TableHead className="text-right">AMOUNTS</TableHead>
                   <TableHead className="text-right">PERCENT</TableHead>
-                  <TableHead className="text-center w-[200px]">EMPLOYEE</TableHead>
+                  <TableHead className="text-center w-[200px]">
+                    EMPLOYEE
+                  </TableHead>
                   <TableHead className="text-right">AMOUNT COST</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {data ? (
+                  data.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-bold w-[200px]">
+                        {row.title}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.amount} ฿
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.percent} %
+                      </TableCell>
+                      <TableCell className="text-center w-[200px]">
+                        {row.employee}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.amount_cost} ฿
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5}>No data available</TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+            {/* <TableBody>
                 <TableRow>
                   <TableCell className="font-bold w-[200px]">
                     Bonus For Au
@@ -168,11 +196,11 @@ export default function Additions({ data }: AdditionProps) {
                   </TableCell>
                   <TableCell className="text-right">2000 ฿</TableCell>
                 </TableRow>
-              </TableBody>
-            </Table>
+              </TableBody> */}
           </div>
         </div>
       </div>
     </div>
   );
 }
+

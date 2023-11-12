@@ -41,8 +41,8 @@ const mockData: Deduction[] = [
     title: "facilities",
     amount: 1000,
     percent: 0,
-    salary_min: 1,
-    salary_max: 1,
+    salary_min: 0,
+    salary_max: 0,
     employee: 1200,
     amount_cost: 1200000,
   },
@@ -68,7 +68,7 @@ const mockData: Deduction[] = [
 
 type Props = {};
 
-export default function Deduction({ data }: DeductionProps) {
+export default function Deduction({ data = mockData }: DeductionProps) {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<number>();
   const [percent, setPercent] = useState<number>();
@@ -80,7 +80,7 @@ export default function Deduction({ data }: DeductionProps) {
   };
 
   return (
-    <div className="p-10">
+    <div className="py-10 pl-2 pr-4">
       <div className="flex">
         <div className="w-[35%] border-2 border-gray-500 rounded-md relative">
           <div className="flex items-center flex-col mt-5 mb-5 font-bold">
@@ -152,7 +152,7 @@ export default function Deduction({ data }: DeductionProps) {
           </div>
         </div>
 
-        <div className="w-[65%] border-2 border-gray-500 p-2 ml-5">
+        <div className="w-[65%] border-2 border-gray-500 rounded-md p-2 ml-5">
           <div>
             <Table className="font-sm">
               {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
@@ -167,14 +167,38 @@ export default function Deduction({ data }: DeductionProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell className="font-bold">Manager</TableCell>
-                  <TableCell className="text-right">150000 ฿</TableCell>
-                  <TableCell className="text-right">1</TableCell>
-                  <TableCell className="text-right">10000 - 25000</TableCell>
-                  <TableCell className="text-right">100</TableCell>
-                  <TableCell className="text-right">150000 ฿</TableCell>
-                </TableRow>
+                {data ? (
+                  data.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-bold">{row.title}</TableCell>
+                      <TableCell className="text-right">
+                        {row.amount} ฿
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.percent} %
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.salary_min === 0 && row.salary_max === 0
+                          ? "0"
+                          : row.salary_min === 0
+                          ? `Up to ${row.salary_max}`
+                          : row.salary_max === 0
+                          ? `From ${row.salary_min}`
+                          : `${row.salary_min} - ${row.salary_max}`}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.employee}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.amount_cost} ฿
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={6}>No data available</TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </div>
@@ -183,3 +207,4 @@ export default function Deduction({ data }: DeductionProps) {
     </div>
   );
 }
+

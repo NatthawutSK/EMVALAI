@@ -80,7 +80,7 @@ const mockData: Payroll[] = [
 
 type Props = {};
 
-export default function SalaryBase({ data }: PayrollProps) {
+export default function SalaryBase({ data = mockData }: PayrollProps) {
   
   const [salaryBase, setSalaryBase] = useState<string>("");
   const [selectedPositionOption, setSelectedPositionOption] = useState<string | null>(null);
@@ -141,7 +141,7 @@ export default function SalaryBase({ data }: PayrollProps) {
             </Button>
           </div>
         </div>
-        <div className="w-[65%] border-2 border-gray-500 p-2 ml-5">
+        <div className="w-[65%] border-2 border-gray-500 p-2 ml-5 rounded-md">
           <div>
             <Table>
               {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
@@ -154,12 +154,28 @@ export default function SalaryBase({ data }: PayrollProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell className="font-bold">Manager</TableCell>
-                  <TableCell className="text-right">150000 ฿</TableCell>
-                  <TableCell className="text-right">1</TableCell>
-                  <TableCell className="text-right">150000 ฿</TableCell>
-                </TableRow>
+                {data ? (
+                  data.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-bold">
+                        {row.position}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.salary_base} ฿
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.employees}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {row.salary_cost} ฿
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={4}>No data available</TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </div>
