@@ -141,20 +141,19 @@ export default function Profile({ data }: ShowDataProps) {
 			);
 		}
 
-		setFilteredData(updatedData);
-	}, [searchTerm, selectedDateOption, selectedAvailableOption, data]);
 
-	return (
-		<div className="h-screen">
-			<div className="p-10">
-				<div className="text-4xl font-bold	">Profile</div>
-				<hr className="w-30 h-[2px] bg-gray-300 border-0 rounded md:my-4 dark:bg-gray-700"></hr>
-			</div>
-			<div className="px-10 pb-0.5">
-				<div className="flex justify-center max-lg:flex-col max-lg:items-center">
-					<div className="w-[35%] pr-10 max-lg:w-3/4 max-lg:mb-5">
-						<div className="flex flex-col justify-center border-2 border-gray-500 p-5 items-center h-[25em]">
-							{/* <Image
+  return (
+    <div className="h-screen">
+      <div className="p-10">
+        <div className="text-4xl font-bold	">Profile</div>
+        <hr className="w-30 h-[2px] bg-gray-300 border-0 rounded md:my-4 dark:bg-gray-700"></hr>
+      </div>  
+      <div className="px-10 pb-0.5">
+        <div className="flex justify-center max-lg:flex-col max-lg:items-center">
+          <div className="w-[35%] pr-10 max-lg:w-3/4 max-lg:mb-5">
+            <div className="flex flex-col justify-center border-2 border-gray-500 p-5 items-center h-[25em]">
+              {/* <Image
+
                   alt="User Image"
                   width={40}
                   height={50}
