@@ -14,6 +14,8 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { UserSelector } from "@/redux/slices/UserSlice";
 import { UserType } from "@/types";
+import { LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function TopBar() {
   // const UserReducer = useSelector(UserSelector);
@@ -23,6 +25,7 @@ export default function TopBar() {
   }
   const user1 = JSON.parse(user);
   // let user1 = null;
+  const router = useRouter();
   // useEffect(() => {
   //   user1 = JSON.parse(localStorage.getItem("user") ?? "null") ?? null;
   // }, []);
@@ -164,13 +167,19 @@ export default function TopBar() {
                   </Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <Link
-                    href="#"
+                  <div
+                    onClick={() => {
+                      localStorage.removeItem("user");
+                      localStorage.removeItem("accessToken");
+                      localStorage.removeItem("refreshToken");
+                      router.push("/login");
+                      // window.location.href = "/login";
+                    }}
                     className="flex hover:bg-orange-500 hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
                   >
-                    <Cog8ToothIcon className="h-4 w-4 mr-2" />
-                    Settings
-                  </Link>
+                    <LogOutIcon className="h-4 w-4 mr-2" />
+                    LogOut
+                  </div>
                 </Menu.Item>
               </div>
             </Menu.Items>
