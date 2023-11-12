@@ -1,5 +1,3 @@
-
-
 "use client";
 import React from "react";
 
@@ -32,7 +30,6 @@ import { DataTableFacetedFilter } from "./dataFacetedFilterProject";
 
 import { stageOption } from "@/types/enumtable";
 import { DialogProject } from "./DialogProjectManagement";
-
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -91,6 +88,7 @@ function DataTableProject<TData, TValue>({
             className="max-w-sm"
           />
         </div>
+        {/* <p>{JSON.stringify(data)}</p> */}
 
         <div className="flex self-center">
           {table.getColumn("project_status") && (
@@ -102,9 +100,7 @@ function DataTableProject<TData, TValue>({
           )}
         </div>
 
-        <DialogProject emp={emp}/>
-      
-      
+        <DialogProject emp={emp} />
       </div>
       <div className="rounded-md border ">
         <Table>
@@ -117,9 +113,9 @@ function DataTableProject<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -135,7 +131,9 @@ function DataTableProject<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-                      onClick={() => router.push("/table/" + row.id)}
+                      onClick={() =>
+                        router.push("/task/" + data[0]?.project_id)
+                      }
                       key={cell.id}
                     >
                       {flexRender(
