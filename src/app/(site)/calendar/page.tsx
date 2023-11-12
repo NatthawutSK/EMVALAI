@@ -298,12 +298,12 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
 
   return (
     <>
-      <nav className="flex justify-between mb-6 border-b border-blue-100 p-8">
+      <nav className="flex justify-between mb-6 border-b border-yellow-100 p-8">
         <h1 className="font-bold text-2xl text-gray-700">Calendar</h1>
       </nav>
-      <main className="min-h-screen flex-col items-center px-16">
-        <div className="grid grid-cols-10">
-          <div className="col-span-10">
+      <main className="min-h-screen flex-col items-center px-32">
+        <div className="grid grid-cols-12">
+          <div className="col-span-12">
             <FullCalendar
               plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
               headerToolbar={{
@@ -325,7 +325,7 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
 
           {/* <div
             id="draggable-el"
-            className="ml-8 w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-blue-50"
+            className="ml-8 w-full border-2 p-2 rounded-md mt-16 lg:h-1/2 bg-yellow-50"
           >
             <h1 className="font-bold text-lg text-center">Drag Event</h1>
             {events.map((event) => (
@@ -479,7 +479,7 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
                               className="block w-full rounded-md border-0 py-1.5 text-gray-900 
                             shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                             focus:ring-2 
-                            focus:ring-inset focus:ring-blue-600 
+                            focus:ring-inset focus:ring-yellow-600 
                             sm:text-sm sm:leading-6 mb-3"
                               value={newEvent.title}
                               onChange={(e) => handleChange(e)}
@@ -491,7 +491,7 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
                               className="block w-full rounded-md border-0 py-1.5 text-gray-900 
                             shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 
                             focus:ring-2 
-                            focus:ring-inset focus:ring-blue-600 
+                            focus:ring-inset focus:ring-yellow-600 
                             sm:text-sm sm:leading-6"
                               value={newEvent.description}
                               onChange={(e) => handleChange2(e)}
@@ -501,7 +501,7 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
                           <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                             <button
                               type="submit"
-                              className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:col-start-2 disabled:opacity-25"
+                              className="inline-flex w-full justify-center rounded-md bg-yellow-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 sm:col-start-2 disabled:opacity-25"
                               disabled={newEvent.title === ""}
                             >
                               Create
