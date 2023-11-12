@@ -14,36 +14,88 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TaskSelector, addTask } from "@/redux/slices/TaskSlice";
 import { useAppDispatch } from "@/redux/store";
-import { TaskStateEnum } from "@/types";
+import { TaskStateEnum, TypeTask } from "@/types";
 import { useState } from "react";
 import { BiTask } from "react-icons/bi";
 import { BsPeopleFill } from "react-icons/bs";
 import { v4 as uuidv4 } from "uuid";
 import { ComboBoxAssignee } from "./ComboBoxAssignee";
-import { CalendarClock } from "lucide-react";
+import { CalendarClock, CalendarIcon } from "lucide-react";
 import { DueDateTask } from "./DueDateTask";
 import { Textarea } from "./ui/textarea";
 import { DateRange } from "react-day-picker";
 import { useSelector } from "react-redux";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { format } from "date-fns";
+import { Calendar } from "./ui/calendar";
+import { cn } from "@/lib/utils";
 type Props = {
   state: TaskStateEnum;
+  projId: string;
 };
 
-export default function DialogAddTask({ state }: Props) {
+export default function DialogAddTask({ state, projId }: Props) {
   const dispatch = useAppDispatch();
   const taskReducer = useSelector(TaskSelector);
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
+  // const [date, setDate] = useState<DateRange | undefined>({
+  //   from: new Date(),
+  //   to: new Date(),
+  // });
+  const [date, setDate] = useState<Date>();
   const [desc, setDesc] = useState("");
   const [assignee, setAssignee] = useState("");
-  const addDate = (date: DateRange) => {
-    setDate(date);
-  };
+  // const addDate = (date: Date) => {
+  //   setDate(date);
+  // };
   const addAssignee = (value: string) => {
     setAssignee(value);
+  };
+
+  const AddTaskDb = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch("http://localhost:8082/task-service/task", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          taskName: title,
+          taskDesc: desc,
+          projectId: projId,
+          taskStatus: state,
+          userId: "test userid",
+          dueDate: date ? format(date, "dd/MM/yy") : "",
+          createdDate: format(new Date(), "dd/MM/yy"),
+          userName: assignee,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data: TypeTask = await response.json();
+      dispatch(
+        addTask({
+          id: uuidv4(),
+          taskName: data.taskName,
+          taskStatus: data.taskStatus,
+          createdDate: data.createdDate,
+          dueDate: data.dueDate,
+          taskDesc: data.taskDesc,
+          userId: data.userId,
+          userName: data.userName,
+          projectId: data.projectId,
+          _id: data._id,
+        })
+      );
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -81,7 +133,31 @@ export default function DialogAddTask({ state }: Props) {
               <CalendarClock size={30} />
               <Label htmlFor="title">due date</Label>
             </span>
-            <DueDateTask date={date} addDate={addDate} />
+            <div className="">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[300px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "dd/MM/yy") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            {/* <DueDateTask date={date} addDate={addDate} /> */}
           </div>
           <div className="grid w-full gap-1.5">
             <Label htmlFor="message">Task Description</Label>
@@ -97,22 +173,7 @@ export default function DialogAddTask({ state }: Props) {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button
-              onClick={() =>
-                dispatch(
-                  addTask({
-                    id: uuidv4(),
-                    title: title,
-                    state: state,
-                    createDate: date?.from?.toLocaleDateString()!,
-                    dueDate: date?.to?.toLocaleDateString()!,
-                    desc: desc,
-                    assignee: assignee,
-                  })
-                )
-              }
-              type="submit"
-            >
+            <Button onClick={() => AddTaskDb()} type="submit">
               Save
             </Button>
           </DialogClose>
