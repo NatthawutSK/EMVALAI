@@ -28,6 +28,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "@tanstack/react-table": "^8.10.7",
     "@types/uuid": "^9.0.6",
+    "@uploadthing/react": "^5.7.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
@@ -45,6 +46,7 @@
     "recharts": "^2.9.3",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
+    "uploadthing": "^5.7.4",
     "uuid": "^9.0.1",
     "zod": "^3.22.4"
   },
