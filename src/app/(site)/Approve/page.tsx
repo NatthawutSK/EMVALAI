@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 
 import {
+
     AlertDialog,
     AlertDialogAction,
     AlertDialogCancel,
@@ -21,6 +22,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
+
 
 import {
   Dialog,
@@ -64,6 +66,7 @@ export default function Profile({}: Props) {
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
+
                       <DialogTitle className="mb-[3px] text-[40px]">
                         Details
                       </DialogTitle>
@@ -100,6 +103,7 @@ export default function Profile({}: Props) {
                         <Button type="submit" className="bg-[#8D8787]">
                           Decline
                         </Button>
+
                       </DialogFooter>
                     </div>
                   </DialogContent>
@@ -115,11 +119,14 @@ export default function Profile({}: Props) {
                   <DialogHeader>
                     <div className="text-center">
                       <DialogTitle className="mb-[10px]">Caution</DialogTitle>
+
                       <DialogDescription>Are you sure ?</DialogDescription>
+
                     </div>
                   </DialogHeader>
                   <div className="flex justify-center">
                     <DialogFooter>
+
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button type="submit">Accept</Button>
@@ -135,6 +142,7 @@ export default function Profile({}: Props) {
                           <Button>OK</Button>
                         </DialogContent>
                       </Dialog>
+
                       <Button type="submit">Cancel</Button>
                     </DialogFooter>
                   </div>

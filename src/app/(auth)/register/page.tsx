@@ -1,4 +1,5 @@
 "use client";
+// import WithOutAuth from "@/components/WithOutAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -17,9 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { registerSchema } from "@/validators/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { da } from "date-fns/locale";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -28,7 +31,7 @@ import { z } from "zod";
 
 type Input = z.infer<typeof registerSchema>;
 
-export default function Register() {
+const Register = () => {
   const [formStep, setFormStep] = useState(0);
   const [showPass, setShowPass] = useState<boolean>(false);
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
@@ -44,22 +47,75 @@ export default function Register() {
       gender: "",
       phone: "",
       dob: "",
+      role: "",
+      position: "",
     },
   });
+  const { toast: showToast } = useToast();
+  const onSubmit = async (dataValue: Input) => {
+    const hireDate = new Date();
 
-  const onSubmit = (data: Input) => {
-    console.log(data);
+    try {
+      const response = await fetch(
+        "http://localhost:8082/user-service/user/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            fname: dataValue.fname,
+            lname: dataValue.lname,
+            email: dataValue.email,
+            phone: dataValue.phone,
+            dob: dataValue.dob,
+            gender: dataValue.gender,
+            password: dataValue.password,
+            role: dataValue.role,
+            position: dataValue.position,
+            hireDate: hireDate.toLocaleDateString(),
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      if (data.status) {
+        showToast({
+          description: data.result,
+          variant: "success",
+        });
+      } else {
+        showToast({
+          description: data.result,
+          variant: "destructive",
+        });
+      }
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+      showToast({
+        description: "An error occurred",
+        variant: "destructive",
+      });
+    }
+    // console.log(dataValue);
   };
 
   const ValidateBeforeNext = async () => {
     // Trigger validation for the relevant fields
-    await form.trigger(["email", "fname", "lname", "phone"]);
+    await form.trigger(["email", "fname", "lname", "phone", "position"]);
 
     // Check the validation status of each field
     const emailState = form.getFieldState("email");
     const fnameState = form.getFieldState("fname");
     const phoneState = form.getFieldState("phone");
     const lnameState = form.getFieldState("lname");
+    const positionState = form.getFieldState("position");
 
     // Check if any of the fields is invalid or not dirty
     if (
@@ -67,10 +123,12 @@ export default function Register() {
       fnameState.invalid ||
       phoneState.invalid ||
       lnameState.invalid ||
+      positionState.invalid ||
       !emailState.isDirty ||
       !phoneState.isDirty ||
       !lnameState.isDirty ||
-      !fnameState.isDirty
+      !fnameState.isDirty ||
+      !positionState.isDirty
     ) {
       return; // Do not proceed to the next step if any field is invalid or not dirty
     }
@@ -81,7 +139,7 @@ export default function Register() {
   return (
     <div className="min-h-screen">
       <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-        <Card className="w-[380px]">
+        <Card className="w-[420px] h-auto">
           <CardHeader>
             <CardTitle className="text-center">Register</CardTitle>
           </CardHeader>
@@ -89,7 +147,7 @@ export default function Register() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="relative space-y-3 overflow-x-hidden"
+                className="relative space-y-1 overflow-x-hidden"
               >
                 <div
                   className={cn(
@@ -166,6 +224,38 @@ export default function Register() {
                       </FormItem>
                     )}
                   />
+                  {/* position */}
+                  <FormField
+                    control={form.control}
+                    name="position"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Position</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select Position" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {["Backend", "Frontend", "UX/UI"].map(
+                              (position, index) => {
+                                return (
+                                  <SelectItem value={position} key={index}>
+                                    {position}
+                                  </SelectItem>
+                                );
+                              }
+                            )}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
 
                 <div
@@ -222,6 +312,38 @@ export default function Register() {
                       )}
                     />
                   </div>
+                  {/* role */}
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Role</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select Role" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {["HR", "Manager", "Employee", "Supervisor"].map(
+                              (role, index) => {
+                                return (
+                                  <SelectItem value={role} key={index}>
+                                    {role}
+                                  </SelectItem>
+                                );
+                              }
+                            )}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   {/* password */}
                   <FormField
                     control={form.control}
@@ -285,7 +407,13 @@ export default function Register() {
                     )}
                   />
                 </div>
-                <div className="flex gap-2 relative pt-6">
+                <div
+                  className={cn("flex gap-2 relative", {
+                    "pt-20": formStep == 1,
+                    "pt-2": formStep == 0,
+                  })}
+                >
+                  {/* flex gap-2 relative pt-28 */}
                   <Button
                     type="button"
                     variant={"ghost"}
@@ -334,4 +462,6 @@ export default function Register() {
       </div>
     </div>
   );
-}
+};
+
+export default Register;
