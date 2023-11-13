@@ -116,7 +116,7 @@ function DataTableMeeting<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-                      onClick={() => router.push("/table/" + row.id)} // ลิงค์ไปหน้าไหน
+                      // onClick={() => router.push("/table/" + row.id)} // ลิงค์ไปหน้าไหน
                       key={cell.id}
                     >
                       {flexRender(

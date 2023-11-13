@@ -1,5 +1,6 @@
+"use client";
 import DataTable from "@/components/tanstack-table/data_table";
-import React from "react";
+import React, { useEffect } from "react";
 import { columns } from "@/components/emp-info/columnsEmpInfoTable";
 import { User } from "lucide-react";
 import { MdFreeCancellation } from "react-icons/md";
@@ -129,8 +130,82 @@ const EmpInfoData = {
 		},
 	],
 };
+const getEmpData = async () => {
+	// Perform localStorage action
+	const accessToken = localStorage.getItem("accessToken");
 
-const page = async () => {
+	try {
+		const res = await fetch(
+			"http://localhost:8082/user-service/user/getAllUser",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${accessToken}	`,
+				},
+			}
+		);
+		console.log(res);
+		if (!res.ok) {
+			throw new Error("Network response was not ok");
+		}
+
+		const data = await res.json();
+		return data;
+	} catch (error) {
+		console.error(error);
+		return error;
+	}
+};
+
+const Page = () => {
+	const [empInfo, setEmpInfo] = React.useState<any>([]);
+	useEffect(() => {
+		const fetchData = async () => {
+			const data = await getEmpData();
+			setEmpInfo(
+				data.map((emp: any) => {
+					return {
+						empId: emp.id,
+						name: emp.firstName + " " + emp.lastName,
+						position: emp.position,
+						hireDate: emp.hireDate,
+						email: emp.email,
+						phone: emp.phone,
+						status: emp.status,
+						role: emp.role,
+					};
+				})
+			);
+		};
+		fetchData();
+	}, []);
+	// const data = await getEmpData();
+	const boxesData = {
+		boxes: {
+			allEmp: empInfo.length,
+			empSupervisor: empInfo.filter(
+				(emp: any) => emp.role === "Supervisor"
+			).length,
+			empHR: empInfo.filter((emp: any) => emp.role === "HR").length,
+			empEmployee: empInfo.filter((emp: any) => emp.role === "Employee")
+				.length,
+			allposition: 5,
+		},
+		positions: {
+			designer: empInfo.filter((emp: any) => emp.position === "UX/UI")
+				.length,
+			tester: empInfo.filter((emp: any) => emp.position === "Tester")
+				.length,
+			frontend: empInfo.filter((emp: any) => emp.position === "Frontend")
+				.length,
+			backend: empInfo.filter((emp: any) => emp.position === "Backend")
+				.length,
+			pm: empInfo.filter((emp: any) => emp.position === "Project Manager")
+				.length,
+		},
+	};
+	console.log(boxesData);
 	return (
 		<div className="p-10 mt-5 space-y-5 h-screen">
 			<div className="mb-10">
@@ -145,7 +220,8 @@ const page = async () => {
 					}}
 				/>
 			</div>
-			<DashboardBoxes boxdata={EmpInfoData} />
+			{/* <h1 className="bg-red-900">{JSON.stringify(empInfo)}</h1> */}
+			<DashboardBoxes boxdata={boxesData} />
 			{/* <div>
 				<MultiSelect title={"TEST"} options={roleOption} />
 			</div> */}
@@ -165,7 +241,7 @@ const page = async () => {
 			<div className="mb-10">
 				<DataTable
 					columns={columns}
-					data={EmpInfoData.allEmp}
+					data={empInfo}
 					// size={per_page as string}
 				/>
 			</div>
@@ -174,4 +250,4 @@ const page = async () => {
 	);
 };
 
-export default page;
+export default Page;
