@@ -75,6 +75,10 @@ function DataTableProject<TData, TValue>({
       columnFilters,
     },
   });
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  console.log(user);
   return (
     <>
       <div className="flex flex-1 items-center space-x-2 mb-5 ">
@@ -100,7 +104,9 @@ function DataTableProject<TData, TValue>({
           )}
         </div>
 
-        <DialogProject emp={emp} />
+            {
+              user.role == "Manager" || user.role == "Supervisor" ? <DialogProject emp={emp} /> : ""
+            }
       </div>
       <div className="rounded-md border ">
         <Table>
