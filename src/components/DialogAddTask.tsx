@@ -126,7 +126,11 @@ export default function DialogAddTask({ state, projId }: Props) {
               <BsPeopleFill size={30} />
               <Label htmlFor="title">assignee</Label>
             </span>
-            <ComboBoxAssignee assignee={assignee} addAssignee={addAssignee} />
+            <ComboBoxAssignee
+              projId={projId}
+              assignee={assignee}
+              addAssignee={addAssignee}
+            />
           </div>
           <div className=" flex justify-between items-center mb-6">
             <span className="flex gap-1 items-center">

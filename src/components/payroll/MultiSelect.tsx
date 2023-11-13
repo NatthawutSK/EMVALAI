@@ -25,6 +25,7 @@ type Props = {
 		value: string;
 		icon?: React.ComponentType<{ className?: string }>;
 	}[];
+	setVal: (val: string[]) => void;
 };
 
 const MultiSelect = (props: Props) => {
@@ -104,6 +105,7 @@ const MultiSelect = (props: Props) => {
 													? filterValues
 													: []
 											);
+											props.setVal(filterValues)
 										}}
 									>
 										<div

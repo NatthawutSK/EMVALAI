@@ -17,7 +17,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useState } from "react";
+import { set } from "date-fns";
+import { type } from "os";
 
+type User = {
+  value: string;
+};
 // get from member in project service
 // {
 //   userId;
@@ -44,10 +50,49 @@ const users = [
 type Props = {
   assignee: string;
   addAssignee: (value: string) => void;
+  projId: string;
 };
 
-export function ComboBoxAssignee({ assignee, addAssignee }: Props) {
+export function ComboBoxAssignee({ assignee, addAssignee, projId }: Props) {
   const [open, setOpen] = React.useState(false);
+  const [member, setMember] = useState<User[]>([]);
+
+  const fetchMember = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(
+        `http://localhost:8055/getAll/member/${projId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `${accessToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      const newMembers = data.map((item: any) => ({
+        value: item.firstName + " " + item.last_name,
+      }));
+      console.log(newMembers);
+      setMember(newMembers);
+
+      // setMember((prev: { value: string }[]) => [...prev, ...newMembers]);
+      console.log(JSON.stringify(data));
+      // dispatch(setTask(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchMember();
+  }, []);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -59,7 +104,7 @@ export function ComboBoxAssignee({ assignee, addAssignee }: Props) {
           className="w-[300px] justify-between"
         >
           {assignee
-            ? users.find((user) => user.value === assignee)?.value
+            ? member.find((user) => user.value === assignee)?.value
             : "Select user..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -69,7 +114,7 @@ export function ComboBoxAssignee({ assignee, addAssignee }: Props) {
           <CommandInput placeholder="Search user..." />
           <CommandEmpty>No user found.</CommandEmpty>
           <CommandGroup>
-            {users.map((user) => (
+            {member.map((user) => (
               <CommandItem
                 key={user.value}
                 value={user.value}

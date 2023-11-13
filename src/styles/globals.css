@@ -71,13 +71,13 @@
 }
 
 input {
-  @apply px-2;
+  @apply px-1;
 }
   .fc-header-toolbar {
     display: inline-block;
     padding: 4px 4px;
     
-    @apply space-x-8;
+    @apply space-x-12;
 }
 
 .fc-day {
@@ -89,30 +89,30 @@ input {
 }
 
 .fc-view {
-  @apply w-full h-full lg:h-3/4 xl:h-2/3 bg-white;
+  @apply w-full h-full lg:h-3/4 xl:h-2/3 bg-white border-r-2 border-b-2;
 }
 
 .fc-h-event {
-  @apply bg-violet-500 border border-violet-600 ;
+  @apply bg-yellow-700 border border-yellow-600 ;
   
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-  @apply bg-violet-100 ;
+  @apply bg-blue-100 ;
 }
 
 .fc .fc-button{
-  @apply bg-violet-800 hover:bg-violet-900  ;
+  @apply bg-blue-800 hover:bg-blue-900  ;
 }
 
 .fc .fc-button-primary:not(:disabled).fc-button-active {
-  @apply bg-violet-600;
+  @apply bg-blue-700;
 }
 
 .fc .fc-button-primary:disabled {
-  @apply bg-violet-600;
+  @apply bg-blue-700;
 }
 .fc-v-event {
-  @apply bg-violet-500 border border-violet-600 ;
+  @apply bg-yellow-700 border border-yellow-600 ;
   
 }

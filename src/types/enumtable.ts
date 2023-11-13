@@ -20,15 +20,15 @@ export const roleOption = [
 
 export const posOption = [
     {
-        value: "UI/UX Designer",
+        value: "UI/UX",
         label: "UI/UX Designer",
     },
     {
-        value: "Frontend Dev",
+        value: "Frontend",
         label: "Frontend Dev",
     },
     {
-        value: "Backend Dev",
+        value: "Backend",
         label: "Backend Dev",
     },
     {
@@ -48,6 +48,8 @@ export const stageOption = [
         label: 'Done'
     }
 ]
+
+
 
 
 

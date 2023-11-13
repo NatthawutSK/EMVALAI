@@ -1,82 +1,57 @@
 "use client";
-import React from 'react'
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import React, {useState, useEffect} from "react";
+import DataTableProject from "@/components/project-management/DataTableProject";
+import { columns } from "@/components/project-management/columnsProManageTable"
+type Props = {};
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { LucideListFilter } from 'lucide-react';
-import { AiFillPlusCircle } from "react-icons/ai";
-import DataTable from '@/components/tanstack-table/data_table';
-import { columns } from '@/components/tanstack-table/columnsProManageTable';
-
-
-type Props = {}
-const data = [
-  {
-    project_id: 1,
-    project_name: "SOP ",
-    emp_name: "captain",
-    project_status: "Doing",
-    project_date_start: '8 / 20 / 2024',
-    project_date_end: '12 / 20 / 2043'
-  },
-  {
-    project_id: 2,
-    project_name: "SOP U",
-    emp_name: "captain",
-    project_status: "Done",
-    project_date_start: '8 / 20 / 2024',
-    project_date_end: '12 / 20 / 2043'
-  },
-  {
-    project_id: 3,
-    project_name: "SOP M",
-    emp_name: "captain",
-    project_status: "Doing",
-    project_date_start: '8 / 20 / 2024',
-    project_date_end: '12 / 20 / 2043'
-  },
-  {
-    project_id: 4,
-    project_name: "SOP K",
-    emp_name: "captain",
-    project_status: "Done",
-    project_date_start: '8 / 20 / 2024',
-    project_date_end: '12 / 20 / 2043',
-  },
-]
 export default function Page({ }: Props) {
+  const [data, setData] = useState([]);
+  const [emp, setEmp] = useState([])
+  const accessToken = localStorage.getItem("accessToken");
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:8055/projects",{
+        method: "GET",
+        headers: {
+          'Authorization': `${accessToken}`
+        },
+      }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const responseData = await response.json();
+      setData(responseData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    try {
+
+      const emp = await fetch("http://localhost:8082/user-service/user/getAllUser",{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${accessToken}`
+        },
+      })
+      if (!emp.ok) {
+        throw new Error(`HTTP error! Status: ${emp.status}`);
+      }
+
+      const responseEmp = await emp.json();
+      setEmp(responseEmp);
+    } catch (error) {
+      console.error("Error fetching Employee:", error);
+    }
+  };
+  console.log(emp);
   return (
-
     <div className=" h-screen relative gap-5 p-10">
-      <Button className='bg-teal-500 text-white right-0 ml-auto'>
-        <AiFillPlusCircle className='mr-3' />
-        Create Project
-      </Button>
-
-      <DataTable
-        columns={columns}
-        data={data}
-      />
+      <div className="text-4xl font-bold p-5 ml-5">Project Management</div>
+      <DataTableProject columns={columns} data={data} emp={emp}/>
     </div>
-
-
   );
 }
