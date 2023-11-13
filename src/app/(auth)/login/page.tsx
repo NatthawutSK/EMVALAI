@@ -38,12 +38,14 @@ const Login = ({}: Props) => {
   });
   const { toast: showToast } = useToast();
   const router = useRouter();
+  const accessToken = localStorage.getItem("accessToken");
   const onSubmit = async (dataForm: Input) => {
     try {
       const response = await fetch("http://localhost:8082/auth-service/auth", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({
           email: dataForm.email,

@@ -26,14 +26,17 @@ import {
     Popover,
     PopoverContent,
     PopoverTrigger,
-  } from "@/components/ui/popover";
-  import { Calendar } from "@/components/ui/calendar";
-  import { Calendar as CalendarIcon } from "lucide-react";
-  import { format } from "date-fns"
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format } from "date-fns"
 import { ComboboxProject } from "./comboboxProject";
-type Props = {};
-export const DialogProject: React.FC<Props> = (props) => {
-    const [dateStart, setDateStart] = React.useState<Date>();
+type Props = {
+    emp: any[]
+};
+
+
+export const DialogProject: React.FC<Props> = ({ emp }) => {
     const [dateEnd, setDateEnd] = React.useState<Date>();
     const [selectedTeam, setSelectedTeam] = React.useState<string[]>([]);
     return (
@@ -63,33 +66,8 @@ export const DialogProject: React.FC<Props> = (props) => {
                                 placeholder="Your Project"
                             />
                         </div>
-                        <div className="grid grid-cols-4 items-center gap-4 ">
-                            <Label className="text-right" htmlFor="dateEnd">Start Project</Label>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant={"outline"}
-                                        className={cn(
-                                            "w-[280px] justify-start text-left font-normal",
-                                            !dateStart && "text-muted-foreground"
-                                        )}
-                                    >
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {dateStart ? format(dateStart, "PPP") : <span>Date Start</span>}
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
-                                    <Calendar
-                                        mode="single"
-                                        selected={dateStart}
-                                        onSelect={setDateStart}
-                                        initialFocus
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                        </div>
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label className="text-right" htmlFor="dateEnd">End Project</Label>
+                            <Label className="text-right" htmlFor="dateEnd">Due date</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -100,7 +78,7 @@ export const DialogProject: React.FC<Props> = (props) => {
                                         )}
                                     >
                                         <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {dateEnd ? format(dateEnd, "PPP") : <span>Date End</span>}
+                                        {dateEnd ? format(dateEnd, "PPP") : <span>Due date</span>}
                                     </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
@@ -122,7 +100,13 @@ export const DialogProject: React.FC<Props> = (props) => {
                                     <SelectValue placeholder="Selected Supervisor" />
                                 </SelectTrigger>
                                 <SelectContent position="popper">
-                                    <SelectItem value="sick">Sick</SelectItem>
+                                    {emp
+                                        .filter((employee) => employee.role === "supervisor")
+                                        .map((supervisor) => (
+                                            <SelectItem key={supervisor._id} value={supervisor._id}>
+                                                {supervisor.fname + " " + supervisor.lname}
+                                            </SelectItem>
+                                        ))}
                                 </SelectContent>
                             </Select>
                         </div>
@@ -130,7 +114,7 @@ export const DialogProject: React.FC<Props> = (props) => {
                             <Label htmlFor="name" className="text-right">
                                 Project Team
                             </Label>
-                            <ComboboxProject/>
+                            <ComboboxProject />
                         </div>
                     </div>
                     <DialogFooter>
@@ -138,6 +122,6 @@ export const DialogProject: React.FC<Props> = (props) => {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-            </div>
+        </div>
     )
 }
