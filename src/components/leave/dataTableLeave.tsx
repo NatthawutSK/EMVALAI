@@ -116,7 +116,7 @@ function DataTableLeave<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-                      onClick={() => router.push("/table/" + row.id)}  // ลิงค์นะ
+                      // onClick={() => router.push("/table/" + row.id)}  // ลิงค์นะ
                       key={cell.id}
                     >
                       {flexRender(

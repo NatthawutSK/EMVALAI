@@ -133,7 +133,7 @@ function DataTableProject<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-                      onClick={() => router.push("/table/" + row.id)}
+                      // onClick={() => router.push("/table/" + row.id)}
                       key={cell.id}
                     >
                       {flexRender(
