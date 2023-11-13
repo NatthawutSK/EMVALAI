@@ -11,7 +11,7 @@ import {
   MdOutlineLogout,
 } from "react-icons/md";
 import { CgCalendar, CgProfile } from "react-icons/cg";
-import { AiOutlineTeam } from "react-icons/ai";
+import { AiOutlineTeam, AiFillContainer, AiFillFileText } from "react-icons/ai";
 import { MdOutlinePayment } from "react-icons/md";
 import { FaRegComments } from "react-icons/fa";
 import { BiMessageSquareDots, BiHomeAlt } from "react-icons/bi";
@@ -22,11 +22,6 @@ import Link from "next/link";
 function SideNavbar() {
   const pathname = usePathname();
   const sidebarItems = [
-    // {
-    //   name: "Dashboard",
-    //   href: "/dashboard",
-    //   icon: BiHomeAlt,
-    // },
     {
       name: "Calendar",
       href: "/calendar",
@@ -42,17 +37,54 @@ function SideNavbar() {
       href: "/employees-dashboard",
       icon: MdOutlineSpaceDashboard,
     },
-    {
-      name: "Payroll Dashboard",
-      href: "/payroll-dashboard",
-      icon: MdOutlinePayment,
-    },
+    // {
+    //   name: "Payroll Dashboard",
+    //   href: "/payroll-dashboard",
+    //   icon: MdOutlinePayment,
+    // },
     {
       name: "Projects",
       href: "/project-management",
+      icon: AiFillContainer,
+    },
+    {
+      name: "Create Meeting",
+      href: "/meeting",
       icon: AiOutlineTeam,
     },
+    // {
+    //   name: "Leave Request",
+    //   href: "/leave/request",
+    //   icon: AiFillFileText,
+    // },
   ];
+
+ 
+
+
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  console.log(user);
+
+
+// Filter sidebar items based on user role
+const filteredSidebarItems = sidebarItems.filter(item => {
+  // Add logic to check if the user's role is allowed to see the item
+  if (user.role === "Employee") {
+    return item.name === "Profile" || item.name === "Calendar" || item.name === "Projects" ;
+  }
+  if (user.role === "Supervisor") {
+    return item.name === "Profile" || item.name === "Calendar" || item.name === "Projects" || item.name === "CreateProject";
+  }
+
+  if (user.role === "HR") {
+    return item.name === "Profile" || item.name === "Calendar" || item.name === "Employees Dashboard" ;
+  }
+
+  return true; 
+});
+
+
   return (
     // <div>
     // <Disclosure as="nav">
@@ -70,7 +102,7 @@ function SideNavbar() {
             Virtual Dashboard
           </h1>
         </Link>
-        {sidebarItems.map(({ name, href, icon: Icon }, index) => (
+        {filteredSidebarItems.map(({ name, href, icon: Icon }, index) => (
           <Link key={index} href={href}>
             <div
               className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-xl group cursor-pointer hover:shadow-lg m-auto ${

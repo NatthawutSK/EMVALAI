@@ -526,4 +526,4 @@ const Calendar = () => {
   );
 };
 
-export default WithAuth(Calendar);
+export default Calendar;

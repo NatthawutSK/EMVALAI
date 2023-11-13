@@ -246,4 +246,4 @@ const Page = () => {
   );
 };
 
-export default WithAuth(Page);
+export default Page;
