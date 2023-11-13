@@ -124,8 +124,12 @@ export default function TopBar() {
             <Menu.Button className="inline-flex w-full justify-center items-center">
               <picture>
                 <img
-                  src="https://avatars.githubusercontent.com/u/55942632?v=4"
-                  className="rounded-full h-8 md:mr-4 border-2 border-white shadow-sm"
+                  src={
+                    !user1.image
+                      ? "https://avatars.githubusercontent.com/u/55942632?v=4"
+                      : user1.image
+                  }
+                  className="h-8 w-8 rounded-full mr-3"
                   alt="profile picture"
                 />
               </picture>

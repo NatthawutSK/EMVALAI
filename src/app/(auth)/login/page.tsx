@@ -71,7 +71,7 @@ const Login = ({}: Props) => {
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
         localStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/project-management");
+        router.push("/profile");
       }
     } catch (error) {
       console.error(error);

@@ -104,9 +104,11 @@ function DataTableProject<TData, TValue>({
           )}
         </div>
 
-            {
-              user.role == "Manager" || user.role == "Supervisor" ? <DialogProject emp={emp} /> : ""
-            }
+        {user.role == "Manager" || user.role == "Supervisor" ? (
+          <DialogProject emp={emp} />
+        ) : (
+          ""
+        )}
       </div>
       <div className="rounded-md border ">
         <Table>
@@ -137,6 +139,7 @@ function DataTableProject<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
+                      className="cursor-pointer"
                       onClick={() => {
                         router.push("/task/" + row.original.project_id);
                         // console.log(row.original.project_id, cell);

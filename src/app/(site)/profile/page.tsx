@@ -115,7 +115,19 @@ const Profile = ({ data }: ShowDataProps) => {
         description: "Upload Image Failed",
         variant: "destructive",
       });
+    } else {
+      showToast({
+        title: "Success",
+        description: "Upload Image Success",
+        variant: "success",
+      });
+      const newImage = {
+        ...user,
+        image: link,
+      };
+      localStorage.setItem("user", JSON.stringify(newImage));
     }
+
     console.log(data);
   };
 
@@ -137,6 +149,17 @@ const Profile = ({ data }: ShowDataProps) => {
         dob: date_of_birth,
       }),
     });
+
+    const newUser = {
+      ...user,
+      fname: first_name,
+      lname: last_name,
+      email: email,
+      phone: phone,
+      dob: date_of_birth,
+    };
+    localStorage.setItem("user", JSON.stringify(newUser));
+    toggleInputState();
     const data = await response.json();
     console.log(data);
   };
@@ -234,10 +257,12 @@ const Profile = ({ data }: ShowDataProps) => {
               />
               {/* <p>{link}</p> */}
               <div className="text-center	mt-3">
-                <div className="text-2xl font-semibold	">Hello World</div>
-                <div className="text-gray-400 mt-1">Developer</div>
+                <div className="text-2xl font-semibold	">
+                  {first_name} {last_name}
+                </div>
+                <div className="text-gray-400 mt-1">{user.position}</div>
                 <div className="mt-5">
-                  <span className="font-medium">Role:</span> Employee
+                  <span className="font-medium">Role:</span> {user.role}
                 </div>
               </div>
             </div>
@@ -298,12 +323,24 @@ const Profile = ({ data }: ShowDataProps) => {
               </div>
             </div>
             <div className="mt-10">
-              <Button className="bg-[#64cbc5]" onClick={toggleInputState}>
-                {buttonText}
-              </Button>
-              <Button className="bg-[#64cbc5] ml-5" onClick={updateProfile}>
-                Save
-              </Button>
+              {isInputDisabled && (
+                <Button className="bg-[#64cbc5]" onClick={toggleInputState}>
+                  {buttonText}
+                </Button>
+              )}
+              {!isInputDisabled && (
+                <>
+                  <Button className="bg-[#64cbc5] ml-5" onClick={updateProfile}>
+                    Save
+                  </Button>
+                  <Button
+                    className="bg-red-600 ml-5"
+                    onClick={toggleInputState}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>

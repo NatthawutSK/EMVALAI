@@ -6,6 +6,7 @@ type TaskState = {
   tasks: TypeTask[];
   draggedTask: null | string;
   disableTask: boolean;
+  projectName: string;
   // openEdit: boolean;
   // date: {
   //   from: Date;
@@ -22,6 +23,7 @@ const initialValues: TaskState = {
   tasks: [],
   draggedTask: null,
   disableTask: false,
+  projectName: "",
   // openEdit: false,
 };
 
@@ -75,6 +77,9 @@ const TaskSlice = createSlice({
     enableDisableTask: (state: TaskState) => {
       state.disableTask = !state.disableTask;
     },
+    setProjectName: (state: TaskState, action: PayloadAction<string>) => {
+      state.projectName = action.payload;
+    },
   },
 });
 
@@ -86,6 +91,7 @@ export const {
   editTask,
   enableDisableTask,
   setTask,
+  setProjectName,
 } = TaskSlice.actions;
 export const TaskSelector = (store: RootState) => store.TaskReducer;
 export default TaskSlice.reducer;

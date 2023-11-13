@@ -94,7 +94,7 @@ const Task = ({ params }: Props) => {
   return (
     <div className="justify-center min-h-screen">
       <h1 className="text-4xl font-bold p-5  ml-5">
-        Project Name {params.id}
+        {taskReducer.projectName}
         {/* {JSON.stringify(taskReducer.tasks)} */}
       </h1>
       <div className="flex justify-end mr-12 p-3">

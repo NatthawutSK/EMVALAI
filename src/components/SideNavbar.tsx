@@ -59,31 +59,39 @@ function SideNavbar() {
     // },
   ];
 
- 
-
-
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   console.log(user);
 
+  // Filter sidebar items based on user role
+  const filteredSidebarItems = sidebarItems.filter((item) => {
+    // Add logic to check if the user's role is allowed to see the item
+    if (user.role === "Employee") {
+      return (
+        item.name === "Profile" ||
+        item.name === "Calendar" ||
+        item.name === "Projects"
+      );
+    }
+    if (user.role === "Supervisor") {
+      return (
+        item.name === "Profile" ||
+        item.name === "Calendar" ||
+        item.name === "Projects" ||
+        item.name === "CreateProject"
+      );
+    }
 
-// Filter sidebar items based on user role
-const filteredSidebarItems = sidebarItems.filter(item => {
-  // Add logic to check if the user's role is allowed to see the item
-  if (user.role === "Employee") {
-    return item.name === "Profile" || item.name === "Calendar" || item.name === "Projects" ;
-  }
-  if (user.role === "Supervisor") {
-    return item.name === "Profile" || item.name === "Calendar" || item.name === "Projects" || item.name === "CreateProject";
-  }
+    if (user.role === "HR") {
+      return (
+        item.name === "Profile" ||
+        item.name === "Calendar" ||
+        item.name === "Employees Dashboard"
+      );
+    }
 
-  if (user.role === "HR") {
-    return item.name === "Profile" || item.name === "Calendar" || item.name === "Employees Dashboard" ;
-  }
-
-  return true; 
-});
-
+    return true;
+  });
 
   return (
     // <div>
@@ -97,11 +105,11 @@ const filteredSidebarItems = sidebarItems.filter(item => {
     // <div className="flex">
     <div className="relative p-0 w-1/2 h-screen z-20 top-0 -left-80 lg:left-0 lg:w-60  peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
       <div className="w-64 h-screen bg-gray-300 transition-all  overflow-hidden p-4 flex flex-col justify-start item-center">
-        <Link href="/">
+        <div>
           <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 p-8 w-full">
             EMVALAI
           </h1>
-        </Link>
+        </div>
         {filteredSidebarItems.map(({ name, href, icon: Icon }, index) => (
           <Link key={index} href={href}>
             <div
