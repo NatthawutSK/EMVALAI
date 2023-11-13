@@ -66,12 +66,119 @@ type Props = {};
   const [percent, setPercent] = useState<number>();
   const [employee, setEmployee] = useState<string | null>(null);
 
-  const handleApplyBtn = () => {
-    console.log("Apply");
-  };
-
   const handleEmpSelected = (value: string | null) => {
     setEmployee(value);
+  };
+
+  const getAddition = async () => {
+    // Perform localStorage action
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const res = await fetch("http://localhost:3001/addition_info", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await res.json();
+      setAddition(data.addition);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
+
+  const [additionInfo, setAddition] = React.useState<any>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAddition();
+
+        console.log(data);
+        if (!Array.isArray(data.addition)) {
+          throw new Error("Data is not an array");
+        }
+
+        const processedData = data.addition.map((add: any) => ({
+          title: add.addition_title,
+          amount: add.addition_amount,
+          percent: add.percent,
+          employee: add.addition_name,
+          amount_cost: add.addition_amount * (add.percent / 100),
+        }));
+
+        setAddition(processedData);
+        console.log("useEffect In Deduction-> ", processedData);
+      } catch (error) {
+        console.error("Error fetching position:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const insertAddition = async (
+    title: any,
+    name: any,
+    amount: any,
+    percent: any,
+  ) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    try {
+      const res = await fetch("http://localhost:3001/insert_addition", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          title: title,
+          name: name,
+          amount: amount,
+          percent: percent,
+        }),
+      });
+
+      window.location.reload();
+
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
+
+  const handleApplyBtn = async (
+    title: any,
+    name: any,
+    amount: any,
+    percent: any,
+  ) => {
+    console.log("ON CLICK BTN -", title, amount, percent);
+    try {
+      const insertData = await insertAddition(
+        title,
+        name,
+        amount,
+        percent,
+      );
+      console.log("Inserted data:", insertData);
+    } catch (error) {
+      console.error("Error updating salary base:", error);
+    }
   };
 
   return (
@@ -127,22 +234,25 @@ type Props = {};
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Employee</SelectLabel>
-                  <SelectItem value="12">12 Pre Au</SelectItem>
-                  <SelectItem value="13">13 Pre Au</SelectItem>
-                  <SelectItem value="14">14 Pre Au</SelectItem>
+                  <SelectItem value="1 Fname Lname">1 Fname Lname</SelectItem>
+                  <SelectItem value="2 Fname Lname">2 Fname Lname</SelectItem>
+                  <SelectItem value="3 Fname Lname">3 Fname Lname</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
 
           <div className="flex justify-end items-end p-5">
-            <Button className="bg-[#56BCD8] " onClick={handleApplyBtn}>
+            <Button
+              className="bg-[#56BCD8] "
+              onClick={() => handleApplyBtn(title, employee, amount, percent)}
+            >
               Apply
             </Button>
           </div>
         </div>
 
-        <div className="w-[65%] border-2 border-gray-500 p-2 ml-5">
+        <div className="w-[65%] border-2 border-gray-500 p-2 ml-5 rounded-md">
           <div>
             <Table className="font-sm">
               <TableHeader>
@@ -157,8 +267,8 @@ type Props = {};
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data ? (
-                  data.map((row, index) => (
+                {additionInfo ? (
+                  additionInfo.map((row: any, index: any) => (
                     <TableRow key={index}>
                       <TableCell className="font-bold w-[200px]">
                         {row.title}
@@ -184,19 +294,6 @@ type Props = {};
                 )}
               </TableBody>
             </Table>
-            {/* <TableBody>
-                <TableRow>
-                  <TableCell className="font-bold w-[200px]">
-                    Bonus For Au
-                  </TableCell>
-                  <TableCell className="text-right">150000 ฿</TableCell>
-                  <TableCell className="text-right">1</TableCell>
-                  <TableCell className="text-center w-[200px]">
-                    12 Pre AU
-                  </TableCell>
-                  <TableCell className="text-right">2000 ฿</TableCell>
-                </TableRow>
-              </TableBody> */}
           </div>
         </div>
       </div>

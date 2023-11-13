@@ -75,10 +75,107 @@ export default function Deduction({ data = mockData }: DeductionProps) {
   const [min, setMin] = useState<number>();
   const [max, setMax] = useState<number>();
 
-  const handleApplyBtn = () => {
-    console.log("Apply")
+  const getDeduction = async () => {
+    // Perform localStorage action
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const res = await fetch("http://localhost:3001/deduction_info", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await res.json();
+      setDeduction(data.deduction);
+      return data;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   };
 
+  const [deductionInfo, setDeduction] = React.useState<any>([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const data = await getDeduction();
+        
+          console.log(data);
+          if (!Array.isArray(data.deduction)) {
+            throw new Error("Data is not an array");
+          }
+      
+          const processedData = data.deduction.map((duc: any) => ({
+            title: duc.deduction_title,
+            amount: duc.deduction_amount,
+            percent: duc.percent,
+            salary_min: duc.salary_min,
+            salary_max: duc.salary_max,
+            employee: 1,
+            amount_cost: duc.deduction_amount * (duc.percent / 100),
+          }));
+      
+          setDeduction(processedData);
+          console.log("useEffect In Deduction-> ", processedData);
+        } catch (error) {
+          console.error("Error fetching position:", error);
+        }
+      };
+  
+      fetchData();
+      
+    }, []);
+
+
+      const insertDeduction = async (title:any, amount:any, percent:any, min:any, max:any) => {
+        const accessToken = localStorage.getItem("accessToken");
+
+        try {
+          const res = await fetch("http://localhost:3001/insert_deduction", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              title: title,
+              amount: amount,
+              percent: percent,
+              min: min,
+              max: max,
+            }),
+          });
+
+          window.location.reload();
+
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+
+          const data = await res.json();
+          return data;
+        } catch (error) {
+          console.error(error);
+          return error;
+        }
+      };
+
+      const handleApplyBtn = async (title:any, amount:any, percent:any, min:any, max:any) => {
+        console.log("ON CLICK BTN -", title, amount, percent, min, max);
+        try {
+          const updatedData = await insertDeduction(title, amount, percent, min, max);
+          console.log("Inserted data:", updatedData);
+        } catch (error) {
+          console.error("Error updating salary base:", error);
+        }
+      };
+      
   return (
     <div className="py-10 pl-2 pr-4">
       <div className="flex">
@@ -146,7 +243,7 @@ export default function Deduction({ data = mockData }: DeductionProps) {
           </div>
 
           <div className="flex justify-end items-end p-5">
-            <Button className="bg-[#9163D1] " onClick={handleApplyBtn}>
+            <Button className="bg-[#9163D1] " onClick={ () =>handleApplyBtn(title, amount, percent, min, max)}>
               Apply
             </Button>
           </div>
@@ -167,8 +264,8 @@ export default function Deduction({ data = mockData }: DeductionProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data ? (
-                  data.map((row, index) => (
+                {deductionInfo ? (
+                  deductionInfo.map((row:any, index:any) => (
                     <TableRow key={index}>
                       <TableCell className="font-bold">{row.title}</TableCell>
                       <TableCell className="text-right">

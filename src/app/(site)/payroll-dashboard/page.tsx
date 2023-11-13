@@ -1,6 +1,7 @@
+"use client"
 import DashBoardPayrollBoxes from "@/components/payroll/DashBoardPayrollBoxes";
 import DataTable from "@/components/tanstack-table/data_table";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { columns } from "@/components/payroll/columnsPayroll";
 type Props = {};
 type PayrollTableInfoType = {
@@ -219,31 +220,143 @@ const PayrollInfo: PayrollInfoType = {
 };
 // Accessing information for each employee
 
-const page = (props: Props) => {
-	return (
-		<div className="h-screen mt-5 p-10">
-			<div className="mb-10">
-				<h1 className="text-4xl font-bold">Human Resources</h1>
-				<hr
-					style={{
-						background: "black",
-						color: "lime",
-						borderColor: "black",
-						height: "3px",
-						width: "350px",
-					}}
-				/>
-			</div>
-			<DashBoardPayrollBoxes
-				chartData={PayrollInfo.dataChart}
-				aggreateData={PayrollInfo.payroll_aggreate}
-			/>
-			<div className="mt-5">
-				<DataTable columns={columns} data={PayrollInfo.allEmp} />
-			</div>
-			<div className="h-5"></div>
-		</div>
-	);
+const getEmpData = async () => {
+  // Perform localStorage action
+  const accessToken = localStorage.getItem("accessToken");
+  try {
+    const res = await fetch(
+      "http://localhost:8082/user-service/user/getAllUser",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (!res.ok) {
+		throw new Error("Network response was not ok");
+    }
+	
+    const data = await res.json();
+	console.log("HERE IS EmpData ->> ", data);
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 };
 
-export default page;
+// const getPayroll = async () => {
+//   // Perform localStorage action
+//   const accessToken = localStorage.getItem("accessToken");
+
+//   try {
+//     const res = await fetch("http://localhost:3001/payroll_all", {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//     });
+//     if (!res.ok) {
+// 		throw new Error("Network response was not ok");
+//     }
+	
+//     const data = await res.json();
+// 	console.log("HERE IS PayrollData ->>", data);
+//     return data;
+//   } catch (error) {
+//     console.error(error);
+//     return error;
+//   }
+// };
+
+const getPosition = async () => {
+  // Perform localStorage action
+  const accessToken = localStorage.getItem("accessToken");
+
+  try {
+    const res = await fetch("http://localhost:3001/position_info", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!res.ok) {
+		throw new Error("Network response was not ok");
+    }
+	
+    const data = await res.json();
+	console.log("HERE IS POSITION ->>", data);
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+const Page = (props: Props) => {
+   const [empInfo, setEmpInfo] = React.useState<any>([]);
+
+//    const data_payroll = getPosition();
+   useEffect(() => {
+     const data = getEmpData();
+	 
+     data.then((res) => {
+       setEmpInfo(
+         res.map((emp: any) => {
+           return {
+             empId: emp.id,
+             name: emp.fname + " " + emp.lname,
+             position: emp.position,
+             hireDate: emp.hireDate,
+             email: emp.email,
+             phone: emp.phone,
+             status: emp.status,
+             role: emp.role,
+           };
+         })
+       );
+     });
+	}, []);
+
+	//  data_payroll.then((res) => {
+	//    setEmpInfo(
+	//      res.map((payRoll: any) => {
+	//        return {
+	//          salaryBase: payRoll
+	//        };
+	//      })
+	//    );
+	//  });
+
+	return (
+    <div className="h-screen mt-5 p-10">
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold">Human Resources</h1>
+        <hr
+          style={{
+            background: "black",
+            color: "lime",
+            borderColor: "black",
+            height: "3px",
+            width: "350px",
+          }}
+        />
+      </div>
+      <DashBoardPayrollBoxes
+        chartData={PayrollInfo.dataChart}
+        aggreateData={PayrollInfo.payroll_aggreate}
+        // empData={empInfo}
+      />
+      <div className="mt-5">
+        <DataTable columns={columns} data={PayrollInfo.allEmp} />
+      </div>
+      <div className="h-5"></div>
+    </div>
+  );
+};
+
+export default Page;
