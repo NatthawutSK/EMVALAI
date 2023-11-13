@@ -27,6 +27,7 @@ const PayrollChart = dynamic(() => import("./PayrollChart"), { ssr: false });
 const DashBoardPayrollBoxes = ({
 	chartData,
 	aggreateData,
+	// empData
 }: {
 	chartData: chartData[];
 	aggreateData: PayrollAggreateType;

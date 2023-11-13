@@ -80,18 +80,142 @@ const mockData: Payroll[] = [
 
 type Props = {};
 
+const getEmpData = async () => {
+  // Perform localStorage action
+  const accessToken = localStorage.getItem("accessToken");
+  try {
+    const res = await fetch(
+      "http://localhost:8082/user-service/user/getAllUser",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (!res.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await res.json();
+    console.log("HERE IS EmpData ->> ", data);
+    return data;
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
+};
+
+
+
 export default function SalaryBase({ data = mockData }: PayrollProps) {
   
   const [salaryBase, setSalaryBase] = useState<string>("");
   const [selectedPositionOption, setSelectedPositionOption] = useState<string | null>(null);
-
+  const [empInfo, setEmpInfo] = React.useState<any>();
+  
+  
   const handlePositionChange = (value: string | null) => {
     setSelectedPositionOption(value);
   };
 
-  const handleApplyBtn = () => {
-    console.log("Apply")
+  const getPosition = async () => {
+    // Perform localStorage action
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const res = await fetch("http://localhost:3001/position_info", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+  
+      const data = await res.json();
+      setPositionInfo(data.position)
+      return data;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   };
+
+  const [positionInfo, setPositionInfo] = React.useState<any>([]);
+
+  useEffect(() => {
+       const fetchData = async () => {
+         try {
+           const data = await getPosition();
+
+           console.log(data);
+           if (!Array.isArray(data.position)) {
+             throw new Error("Data is not an array");
+           }
+
+           const processedData = data.position.map((pos: any) => ({
+             position: pos.position_name,
+             salary_base: pos.position_salary,
+             employees: 1,
+             salary_cost: pos.position_salary,
+           }));
+
+           setPositionInfo(processedData);
+           console.log("useEffect In EmpInfo -> ", processedData);
+         } catch (error) {
+           console.error("Error fetching position:", error);
+         }
+       };
+
+       fetchData();
+
+  }, []);
+
+  const updateSalaryBase = async (position:any, newSalary:any) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    console.log("DEBUGGING: ", position, newSalary)
+    try {
+      const res = await fetch("http://localhost:3001/update_salarybase", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          position: position,
+          salary: newSalary,
+        }),
+      });
+
+      window.location.reload();
+      
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
+
+
+  const handleApplyBtn = async (position:any, newSalary:any) => {
+    console.log("ON CLICK BTN -", position, newSalary)
+    try {
+      const updatedData = await updateSalaryBase(position, newSalary);
+      console.log("Updated data:", updatedData);
+    } catch (error) {
+      console.error("Error updating salary base:", error);
+    }
+  };
+  
 
   return (
     <div className="p-10">
@@ -115,9 +239,10 @@ export default function SalaryBase({ data = mockData }: PayrollProps) {
                   <SelectItem value="Supervisor">Supervisor</SelectItem>
                   <SelectItem value="Front-End">Front-End</SelectItem>
                   <SelectItem value="Back-End">Back-End</SelectItem>
-                  <SelectItem value="UI Designer">UI Designer</SelectItem>
-                  <SelectItem value="UX Designer">UX Designer</SelectItem>
+                  <SelectItem value="UI Designer">UI-Designer</SelectItem>
+                  <SelectItem value="UX Designer">UX-Designer</SelectItem>
                   <SelectItem value="Tester">Tester</SelectItem>
+                  <SelectItem value="HR">HR</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -136,7 +261,10 @@ export default function SalaryBase({ data = mockData }: PayrollProps) {
           </div>
 
           <div className="flex justify-end items-end p-5">
-            <Button className="bg-[#C75656] " onClick={handleApplyBtn}>
+            <Button
+              className="bg-[#C75656] "
+              onClick={() => handleApplyBtn(selectedPositionOption, salaryBase)}
+            >
               Apply
             </Button>
           </div>
@@ -154,8 +282,8 @@ export default function SalaryBase({ data = mockData }: PayrollProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data ? (
-                  data.map((row, index) => (
+                {positionInfo ? (
+                  positionInfo.map((row: any, index: any) => (
                     <TableRow key={index}>
                       <TableCell className="font-bold">
                         {row.position}

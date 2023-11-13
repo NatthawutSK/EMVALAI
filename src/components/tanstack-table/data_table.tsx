@@ -184,6 +184,7 @@
 
 "use client";
 import React from "react";
+import Link from "next/link";
 import {
   ColumnDef,
   flexRender,
@@ -296,7 +297,11 @@ function DataTable<TData, TValue>({
         </div>
 
         <div className="flex">
-          {table.getColumn("salary_base") && <Button>SADDASD</Button>}
+          {table.getColumn("salary_base") && (
+            <Link href={"/payroll-management/salaryBase"}>
+              <Button className="bg-[#64CCC5]">จัดการเงินเดือน</Button>
+            </Link>
+          )}
         </div>
       </div>
       <div className="rounded-md border ">
