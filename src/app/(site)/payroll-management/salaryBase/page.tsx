@@ -121,7 +121,6 @@ export default function SalaryBase({ data = mockData }: PayrollProps) {
   };
 
   const getPosition = async () => {
-    // Perform localStorage action
     const accessToken = localStorage.getItem("accessToken");
     try {
       const res = await fetch("http://localhost:3001/position_info", {
@@ -176,8 +175,6 @@ export default function SalaryBase({ data = mockData }: PayrollProps) {
 
   const updateSalaryBase = async (position:any, newSalary:any) => {
     const accessToken = localStorage.getItem("accessToken");
-
-    console.log("DEBUGGING: ", position, newSalary)
     try {
       const res = await fetch("http://localhost:3001/update_salarybase", {
         method: "PUT",
@@ -276,9 +273,9 @@ export default function SalaryBase({ data = mockData }: PayrollProps) {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[100px]">POSITION</TableHead>
+                  {/* <TableHead className="text-right">SALARY COST</TableHead> */}
+                  {/* <TableHead className="text-right">EMPLOYEES</TableHead> */}
                   <TableHead className="text-right">SALARY BASE</TableHead>
-                  <TableHead className="text-right">EMPLOYEES</TableHead>
-                  <TableHead className="text-right">SALARY COST</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -291,12 +288,12 @@ export default function SalaryBase({ data = mockData }: PayrollProps) {
                       <TableCell className="text-right">
                         {row.salary_base} ฿
                       </TableCell>
-                      <TableCell className="text-right">
-                        {row.employees}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {row.salary_cost} ฿
-                      </TableCell>
+                        {/* <TableCell className="text-right">
+                          {row.employees}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {row.salary_cost} ฿
+                        </TableCell> */}
                     </TableRow>
                   ))
                 ) : (

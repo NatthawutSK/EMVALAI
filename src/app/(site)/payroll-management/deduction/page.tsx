@@ -76,7 +76,6 @@ export default function Deduction({ data = mockData }: DeductionProps) {
   const [max, setMax] = useState<number>();
 
   const getDeduction = async () => {
-    // Perform localStorage action
     const accessToken = localStorage.getItem("accessToken");
     try {
       const res = await fetch("http://localhost:3001/deduction_info", {
@@ -135,7 +134,6 @@ export default function Deduction({ data = mockData }: DeductionProps) {
 
       const insertDeduction = async (title:any, amount:any, percent:any, min:any, max:any) => {
         const accessToken = localStorage.getItem("accessToken");
-
         try {
           const res = await fetch("http://localhost:3001/insert_deduction", {
             method: "POST",
@@ -151,13 +149,10 @@ export default function Deduction({ data = mockData }: DeductionProps) {
               max: max,
             }),
           });
-
           window.location.reload();
-
           if (!res.ok) {
             throw new Error("Network response was not ok");
           }
-
           const data = await res.json();
           return data;
         } catch (error) {
@@ -259,7 +254,7 @@ export default function Deduction({ data = mockData }: DeductionProps) {
                   <TableHead className="text-right">AMOUNTS</TableHead>
                   <TableHead className="text-right">PERCENT</TableHead>
                   <TableHead className="text-right">RANGE</TableHead>
-                  <TableHead className="text-right">EMPLOYEE</TableHead>
+                  {/* <TableHead className="text-right">EMPLOYEE</TableHead> */}
                   <TableHead className="text-right">AMOUNT COST</TableHead>
                 </TableRow>
               </TableHeader>
@@ -283,9 +278,9 @@ export default function Deduction({ data = mockData }: DeductionProps) {
                           ? `From ${row.salary_min}`
                           : `${row.salary_min} - ${row.salary_max}`}
                       </TableCell>
-                      <TableCell className="text-right">
+                      {/* <TableCell className="text-right">
                         {row.employee}
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell className="text-right">
                         {row.amount_cost} ฿
                       </TableCell>

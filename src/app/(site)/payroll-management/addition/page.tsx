@@ -71,7 +71,6 @@ type Props = {};
   };
 
   const getAddition = async () => {
-    // Perform localStorage action
     const accessToken = localStorage.getItem("accessToken");
     try {
       const res = await fetch("http://localhost:3001/addition_info", {
@@ -124,14 +123,8 @@ type Props = {};
     fetchData();
   }, []);
 
-  const insertAddition = async (
-    title: any,
-    name: any,
-    amount: any,
-    percent: any,
-  ) => {
+  const insertAddition = async (title: any,name: any,amount: any,percent: any,) => {
     const accessToken = localStorage.getItem("accessToken");
-
     try {
       const res = await fetch("http://localhost:3001/insert_addition", {
         method: "POST",
@@ -146,9 +139,7 @@ type Props = {};
           percent: percent,
         }),
       });
-
       window.location.reload();
-
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
