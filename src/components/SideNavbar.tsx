@@ -11,8 +11,10 @@ import {
   MdOutlineLogout,
 } from "react-icons/md";
 import { CgCalendar, CgProfile } from "react-icons/cg";
+import { AiOutlineTeam } from "react-icons/ai";
+import { MdOutlinePayment } from "react-icons/md";
 import { FaRegComments } from "react-icons/fa";
-import { BiMessageSquareDots } from "react-icons/bi";
+import { BiMessageSquareDots, BiHomeAlt } from "react-icons/bi";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 // import WithAuth from "./WithAuth";
@@ -23,7 +25,7 @@ function SideNavbar() {
     {
       name: "Dashboard",
       href: "/dashboard",
-      icon: MdOutlineSpaceDashboard,
+      icon: BiHomeAlt,
     },
     {
       name: "Calendar",
@@ -38,17 +40,17 @@ function SideNavbar() {
     {
       name: "Employees Dashboard",
       href: "/employees-dashboard",
-      icon: CgProfile,
+      icon: MdOutlineSpaceDashboard,
     },
     {
       name: "Payroll Dashboard",
       href: "/payroll-dashboard",
-      icon: CgProfile,
+      icon: MdOutlinePayment,
     },
     {
       name: "Projects",
       href: "/project-management",
-      icon: CgProfile,
+      icon: AiOutlineTeam,
     },
   ];
   return (

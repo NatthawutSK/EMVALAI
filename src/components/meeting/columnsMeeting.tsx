@@ -8,7 +8,9 @@ type Meeting = {
     meet_title: string,
     meet_description: string,
     meet_date: string,
+
     meet_time: string,
+
     created_by: string
 }
 
@@ -36,8 +38,10 @@ export const columns: ColumnDef<Meeting>[] = [
         
     },
     {
+
         accessorKey:"meet_time",
         header: "TIME"
+
         
     },
     {
