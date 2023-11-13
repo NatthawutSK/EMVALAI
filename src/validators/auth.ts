@@ -20,8 +20,8 @@ export const registerSchema = z
         message: "Phone number should be a number",
       }),
     gender: z.string().min(1, { message: "Gender is required" }).max(10),
-    role: z.string().min(1, { message: "Role is required" }).max(10),
-    position: z.string().min(1, { message: "Position is required" }).max(10),
+    role: z.string().min(1, { message: "Role is required" }).max(15),
+    position: z.string().min(1, { message: "Position is required" }).max(15),
     dob: z.string().min(1, { message: "Date of birth is required" }),
     password: z
       .string()

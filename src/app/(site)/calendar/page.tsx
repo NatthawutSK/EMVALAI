@@ -13,6 +13,7 @@ import { EventSourceInput } from "@fullcalendar/core/index.js";
 import { type } from "os";
 import React from "react";
 import { isNull } from "util";
+import WithAuth from "@/components/WithAuth";
 
 interface Event {
   title: string;
@@ -60,7 +61,7 @@ interface CalendarEvent {
   eventType: string;
 }
 
-export default function Home() {
+const Calendar = () => {
   const [events, setEvents] = useState([
     { title: "Important", id: 1 },
     { title: "Chill Day's", id: 2 },
@@ -126,64 +127,59 @@ export default function Home() {
   }, []);
 
   const getCalenData = async () => {
-    
     // Perform localStorage action
     const accessToken = localStorage.getItem("accessToken");
 
     try {
-        const res = await fetch(
-            "http://localhost:8082/calendar-service/calendar",
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}    `,
-                },
-            }
-        );
-        console.log(res);
-        if (!res.ok) {
-            throw new Error("Network response was not ok");
+      const res = await fetch(
+        "http://localhost:8082/calendar-service/calendar",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}    `,
+          },
         }
+      );
+      console.log(res);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-        const data = await res.json();
-        return data;
+      const data = await res.json();
+      return data;
     } catch (error) {
-        console.error(error);
-        return error;
+      console.error(error);
+      return error;
     }
-};
+  };
 
-const [calendInfo, setCalendInfo] = useState<Event[]>([]);
+  const [calendInfo, setCalendInfo] = useState<Event[]>([]);
 
   useEffect(() => {
     const data = getCalenData();
-        data.then((res) => {
-            setCalendInfo(
-                res.map((calen: any) => {
-                    return {
-                        id: calen._id,
-                        title: calen.title,
-                        start: calen.start,
-                        end: calen.start,
-                        allDay: true,
-                        description: calen.desc,
-                        
-                    };
-                })
-            );
-        });
-
+    data.then((res) => {
+      setCalendInfo(
+        res.map((calen: any) => {
+          return {
+            id: calen._id,
+            title: calen.title,
+            start: calen.start,
+            end: calen.start,
+            allDay: true,
+            description: calen.desc,
+          };
+        })
+      );
+    });
   }, []);
 
-  console.log("Data", calendInfo)
-  console.log("Real", allEvents)
+  console.log("Data", calendInfo);
+  console.log("Real", allEvents);
 
   const Merged = [...allEvents, ...calendInfo];
-  console.log("Merged", Merged)
+  console.log("Merged", Merged);
 
-
-  
   // const [dayevents, setDayEvents] = useState(async () => {
   //   const res = await fetch(
   //     "https://www.googleapis.com/calendar/v3/calendars/th.TH%23holiday%40group.v.calendar.google.com/events?key=AIzaSyDrbYPWVYOYreGtGN2SkGfqTbG0_xk-GTE"
@@ -239,10 +235,9 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
     setShowDeleteModal(true);
     console.log("Delete Check 1", data.event.id);
     setIdToDelete(data.event.id);
-    console.log("Delete", typeof(data.event.id));
+    console.log("Delete", typeof data.event.id);
     console.log("Delete", data.event.id);
   }
-  
 
   function handleDelete() {
     setAllEvents(
@@ -294,7 +289,10 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
   }
 
   console.log("Delete Check 2", idToDelete);
-  console.log("Delete Check 3", Merged.map(event => event.id === idToDelete));
+  console.log(
+    "Delete Check 3",
+    Merged.map((event) => event.id === idToDelete)
+  );
 
   return (
     <>
@@ -390,7 +388,7 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
                             className="text-base font-semibold leading-6 text-gray-900"
                           >
                             {/* {idToDelete} */}
-                            
+
                             {Merged.map((event) =>
                               event.id === idToDelete ? event.title : null
                             )}
@@ -526,4 +524,6 @@ const [calendInfo, setCalendInfo] = useState<Event[]>([]);
       </main>
     </>
   );
-}
+};
+
+export default WithAuth(Calendar);

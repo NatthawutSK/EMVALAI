@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/select";
 
 import { UploadButton } from "@/components/uploadthing";
+import { useToast } from "@/components/ui/use-toast";
+import WithAuth from "@/components/WithAuth";
 
 export interface Project {
   name: string;
@@ -66,7 +68,7 @@ const mockData: Project[] = [
 
 type Props = {};
 
-export default function Profile({ data }: ShowDataProps) {
+const Profile = ({ data }: ShowDataProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedDateOption, setSelectedDateOption] = useState<string | null>(
     null
@@ -77,15 +79,68 @@ export default function Profile({ data }: ShowDataProps) {
   const [filteredData, setFilteredData] = useState<Project[]>(data || mockData);
   const [buttonText, setButtonText] = useState("Edit Profile");
   const [isInputDisabled, setIsInputDisabled] = useState(true);
-
-  const [first_name, setFname] = useState<string>("");
-  const [last_name, setLname] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [date_of_birth, setDate] = useState<string>("");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [first_name, setFname] = useState<string>(user.fname);
+  const [last_name, setLname] = useState<string>(user.lname);
+  const [phone, setPhone] = useState<string>(user.phone);
+  const [email, setEmail] = useState<string>(user.email);
+  const [date_of_birth, setDate] = useState<string>(user.dob);
   const [link, setLink] = useState<string>(
-    "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+    user.image
+      ? user.image
+      : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
   );
+  const { toast: showToast } = useToast();
+  const updateImage = async (link: string) => {
+    const accessToken = localStorage.getItem("accessToken");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const response = await fetch(
+      "http://localhost:8082/user-service/user/editImage",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          _id: user._id,
+          image: link,
+        }),
+      }
+    );
+    const data = await response.json();
+    if (data === false) {
+      showToast({
+        title: "Error",
+        description: "Upload Image Failed",
+        variant: "destructive",
+      });
+    }
+    console.log(data);
+  };
+
+  const updateProfile = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const response = await fetch("http:localhost:8082/user-service/user/edit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        id: user._id,
+        fname: first_name,
+        lname: last_name,
+        email: email,
+        phone: phone,
+        dob: date_of_birth,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+
   const toggleInputState = () => {
     setIsInputDisabled(!isInputDisabled);
     setButtonText(isInputDisabled ? "Apply" : "Edit Profile");
@@ -167,8 +222,10 @@ export default function Profile({ data }: ShowDataProps) {
                 onClientUploadComplete={(res) => {
                   // Do something with the response
                   console.log("Files: ", res);
+
                   setLink(res ? res[0].url : "");
-                  alert("Upload Completed");
+                  updateImage(res ? res[0].url : "");
+                  // alert("Upload Completed");
                 }}
                 onUploadError={(error: Error) => {
                   // Do something with the error.
@@ -244,6 +301,9 @@ export default function Profile({ data }: ShowDataProps) {
               <Button className="bg-[#64cbc5]" onClick={toggleInputState}>
                 {buttonText}
               </Button>
+              <Button className="bg-[#64cbc5] ml-5" onClick={updateProfile}>
+                Save
+              </Button>
             </div>
           </div>
         </div>
@@ -318,4 +378,6 @@ export default function Profile({ data }: ShowDataProps) {
       </div>
     </div>
   );
-}
+};
+
+export default Profile;

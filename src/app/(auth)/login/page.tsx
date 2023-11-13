@@ -1,4 +1,5 @@
 "use client";
+import WithoutAuth from "@/components/WithOutAuth";
 // import WithOutAuth from "@/components/WithOutAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -45,7 +46,7 @@ const Login = ({}: Props) => {
         method: "POST",
         headers: {
           "Content-type": "application/json",
-          'Authorization': `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           email: dataForm.email,
@@ -70,7 +71,7 @@ const Login = ({}: Props) => {
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
         localStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/dashboard");
+        router.push("/project-management");
       }
     } catch (error) {
       console.error(error);
@@ -154,4 +155,4 @@ const Login = ({}: Props) => {
   );
 };
 
-export default Login;
+export default WithoutAuth(Login);

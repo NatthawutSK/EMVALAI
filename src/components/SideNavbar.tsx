@@ -22,11 +22,11 @@ import Link from "next/link";
 function SideNavbar() {
   const pathname = usePathname();
   const sidebarItems = [
-    {
-      name: "Dashboard",
-      href: "/dashboard",
-      icon: BiHomeAlt,
-    },
+    // {
+    //   name: "Dashboard",
+    //   href: "/dashboard",
+    //   icon: BiHomeAlt,
+    // },
     {
       name: "Calendar",
       href: "/calendar",

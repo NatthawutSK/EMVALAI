@@ -1,4 +1,5 @@
 "use client";
+import WithoutAuth from "@/components/WithOutAuth";
 // import WithOutAuth from "@/components/WithOutAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -241,15 +242,22 @@ const Register = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {["Backend", "Frontend", "UX/UI"].map(
-                              (position, index) => {
-                                return (
-                                  <SelectItem value={position} key={index}>
-                                    {position}
-                                  </SelectItem>
-                                );
-                              }
-                            )}
+                            {[
+                              "Manager",
+                              "Supervisor",
+                              "Front-End",
+                              "Back-End",
+                              "UI-Designer",
+                              "UX-Designer",
+                              "Tester",
+                              "HR",
+                            ].map((position, index) => {
+                              return (
+                                <SelectItem value={position} key={index}>
+                                  {position}
+                                </SelectItem>
+                              );
+                            })}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -464,4 +472,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default WithoutAuth(Register);
