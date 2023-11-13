@@ -31,6 +31,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { format } from "date-fns"
 import { ComboboxProject } from "./comboboxProject";
+import { Checkbox } from "@/components/ui/checkbox"
+
 type Props = {
     emp: any[]
 };
@@ -39,6 +41,42 @@ type Props = {
 export const DialogProject: React.FC<Props> = ({ emp }) => {
     const [dateEnd, setDateEnd] = React.useState<Date>();
     const [selectedTeam, setSelectedTeam] = React.useState<string[]>([]);
+    const accessToken = localStorage.getItem("accessToken");
+    const [selectedSupervisor, setSelectedSupervisor] = React.useState<string | undefined>(undefined);
+    const [selectMember, setSelectMember] = React.useState<string | undefined>(undefined);
+    const createProject = async (data: []) => {
+        try {
+            const response = await fetch("http://127.0.0.1:8055/create/project", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const responseData = await response.json();
+            console.log("Project created successfully:", responseData);
+        } catch (error) {
+            console.error("Error creating project:", error);
+        }
+    };
+
+    const handleCreateProject = () => {
+        const projectData = {
+            title: document.getElementById("name").value,
+            dueDate: dateEnd,
+            supervisor: selectedSupervisor,
+            member: document.getElementById("emp").value,
+        };
+        console.log(projectData)
+        // createProject(projectData);
+    };
+
+
     return (
         <div className="ml-auto ">
             <Dialog>
@@ -96,15 +134,20 @@ export const DialogProject: React.FC<Props> = ({ emp }) => {
                                 Project Chief
                             </Label>
                             <Select>
-                                <SelectTrigger id="reason">
+                                <SelectTrigger id="supervisor">
                                     <SelectValue placeholder="Selected Supervisor" />
                                 </SelectTrigger>
                                 <SelectContent position="popper">
                                     {emp
-                                        .filter((employee) => employee.role === "supervisor")
+                                        .filter((employee) => employee.role !== "Employee")
+                                        .slice(0, 5)
                                         .map((supervisor) => (
-                                            <SelectItem key={supervisor._id} value={supervisor._id}>
+                                            <SelectItem key={supervisor._id}
+                                                value={supervisor._id}
+                                                onSelect={() => setSelectedSupervisor(supervisor._id)}
+                                            >
                                                 {supervisor.fname + " " + supervisor.lname}
+
                                             </SelectItem>
                                         ))}
                                 </SelectContent>
@@ -114,11 +157,19 @@ export const DialogProject: React.FC<Props> = ({ emp }) => {
                             <Label htmlFor="name" className="text-right">
                                 Project Team
                             </Label>
-                            <ComboboxProject />
+                            <div className="flex items-center space-x-2">
+                                <Checkbox id="emp" />
+                                <label
+                                    htmlFor="emp"
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                    Accept terms and conditions
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <DialogFooter>
-                        <Button type="submit">Create Project</Button>
+                        <Button onClick={handleCreateProject} type="submit">Create Project</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

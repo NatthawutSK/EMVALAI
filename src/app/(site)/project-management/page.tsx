@@ -24,6 +24,7 @@ export default function Page({ }: Props) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const responseData = await response.json();
+
       setData(responseData);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -47,7 +48,7 @@ export default function Page({ }: Props) {
       console.error("Error fetching Employee:", error);
     }
   };
-  console.log(emp);
+  console.log(data);
   return (
     <div className=" h-screen relative gap-5 p-10">
       <div className="text-4xl font-bold p-5 ml-5">Project Management</div>

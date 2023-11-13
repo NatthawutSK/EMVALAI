@@ -18,24 +18,15 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-const employee = [
-    {
-        value: "b",
-        label: "b",
-    },
-    {
-        value: "bds bfasd",
-        label: "bds bfasd",
-    },
-    {
-        value: "fewfwe fewwe",
-        label: "fewfwe fewwe",
-    },
-]
+type Props = {
+    emp: any[]
+};
 
-export function ComboboxProject() {
+// export function ComboboxProject() {
+export const ComboboxProject: React.FC<Props> = ({ emp }) => {
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
+    const [fname, setFname] = React.useState("")
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -47,7 +38,7 @@ export function ComboboxProject() {
                     className="w-[200px] justify-between"
                 >
                     {value
-                        ? employee.find((employee) => employee.value === value)?.label
+                        ? emp.find((item) => item._id === value)?.fname
                         : "Select employee..."}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -57,22 +48,21 @@ export function ComboboxProject() {
                     <CommandInput placeholder="Search employee..." />
                     <CommandEmpty>No employee found.</CommandEmpty>
                     <CommandGroup>
-                        {employee.map((employee) => (
+                        {emp.slice(0, 5).map((emp) => (
                             <CommandItem
-                                key={employee.value}
-                                value={employee.value}
+                                key={emp._id}
+                                value={emp._id}
                                 onSelect={(currentValue) => {
-                                    setValue(currentValue === value ? "" : currentValue)
-                                    setOpen(false)
-                                }}
-                            >
+                                    setValue(currentValue === value ? "" : currentValue);
+                                    setOpen(false);
+                                  }}
+                            >{emp.fname}
                                 <Check
                                     className={cn(
                                         "mr-2 h-4 w-4",
-                                        value === employee.value ? "opacity-100" : "opacity-0"
+                                        value === emp.value ? "opacity-100" : "opacity-0"
                                     )}
                                 />
-                                {employee.label}
                             </CommandItem>
                         ))}
                     </CommandGroup>
