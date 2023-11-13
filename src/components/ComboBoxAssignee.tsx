@@ -77,7 +77,8 @@ export function ComboBoxAssignee({ assignee, addAssignee, projId }: Props) {
 
       const data = await response.json();
       const newMembers = data.map((item: any) => ({
-        value: item.firstName + " " + item.last_name,
+        value:
+          item.firstName.toLowerCase() + " " + item.last_name.toLowerCase(),
       }));
       console.log(newMembers);
       setMember(newMembers);

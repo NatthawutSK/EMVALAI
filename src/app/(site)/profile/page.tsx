@@ -129,7 +129,7 @@ const Profile = ({ data }: ShowDataProps) => {
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        id: user._id,
+        _id: user._id,
         fname: first_name,
         lname: last_name,
         email: email,
@@ -307,7 +307,7 @@ const Profile = ({ data }: ShowDataProps) => {
             </div>
           </div>
         </div>
-        <div className="w-[100%] h-[100%] border-2 border-gray-500 p-5 my-10 pb-2 mb-10">
+        {/* <div className="w-[100%] h-[100%] border-2 border-gray-500 p-5 my-10 pb-2 mb-10">
           <div className="pt-5 flex">
             <img
               className="w-8 h-4 m-3 mr-4"
@@ -374,7 +374,7 @@ const Profile = ({ data }: ShowDataProps) => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

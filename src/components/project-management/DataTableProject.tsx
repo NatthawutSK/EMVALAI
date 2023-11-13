@@ -131,9 +131,10 @@ function DataTableProject<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-
-                      // onClick={() => router.push("/table/" + row.id)}
-
+                      onClick={() => {
+                        router.push("/task/" + row.original.project_id);
+                        // console.log(row.original.project_id, cell);
+                      }}
                       key={cell.id}
                     >
                       {flexRender(

@@ -168,7 +168,7 @@ const Page = () => {
         data.map((emp: any) => {
           return {
             empId: emp.id,
-            name: emp.firstName + " " + emp.lastName,
+            name: emp.fname + " " + emp.lname,
             position: emp.position,
             hireDate: emp.hireDate,
             email: emp.email,
@@ -192,13 +192,15 @@ const Page = () => {
       allposition: 5,
     },
     positions: {
-      designer: empInfo.filter((emp: any) => emp.position === "UX/UI").length,
+      designer: empInfo.filter(
+        (emp: any) =>
+          emp.position === "UI-Designer" || emp.position === "UX-Designer"
+      ).length,
       tester: empInfo.filter((emp: any) => emp.position === "Tester").length,
-      frontend: empInfo.filter((emp: any) => emp.position === "Frontend")
+      frontend: empInfo.filter((emp: any) => emp.position === "Front-End")
         .length,
-      backend: empInfo.filter((emp: any) => emp.position === "Backend").length,
-      pm: empInfo.filter((emp: any) => emp.position === "Project Manager")
-        .length,
+      backend: empInfo.filter((emp: any) => emp.position === "Back-End").length,
+      pm: empInfo.filter((emp: any) => emp.position === "Manager").length,
     },
   };
   console.log(boxesData);
@@ -246,4 +248,4 @@ const Page = () => {
   );
 };
 
-export default WithAuth(Page);
+export default Page;

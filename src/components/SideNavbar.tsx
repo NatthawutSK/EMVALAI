@@ -22,11 +22,6 @@ import Link from "next/link";
 function SideNavbar() {
   const pathname = usePathname();
   const sidebarItems = [
-    // {
-    //   name: "Dashboard",
-    //   href: "/dashboard",
-    //   icon: BiHomeAlt,
-    // },
     {
       name: "Calendar",
       href: "/calendar",
@@ -67,7 +62,7 @@ function SideNavbar() {
       <div className="w-64 h-screen bg-gray-300 transition-all  overflow-hidden p-4 flex flex-col justify-start item-center">
         <Link href="/">
           <h1 className="text-base text-center cursor-pointer font-bold text-blue-900 p-8 w-full">
-            Virtual Dashboard
+            EMVALAI
           </h1>
         </Link>
         {sidebarItems.map(({ name, href, icon: Icon }, index) => (
