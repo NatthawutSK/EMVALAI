@@ -1,25 +1,6 @@
 
 "use client";
-import React from 'react'
-import { Input } from "@/components/ui/input"
-import { LucideListFilter } from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import DataTable from '@/components/tanstack-table/data_table';
+import React, {useState, useEffect} from 'react'
 import { columns } from '@/components/tanstack-table/columnsLeaveHistory';
 import { SelectLeave } from '@/components/leave/selectLeave';
 import DataTableLeave from '@/components/leave/dataTableLeave';
@@ -52,12 +33,39 @@ const History = (props: Props) => {
       end_date: "November 12th, 2023",
     }
   ]
+  const [data, setData] = useState([]);
+  const [leaveStatus, setLeaveStatus] = useState([]);
+  const accessToken = localStorage.getItem("accessToken");
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  const fetchData = async () => {
+    try {
+      const queryString = leaveStatus !== null ? `?leave_status=${leaveStatus}` : '';
+      const response = await fetch("http://localhost:8080", {
+        method: "GET",
+        headers: {
+          'Authorization': `${accessToken}`
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const responseData = await response.json();
+      setData(responseData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+
   return (
     <div className=" h-screen relative gap-5 p-10">
-      <div className="text-4xl font-bold p-5 ml-5">Leave</div>
+      <div className="text-4xl font-bold">Leave History</div>
       <SelectLeave/>
       <DataTableLeave
-        columns={columns} data={history} />
+        columns={columns} data={data} />
     </div>
   )
 }

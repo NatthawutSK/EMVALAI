@@ -148,9 +148,9 @@ export default function Leave({}: Props) {
 								</div>
 								<div className="flex flex-col space-y-1.5">
 									<Label htmlFor="evidence">Evidence</Label>
-									<div className="px-10">
+									<div className="flex items-start space-x-2">
 										<UploadButton
-											className="bg-[#64cbc5] text-white rounded-xl mt-3 p-1"
+											className=" text-white text-xs h-12"
 											endpoint="imageUploader"
 											onClientUploadComplete={(res) => {
 												// Do something with the response

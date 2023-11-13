@@ -52,6 +52,16 @@ function SideNavbar() {
       href: "/project-management",
       icon: AiOutlineTeam,
     },
+    {
+      name: "Leave Request",
+      href: "/leave",
+      icon: AiOutlineTeam,
+    },
+    {
+      name: "Leave History",
+      href: "/history",
+      icon: AiOutlineTeam,
+    },
   ];
   return (
     // <div>

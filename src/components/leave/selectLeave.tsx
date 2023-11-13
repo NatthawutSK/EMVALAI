@@ -6,9 +6,11 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
-type Props = {};
+type Props = {
+    
+};
 
-export const SelectLeave: React.FC<Props> = (props) => {
+export const SelectLeave: React.FC<Props> = (onSelect) => {
     return (
         <div className='ml-auto  w-3/12'>
             <Select defaultValue={'DEFAULT'}>
